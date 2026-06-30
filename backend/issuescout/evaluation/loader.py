@@ -5,6 +5,7 @@ from pathlib import Path
 
 from issuescout.evaluation.models import (
     EvaluationRecord,
+    GroundTruthRecord,
     PredictionCandidate,
     RepositoryEvaluation,
 )
@@ -12,13 +13,31 @@ from issuescout.evaluation.models import (
 
 class EvaluationLoader:
     """
-    Loads evaluation datasets from JSON files.
+    Loads evaluation datasets.
+
+    Currently supports the legacy JSON dataset format.
+
+    The loader converts external dataset files into the internal
+    GroundTruthRecord model so that future storage formats
+    (CSV, SQLite, API, etc.) can reuse the same evaluation pipeline.
     """
 
     def load(
         self,
         path: str | Path,
     ) -> RepositoryEvaluation:
+        """
+        Load an evaluation dataset.
+
+        Parameters
+        ----------
+        path:
+            Path to a dataset file.
+
+        Returns
+        -------
+        RepositoryEvaluation
+        """
 
         path = Path(path)
 
@@ -28,7 +47,15 @@ class EvaluationLoader:
         ) as file:
             data = json.load(file)
 
-        records = []
+        repository = data["repository"]
+
+        if "/" in repository:
+            owner, repo = repository.split("/", 1)
+        else:
+            owner = ""
+            repo = repository
+
+        records: list[EvaluationRecord] = []
 
         for record in data.get(
             "records",
@@ -51,18 +78,36 @@ class EvaluationLoader:
                 )
             ]
 
+            ground_truth = GroundTruthRecord(
+                repository_owner=owner,
+                repository_name=repo,
+                issue_number=record["issue_number"],
+                issue_title=record.get(
+                    "issue_title",
+                    "",
+                ),
+                issue_state=record.get(
+                    "issue_state",
+                    "closed",
+                ),
+                actual_pull_request=record.get(
+                    "actual_pull_request",
+                ),
+                linkage_method=record.get(
+                    "linkage_method",
+                    "legacy_json",
+                ),
+            )
+
             records.append(
                 EvaluationRecord(
-                    repository=data["repository"],
-                    issue_number=record["issue_number"],
-                    actual_pull_request=record.get(
-                        "actual_pull_request",
-                    ),
+                    ground_truth=ground_truth,
                     predictions=predictions,
                 )
             )
 
         return RepositoryEvaluation(
-            repository=data["repository"],
+            repository_owner=owner,
+            repository_name=repo,
             records=records,
         )

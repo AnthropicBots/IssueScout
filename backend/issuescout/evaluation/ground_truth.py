@@ -1,24 +1,15 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-
+from issuescout.evaluation.models import GroundTruthRecord
 from issuescout.github.client import GitHubClient
-
-
-@dataclass(slots=True)
-class GroundTruthRecord:
-    """
-    Represents the actual pull request linked to a GitHub issue.
-    """
-
-    repository: str
-    issue_number: int
-    actual_pull_request: int | None
 
 
 class GroundTruthCollector:
     """
-    Collects ground-truth issue → pull request mappings from GitHub.
+    Collects verified Issue → Pull Request relationships from GitHub.
+
+    The collector is repository-agnostic and is intended to work for any
+    GitHub repository supported by IssueScout.
     """
 
     def __init__(self) -> None:
@@ -31,16 +22,23 @@ class GroundTruthCollector:
         issue_number: int,
     ) -> GroundTruthRecord:
         """
-        Collect the actual pull request linked to an issue.
+        Collect one verified ground-truth record.
 
-        Currently this is a placeholder implementation.
-        Timeline-based matching will be implemented next.
+        This is currently a placeholder implementation.
+
+        A future implementation will inspect GitHub timeline events,
+        cross references and closing events to determine which pull
+        request actually resolved the issue.
         """
 
         return GroundTruthRecord(
-            repository=f"{owner}/{repository}",
+            repository_owner=owner,
+            repository_name=repository,
             issue_number=issue_number,
+            issue_title="",
+            issue_state="closed",
             actual_pull_request=None,
+            linkage_method="unimplemented",
         )
 
     async def close(self) -> None:
