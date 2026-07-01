@@ -3,7 +3,7 @@ import asyncio
 from issuescout.models.pull_request import PullRequest
 from issuescout.models.repository import Repository
 from issuescout.models.scan_context import RepositoryScanContext
-
+from issuescout.scanner.builders.pull_request_builder import PullRequestBuilder
 from issuescout.services.issue_service import IssueService
 from issuescout.services.pull_request_service import PullRequestService
 from issuescout.services.repository_service import RepositoryService
@@ -25,6 +25,7 @@ class Fetcher:
         self.pull_request_service = PullRequestService()
         self.review_service = ReviewService()
         self.commit_history_service = CommitHistoryService()
+        self.pull_request_builder = PullRequestBuilder()
 
     async def fetch_repository(
         self,
@@ -104,28 +105,12 @@ class Fetcher:
             ),
         )
 
-        return PullRequest(
-            number=pull_request["number"],
-            title=pull_request["title"],
-            body=pull_request["body"] or "",
-            author=pull_request["user"]["login"],
-            branch_name=pull_request["head"]["ref"],
-            state=pull_request["state"],
-            draft=pull_request["draft"],
-            created_at=pull_request.get("created_at"),
-            updated_at=pull_request.get("updated_at"),
-            closed_at=pull_request.get("closed_at"),
-            merged_at=pull_request.get("merged_at"),
-            labels={label["name"] for label in pull_request["labels"]},
-            reviewers={
-                reviewer["login"]
-                for reviewer in reviewers.get(
-                    "users",
-                    [],
-                )
-            },
-            commit_messages=[commit["commit"]["message"] for commit in commits],
+        return self.pull_request_builder.build(
+            pull_request,
+            reviewers=reviewers,
+            commits=commits,
             branch_commit_history=branch_commit_history,
+            changed_files={file["filename"] for file in files},
         )
 
     async def fetch_open_pull_requests(
