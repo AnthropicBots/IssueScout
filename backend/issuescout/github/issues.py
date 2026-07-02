@@ -31,10 +31,12 @@ class IssueAPI:
         limit: int = 100,
     ) -> list[dict]:
         """
-        Retrieve all open issues.
+        Retrieve open issues.
         """
+
         return await self.client.get_all(
-            f"/repos/{owner}/{repository}/issues?state=open&per_page={limit}"
+            f"/repos/{owner}/{repository}/issues?state=open",
+            limit=limit,
         )
 
     async def list_closed(
@@ -44,10 +46,12 @@ class IssueAPI:
         limit: int = 100,
     ) -> list[dict]:
         """
-        Retrieve all closed issues.
+        Retrieve closed issues.
         """
+
         return await self.client.get_all(
-            f"/repos/{owner}/{repository}/issues?state=closed&per_page={limit}"
+            f"/repos/{owner}/{repository}/issues?state=closed",
+            limit=limit,
         )
 
     async def close(self) -> None:

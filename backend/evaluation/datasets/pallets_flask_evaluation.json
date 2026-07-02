@@ -1,0 +1,74 @@
+{
+  "repository_owner": "pallets",
+  "repository_name": "flask",
+  "records": [
+    {
+      "ground_truth": {
+        "repository_owner": "pallets",
+        "repository_name": "flask",
+        "issue_number": 6068,
+        "issue_title": "Flask logging not working as expected",
+        "issue_state": "closed",
+        "actual_pull_request": null,
+        "issue_created_at": "2026-06-30T19:04:00+00:00",
+        "issue_closed_at": "2026-06-30T20:00:36+00:00",
+        "pull_request_created_at": null,
+        "pull_request_merged_at": null,
+        "linkage_method": "unresolved",
+        "metadata": {}
+      },
+      "predictions": []
+    },
+    {
+      "ground_truth": {
+        "repository_owner": "pallets",
+        "repository_name": "flask",
+        "issue_number": 6059,
+        "issue_title": "AI spam",
+        "issue_state": "closed",
+        "actual_pull_request": null,
+        "issue_created_at": "2026-06-16T11:27:59+00:00",
+        "issue_closed_at": "2026-06-16T11:29:45+00:00",
+        "pull_request_created_at": null,
+        "pull_request_merged_at": null,
+        "linkage_method": "unresolved",
+        "metadata": {}
+      },
+      "predictions": []
+    },
+    {
+      "ground_truth": {
+        "repository_owner": "pallets",
+        "repository_name": "flask",
+        "issue_number": 6058,
+        "issue_title": "spam",
+        "issue_state": "closed",
+        "actual_pull_request": null,
+        "issue_created_at": "2026-06-13T18:27:50+00:00",
+        "issue_closed_at": "2026-06-13T18:42:55+00:00",
+        "pull_request_created_at": null,
+        "pull_request_merged_at": null,
+        "linkage_method": "unresolved",
+        "metadata": {}
+      },
+      "predictions": []
+    },
+    {
+      "ground_truth": {
+        "repository_owner": "pallets",
+        "repository_name": "flask",
+        "issue_number": 6057,
+        "issue_title": "Dead Code Audit \u2014 65 potentially unused functions",
+        "issue_state": "closed",
+        "actual_pull_request": null,
+        "issue_created_at": "2026-06-12T18:30:15+00:00",
+        "issue_closed_at": "2026-06-12T18:31:37+00:00",
+        "pull_request_created_at": null,
+        "pull_request_merged_at": null,
+        "linkage_method": "unresolved",
+        "metadata": {}
+      },
+      "predictions": []
+    }
+  ]
+}

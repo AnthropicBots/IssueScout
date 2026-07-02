@@ -47,6 +47,15 @@ class EvaluationLoader:
         ) as file:
             data = json.load(file)
 
+        # ------------------------------------------------------------------
+        # Native RepositoryEvaluation format
+        # ------------------------------------------------------------------
+        if "repository_owner" in data and "repository_name" in data:
+            return RepositoryEvaluation.from_dict(data)
+
+        # ------------------------------------------------------------------
+        # Legacy JSON format
+        # ------------------------------------------------------------------
         repository = data["repository"]
 
         if "/" in repository:

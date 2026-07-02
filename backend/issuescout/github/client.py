@@ -139,6 +139,7 @@ class GitHubClient:
         endpoint: str,
         *,
         page_size: int | None = None,
+        limit: int | None = None,
         headers: dict | None = None,
     ):
         """
@@ -167,6 +168,9 @@ class GitHubClient:
                 break
 
             results.extend(data)
+
+            if limit is not None and len(results) >= limit:
+                return results[:limit]
 
             if len(data) < page_size:
                 break

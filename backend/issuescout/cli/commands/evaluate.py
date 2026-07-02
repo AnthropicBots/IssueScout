@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-
+import json
 from issuescout.evaluation.loader import EvaluationLoader
 from issuescout.evaluation.pipeline import EvaluationPipeline
 from issuescout.evaluation.runner import EvaluationRunner
@@ -64,3 +64,22 @@ def evaluate() -> EvaluationCommand:
     """
 
     return EvaluationCommand()
+
+
+def run(
+    dataset: str,
+) -> None:
+    """
+    Execute an evaluation from the command line.
+    """
+
+    summary = evaluate().evaluate(
+        dataset,
+    )
+
+    print(
+        json.dumps(
+            summary.to_dict(),
+            indent=2,
+        )
+    )

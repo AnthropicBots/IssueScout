@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from issuescout.evaluation.models import (
     EvaluationRecord,
+    GroundTruthRecord,
     RepositoryEvaluation,
 )
 
@@ -26,12 +27,27 @@ class DatasetBuilder:
 
     def add_record(
         self,
-        record: EvaluationRecord,
+        record: EvaluationRecord | GroundTruthRecord,
     ) -> None:
         """
-        Add an evaluation record to the dataset.
+        Add a record to the evaluation dataset.
+
+        Ground-truth records are automatically wrapped into an
+        EvaluationRecord with an empty prediction list.
         """
-        self._evaluation.records.append(record)
+
+        if isinstance(
+            record,
+            GroundTruthRecord,
+        ):
+            record = EvaluationRecord(
+                ground_truth=record,
+                predictions=[],
+            )
+
+        self._evaluation.records.append(
+            record,
+        )
 
     def build(
         self,

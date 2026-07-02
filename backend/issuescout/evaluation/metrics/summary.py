@@ -28,6 +28,20 @@ class EvaluationSummary:
 
     map: float
 
+    def to_dict(self) -> dict:
+        """
+        Convert the evaluation summary into a serializable dictionary.
+        """
+
+        return {
+            "issue_count": self.issue_count,
+            "accuracy": self.accuracy,
+            "precision": self.precision,
+            "recall": self.recall,
+            "mrr": self.mrr,
+            "map": self.map,
+        }
+
 
 class EvaluationSummaryMetric:
     """

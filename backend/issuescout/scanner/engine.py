@@ -17,6 +17,7 @@ from issuescout.scanner.detectors import (
     GitHubLinkedPRDetector,
 )
 from issuescout.scanner.confidence import ConfidenceCalculator
+from issuescout.scanner.progress import ProgressCallback
 
 
 class ScannerEngine:
@@ -59,6 +60,7 @@ class ScannerEngine:
         self,
         owner: str,
         repo: str,
+        progress_callback: ProgressCallback | None = None,
     ) -> ScanResult:
 
         try:
@@ -70,6 +72,16 @@ class ScannerEngine:
             await self.fetcher.close()
 
         issues = context.issues
+
+        processed = 0
+
+        total = len(issues)
+
+        if progress_callback is not None:
+            progress_callback(
+                processed,
+                total,
+            )
 
         try:
             results = await asyncio.gather(
@@ -120,6 +132,14 @@ class ScannerEngine:
                     ),
                 )
             )
+
+            processed += 1
+
+            if progress_callback is not None:
+                progress_callback(
+                    processed,
+                    total,
+                )
 
         return ScanResult(
             repository=f"{owner}/{repo}",
