@@ -63,27 +63,23 @@ class ScannerEngine:
         progress_callback: ProgressCallback | None = None,
     ) -> ScanResult:
 
-        try:
-            context = await self.fetcher.fetch_context(
-                owner,
-                repo,
-            )
-        finally:
-            await self.fetcher.close()
-
-        issues = context.issues
-
-        processed = 0
-
-        total = len(issues)
-
-        if progress_callback is not None:
-            progress_callback(
-                processed,
-                total,
-            )
+        context = await self.fetcher.fetch_context(
+            owner,
+            repo,
+        )
 
         try:
+            issues = context.issues
+
+            processed = 0
+            total = len(issues)
+
+            if progress_callback is not None:
+                progress_callback(
+                    processed,
+                    total,
+                )
+
             results = await asyncio.gather(
                 *[
                     self._detect_linked_pr(
@@ -97,53 +93,52 @@ class ScannerEngine:
             for issue_number, linked_pr in results:
                 context.linked_pr_cache[issue_number] = linked_pr
 
+            summaries = []
+
+            for issue in issues:
+                results = await self.pipeline.run(
+                    context,
+                    issue,
+                )
+
+                if not all(result.passed for result in results):
+                    continue
+
+                linked_pr = context.linked_pr_cache.get(
+                    issue.number,
+                )
+
+                summaries.append(
+                    IssueSummary(
+                        number=issue.number,
+                        title=issue.title,
+                        assigned=issue.assigned,
+                        assignee=issue.assignee,
+                        confidence=self.confidence.calculate(results),
+                        linked_pr_number=(
+                            linked_pr.number if linked_pr is not None else None
+                        ),
+                        linked_pr_title=(
+                            linked_pr.title if linked_pr is not None else None
+                        ),
+                    )
+                )
+
+                processed += 1
+
+                if progress_callback is not None:
+                    progress_callback(
+                        processed,
+                        total,
+                    )
+
+            return ScanResult(
+                repository=f"{owner}/{repo}",
+                total_issues=len(summaries),
+                available_issues=len(summaries),
+                issues=summaries,
+            )
+
         finally:
             await self.detector.close()
-
-        summaries = []
-
-        for issue in issues:
-            results = await self.pipeline.run(
-                context,
-                issue,
-            )
-
-            if not all(result.passed for result in results):
-                continue
-
-            linked_pr = context.linked_pr_cache.get(
-                issue.number,
-            )
-
-            summaries.append(
-                IssueSummary(
-                    number=issue.number,
-                    title=issue.title,
-                    assigned=issue.assigned,
-                    assignee=issue.assignee,
-                    confidence=self.confidence.calculate(
-                        results,
-                    ),
-                    linked_pr_number=(
-                        linked_pr.number if linked_pr is not None else None
-                    ),
-                    linked_pr_title=(
-                        linked_pr.title if linked_pr is not None else None
-                    ),
-                )
-            )
-
-            processed += 1
-
-            if progress_callback is not None:
-                progress_callback(
-                    processed,
-                    total,
-                )
-
-        return ScanResult(
-            repository=f"{owner}/{repo}",
-            total_issues=len(summaries),
-            available_issues=len(summaries),
-            issues=summaries,
-        )
+            await self.fetcher.close()
