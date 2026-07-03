@@ -1,0 +1,26 @@
+import type { ReactNode } from "react";
+
+type Props = {
+  children: ReactNode;
+  color?: "green" | "yellow" | "red" | "blue";
+};
+
+export default function Badge({
+  children,
+  color = "blue",
+}: Props) {
+  const colors = {
+    blue: "bg-blue-100 text-blue-700",
+    green: "bg-green-100 text-green-700",
+    yellow: "bg-yellow-100 text-yellow-700",
+    red: "bg-red-100 text-red-700",
+  };
+
+  return (
+    <span
+      className={`rounded-md px-3 py-1 text-sm font-semibold ${colors[color]}`}
+    >
+      {children}
+    </span>
+  );
+}
