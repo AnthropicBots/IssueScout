@@ -14,6 +14,7 @@ import ConfidenceBar from "../issue/ConfidenceBar";
 import { useNavigate } from "react-router-dom";
 import Badge from "../ui/Badge";
 import Card from "../ui/Card";
+import type { IssueSummary } from "../../types/api";
 
 type Props = {
   issue: IssueSummary;

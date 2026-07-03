@@ -3,6 +3,7 @@ import {
   GitBranch,
   SearchCode,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -11,16 +12,16 @@ export default function Header() {
 
         {/* Logo */}
 
-        <div className="flex items-center gap-4">
-
+        <Link
+          to="/"
+          className="flex items-center gap-4"
+          aria-label="IssueScout Home"
+        >
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg">
-
             <SearchCode size={26} />
-
           </div>
 
           <div>
-
             <h1 className="text-xl font-bold tracking-tight text-slate-900">
               IssueScout
             </h1>
@@ -28,10 +29,8 @@ export default function Header() {
             <p className="text-sm text-slate-500">
               Intelligent GitHub Contribution Assistant
             </p>
-
           </div>
-
-        </div>
+        </Link>
 
         {/* Right Side */}
 
@@ -40,7 +39,6 @@ export default function Header() {
           {/* API Status */}
 
           <div className="hidden items-center gap-2 rounded-full bg-green-100 px-3 py-2 md:flex">
-
             <Activity
               size={14}
               className="text-green-600"
@@ -49,7 +47,6 @@ export default function Header() {
             <span className="text-sm font-medium text-green-700">
               API Online
             </span>
-
           </div>
 
           {/* Version */}
@@ -60,16 +57,18 @@ export default function Header() {
 
           {/* GitHub */}
 
-          <button
-            type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 transition hover:bg-slate-100"
-            title="GitHub Repository"
+          <a
+            href="https://github.com/YOUR_USERNAME/IssueScout"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View IssueScout on GitHub"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 transition hover:bg-slate-100 hover:shadow-sm"
           >
             <GitBranch
               size={20}
               className="text-slate-600"
             />
-          </button>
+          </a>
 
         </div>
 

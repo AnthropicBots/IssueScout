@@ -9,7 +9,7 @@ interface InputProps
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   error?: boolean;
-  size?: InputSize;
+  inputSize?: InputSize;
 }
 
 export default function Input({
@@ -17,7 +17,7 @@ export default function Input({
   leftIcon,
   rightIcon,
   error = false,
-  size = "md",
+  inputSize = "md",
   disabled,
   ...props
 }: InputProps) {
@@ -50,13 +50,13 @@ export default function Input({
             "pr-12": rightIcon,
 
             "px-3 py-2 text-sm":
-              size === "sm",
+              inputSize === "sm",
 
             "px-4 py-3 text-base":
-              size === "md",
+              inputSize === "md",
 
             "px-5 py-4 text-lg":
-              size === "lg",
+              inputSize === "lg",
           },
 
           className,

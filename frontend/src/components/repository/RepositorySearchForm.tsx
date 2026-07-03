@@ -55,13 +55,25 @@ export default function RepositorySearchForm() {
 
           {/* Search */}
 
-          <div className="grid gap-4 lg:grid-cols-[1fr_1fr_auto]">
+          <form
+            className="grid gap-4 lg:grid-cols-[1fr_1fr_auto]"
+            onSubmit={(e) => {
+              e.preventDefault();
+
+              if (!owner.trim() || !repository.trim()) return;
+
+              scan.mutate({
+                owner: owner.trim(),
+                repository: repository.trim(),
+              });
+            }}
+          >
 
             <Input
               placeholder="Repository Owner (e.g. angular)"
               value={owner}
               onChange={(e) =>
-                setOwner(e.target.value)
+                setOwner(e.target.value.replace(/\s/g, ""))
               }
             />
 
@@ -69,23 +81,19 @@ export default function RepositorySearchForm() {
               placeholder="Repository Name (e.g. angular)"
               value={repository}
               onChange={(e) =>
-                setRepository(e.target.value)
+                setRepository(
+                  e.target.value.replace(/\s/g, "")
+                )
               }
             />
 
             <Button
-              type="button"
+              type="submit"
               className="flex items-center justify-center gap-2"
               disabled={
                 scan.isPending ||
                 !owner.trim() ||
                 !repository.trim()
-              }
-              onClick={() =>
-                scan.mutate({
-                  owner: owner.trim(),
-                  repository: repository.trim(),
-                })
               }
             >
               {scan.isPending ? (
@@ -102,7 +110,7 @@ export default function RepositorySearchForm() {
               )}
             </Button>
 
-          </div>
+          </form>
 
           {/* Quick Examples */}
 

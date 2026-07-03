@@ -15,17 +15,3 @@ export function confidenceColor(
 
   return "red";
 }
-
-export function confidenceLabel(
-  value: number,
-) {
-  if (value >= 80) {
-    return "High";
-  }
-
-  if (value >= 50) {
-    return "Medium";
-  }
-
-  return "Low";
-}

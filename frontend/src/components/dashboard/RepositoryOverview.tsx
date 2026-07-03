@@ -10,6 +10,8 @@ import {
 import ConfidenceGauge from "../charts/ConfidenceGauge";
 import IssueDistribution from "../charts/IssueDistribution";
 import RepositoryHealthChart from "../charts/RepositoryHealthChart";
+import StatisticsCard from "./StatisticsCard";
+import StatisticsGrid from "./StatisticsGrid";
 import {
   assignedIssues,
 } from "../../utils/helpers/repository";

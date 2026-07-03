@@ -1,16 +1,17 @@
 import Header from "../components/common/Header";
-import AppRouter from "../router";
 import Footer from "../components/common/Footer";
+import AppRouter from "../router";
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="flex min-h-screen flex-col bg-slate-50">
       <Header />
 
-      <main className="mx-auto max-w-7xl px-6 py-8">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-6 py-8">
         <AppRouter />
-        <Footer />
       </main>
+
+      <Footer />
     </div>
   );
 }

@@ -2,13 +2,14 @@ import {
   Activity,
   Code2,
   Database,
+  ExternalLink,
   GitBranch,
   Heart,
 } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-slate-200 bg-slate-50">
+    <footer className="border-t border-slate-200 bg-slate-50">
       <div className="mx-auto max-w-7xl px-6 py-12">
 
         <div className="grid gap-10 lg:grid-cols-4">
@@ -22,9 +23,9 @@ export default function Footer() {
             </h2>
 
             <p className="leading-7 text-slate-600">
-              Intelligent GitHub Issue Discovery &
-              Contribution Analysis platform powered
-              by AI-assisted repository insights.
+              Intelligent GitHub Issue Discovery and
+              Contribution Analysis powered by repository
+              insights and smart issue ranking.
             </p>
 
           </div>
@@ -38,15 +39,10 @@ export default function Footer() {
             </h3>
 
             <ul className="space-y-3 text-slate-600">
-
               <li>Repository Analysis</li>
-
               <li>Issue Prediction</li>
-
               <li>Contribution Insights</li>
-
               <li>Pull Request Linking</li>
-
             </ul>
 
           </div>
@@ -62,27 +58,18 @@ export default function Footer() {
             <div className="space-y-3">
 
               <div className="flex items-center gap-2 text-slate-600">
-
                 <Code2 size={18} />
-
                 React + TypeScript
-
               </div>
 
               <div className="flex items-center gap-2 text-slate-600">
-
                 <Database size={18} />
-
                 FastAPI Backend
-
               </div>
 
               <div className="flex items-center gap-2 text-slate-600">
-
                 <GitBranch size={18} />
-
                 GitHub REST API
-
               </div>
 
             </div>
@@ -94,7 +81,7 @@ export default function Footer() {
           <div>
 
             <h3 className="mb-4 font-semibold text-slate-900">
-              System Status
+              Project
             </h3>
 
             <div className="space-y-4">
@@ -112,17 +99,16 @@ export default function Footer() {
 
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-white p-4">
-
-                <p className="text-sm text-slate-500">
-                  Version
-                </p>
-
-                <p className="mt-1 font-semibold text-slate-900">
-                  v1.0.0
-                </p>
-
-              </div>
+              <a
+                href="https://github.com/YOUR_USERNAME/IssueScout"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+              >
+                <GitBranch size={16} />
+                GitHub Repository
+                <ExternalLink size={14} />
+              </a>
 
             </div>
 
@@ -139,7 +125,7 @@ export default function Footer() {
             <span className="font-semibold text-slate-700">
               IssueScout
             </span>
-            . All rights reserved.
+            {" "}• Open Source Project
           </p>
 
           <div className="flex items-center gap-2">
@@ -151,7 +137,7 @@ export default function Footer() {
               className="fill-red-500 text-red-500"
             />
 
-            <span>for the Open Source Community.</span>
+            <span>for the Open Source Community</span>
 
           </div>
 
