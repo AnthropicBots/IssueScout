@@ -4,25 +4,36 @@
 
 # Intelligent GitHub Contribution Assistant
 
-Analyze GitHub repositories, discover contribution opportunities, and understand issue–pull request relationships using evidence-driven analysis.
+**Discover meaningful GitHub contribution opportunities through evidence-driven repository analysis, intelligent issue ranking, and explainable pull request prediction.**
 
 <p>
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Tests](https://img.shields.io/badge/Tests-260%2B-success)
-![Coverage](https://img.shields.io/badge/Coverage-98%25-brightgreen)
-![Ruff](https://img.shields.io/badge/Lint-Ruff-orange)
+![Tests](https://img.shields.io/badge/Tests-484%20Passing-success)
+![MyPy](https://img.shields.io/badge/MyPy-Passing-blue)
+![Ruff](https://img.shields.io/badge/Ruff-Passing-orange)
 ![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-blue?logo=githubactions)
 
 </p>
+
+**Backend:** ✅ Production Ready &nbsp;&nbsp;|&nbsp;&nbsp;
+**Frontend:** ✅ Complete &nbsp;&nbsp;|&nbsp;&nbsp;
+**Documentation:** 🚧 Improving
 
 </div>
 
 ---
 
 # 📖 Overview
+
+> **Production-ready full-stack application** built to help developers identify high-quality GitHub contribution opportunities using evidence-driven analysis and explainable issue ranking.
+
+> **IssueScout** helps developers quickly discover meaningful open-source contribution opportunities by combining repository analysis, evidence collection, intelligent ranking, and explainable issue evaluation in a modern full-stack application.
 
 IssueScout is an intelligent GitHub contribution assistant designed to help developers discover meaningful open-source contribution opportunities.
 
@@ -34,20 +45,29 @@ The project combines GitHub repository metadata, issue timelines, commits, comme
 
 # ✨ Features
 
-## 🔍 Repository Analysis
+## 🎨 Frontend
 
-- Repository scanning
-- Open issue discovery
+- Modern React + TypeScript interface
+- Repository search
+- Live repository scan progress
+- Responsive layout
+- Result cards
+- Error and loading states
+- Fast Vite development experience
+
+---
+
+## ⚙️ Backend
+
+- FastAPI REST API
+- Asynchronous repository scanning
+- Evidence collection pipeline
 - Repository metadata analysis
-- Contribution insights
+- Issue filtering
+- Confidence scoring
+- JSON response models
 
-## 📝 Evidence Collection
-
-- Issue comments
-- Timeline events
-- Commit history
-- Pull request metadata
-- Review information
+---
 
 ## 🧠 Relation Engine
 
@@ -65,77 +85,70 @@ IssueScout combines multiple independent detectors including:
 - Label similarity
 - Repository metadata similarity
 
-## 🤖 Prediction Engine
+---
+
+## 📊 Prediction Engine
 
 - Intelligent pull request prediction
-- Confidence scoring
 - Explainable results
 - Candidate ranking
-- JSON output
-- Console reports
+- Confidence scoring
 
-## ⚡ REST API
-
-- FastAPI REST API
-- Interactive Swagger documentation
-- OpenAPI specification
-- Structured response models
+---
 
 ## 🛠️ Developer Experience
 
-- GitHub Actions CI
-- Ruff linting & formatting
-- Pre-commit hooks
-- Dependabot updates
+- Ruff
+- MyPy
+- Pytest
+- GitHub Actions
+- Pre-commit
+- Dependabot
 - Structured logging
-- Global exception handling
-- Comprehensive automated testing
+- Modular architecture
 
 ---
 
 # 🏗️ High-Level Architecture
 
 ```text
-                GitHub Repository
+                  React Frontend
                         │
                         ▼
-               GitHub REST API
+                 FastAPI Backend
                         │
-        ┌───────────────┴───────────────┐
-        │                               │
-        ▼                               ▼
- Repository Services            API Endpoints
-        │
-        ▼
- Evidence Collection
- ├── Timeline
- ├── Comments
- ├── Commits
- ├── Reviews
- └── Metadata
-        │
-        ▼
- Relation Engine
- ├── Author Similarity
- ├── Title Similarity
- ├── Body References
- ├── Timeline References
- ├── Commit References
- ├── Commit Message References
- ├── Branch Similarity
- ├── Reviewer Similarity
- ├── File Similarity
- ├── Label Similarity
- └── Metadata Similarity
-        │
-        ▼
- Prediction Engine
-        │
-        ▼
- Ranking Engine
-        │
-        ▼
- FastAPI REST API
+                        ▼
+                Repository Scanner
+                        │
+                        ▼
+              GitHub REST API Client
+                        │
+                        ▼
+               Evidence Collection
+        ├── Timeline Events
+        ├── Issue Comments
+        ├── Commit History
+        ├── Pull Requests
+        └── Repository Metadata
+                        │
+                        ▼
+                 Relation Engine
+        ├── Author Similarity
+        ├── Title Similarity
+        ├── Timeline References
+        ├── Commit References
+        ├── Branch Similarity
+        ├── File Similarity
+        └── Metadata Similarity
+                        │
+                        ▼
+               Prediction Engine
+                        │
+                        ▼
+                Confidence Scoring
+                        │
+                        ▼
+                 Ranked Results API
 ```
 
 ---
@@ -211,18 +224,24 @@ Before getting started, ensure you have:
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/BHUVANSH855/IssueScout.git
+git clone https://github.com/AnthropicBots/IssueScout.git
 
-cd IssueScout/backend
+cd IssueScout
 ```
 
 ---
 
-## Create a Virtual Environment
+## Backend Setup
 
 ```bash
+cd backend
+
 python -m venv .venv
 ```
+
+---
+
+## Activate the Virtual Environment
 
 ### Windows
 
@@ -238,7 +257,7 @@ source .venv/bin/activate
 
 ---
 
-## Install Dependencies
+## Install Backend Dependencies
 
 Install IssueScout in editable mode:
 
@@ -246,16 +265,28 @@ Install IssueScout in editable mode:
 pip install -e .
 ```
 
-Install development tools:
+Install development dependencies:
 
 ```bash
-pip install pytest pytest-cov ruff pre-commit
+pip install pytest pytest-cov ruff mypy pre-commit
 ```
 
 Enable Git hooks:
 
 ```bash
 pre-commit install
+```
+
+---
+
+## Install Frontend Dependencies
+
+Open another terminal.
+
+```bash
+cd ../frontend
+
+npm install
 ```
 
 ---
@@ -279,16 +310,42 @@ GITHUB_TOKEN=your_github_personal_access_token
 
 # ▶️ Running the Application
 
-Start the development server:
+## Backend
 
 ```bash
+cd backend
+
 uvicorn issuescout.main:app --reload
 ```
 
-The API will be available at:
+Backend API:
 
 ```
 http://127.0.0.1:8000
+```
+
+Interactive API Documentation:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## Frontend
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend:
+
+```
+http://localhost:5173
 ```
 
 ---
@@ -357,10 +414,12 @@ pytest tests/github
 
 Current status:
 
-- ✅ 260 automated tests
+- ✅ 484 automated tests passing
+- ✅ Ruff linting passing
+- ✅ MyPy static type checking passing
 - ✅ High test coverage
-- ✅ Fast test execution
 - ✅ GitHub Actions CI
+- ✅ Production-ready backend
 
 ---
 
@@ -412,6 +471,16 @@ Dependabot automatically keeps:
 - FastAPI
 - Pydantic
 - HTTPX
+- AsyncIO
+
+## Frontend
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Lucide React
 
 ## Testing
 
@@ -460,76 +529,53 @@ Current project status:
 
 | Component | Status |
 |-----------|--------|
-| FastAPI Backend | ✅ Stable |
-| GitHub REST Client | ✅ Stable |
+| Frontend | ✅ Complete |
+| Backend | ✅ Complete |
+| REST API | ✅ Stable |
 | Repository Scanner | ✅ Stable |
 | Evidence Collection | ✅ Stable |
 | Relation Engine | ✅ Stable |
 | Prediction Engine | ✅ Stable |
 | Ranking Engine | ✅ Stable |
-| REST API | ✅ Stable |
-| Automated Tests | ✅ 260 Passing |
+| Automated Tests | ✅ 484 Passing |
+| Ruff | ✅ Passing |
+| MyPy | ✅ Passing |
 | GitHub Actions | ✅ Enabled |
-| Ruff Linting | ✅ Enabled |
-| Pre-commit Hooks | ✅ Enabled |
-| Dependabot | ✅ Enabled |
-| Documentation | ✅ Up to Date |
+| Documentation | 🚧 Improving |
 
 ---
 
 # 🗺️ Roadmap
 
-## Version 0.2.0
+## ✅ Completed
 
-### Planned Features
-
-- GitHub GraphQL integration
-- Improved repository scanning performance
-- Advanced repository filters
-- Better relation detection
-- Concurrent GitHub requests
-
----
-
-## Version 0.3.0
-
-### CLI
-
-- `issuescout scan`
-- `issuescout analyze`
-- `issuescout repo`
-
-### Backend
-
-- Request caching
-- Rate-limit management
-- Background scanning
-- Persistent scan history
+- Modern React frontend
+- FastAPI backend
+- Repository scanner
+- Evidence collection pipeline
+- Relation engine
+- Confidence scoring
+- Ranking engine
+- REST API
+- CLI support
+- Comprehensive automated testing
+- Ruff linting
+- MyPy static type checking
+- GitHub Actions CI
 
 ---
 
-## Version 0.4.0
+## 🚀 Future Enhancements
 
-### Dashboard
-
-- Repository overview
-- Contribution analytics
-- Pull request visualization
-- Scan history
-- Interactive reports
-
----
-
-## Version 1.0.0
-
-### Stable Release
-
-- Stable public API
-- GraphQL support
+- GitHub GraphQL support
 - AI-assisted issue recommendations
-- Production deployment
-- Complete documentation
-- Plugin architecture
+- Scan history
+- Repository analytics dashboard
+- Browser extension
+- Plugin system
+- Saved repositories
+- User authentication
+- Docker deployment
 
 ---
 
@@ -573,8 +619,12 @@ Before committing:
 
 ```bash
 ruff check .
+
 ruff format .
-pytest
+
+python -m pytest
+
+mypy issuescout
 ```
 
 If all checks pass, commit your changes.
@@ -608,15 +658,15 @@ Their work makes projects like IssueScout possible.
 
 ---
 
-# 👨‍💻 Author
+# 👨‍💻 Maintainers
 
-**Bhuvansh Kataria**
+**IssueScout** is maintained by the **AnthropicBots** organization.
 
-Computer Science Engineering Student
+Originally created and developed by **Bhuvansh Kataria**.
 
-GitHub:
+GitHub Organization:
 
-**https://github.com/BHUVANSH855**
+**https://github.com/AnthropicBots**
 
 ---
 

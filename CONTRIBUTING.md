@@ -11,9 +11,12 @@ We welcome bug reports, feature requests, documentation improvements, and code c
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/BHUVANSH855/IssueScout.git
-cd IssueScout/backend
+git clone https://github.com/AnthropicBots/IssueScout.git
+
+cd IssueScout
 ```
+
+## Backend Setup
 
 ### 2. Create a virtual environment
 
@@ -31,21 +34,49 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Install the project
+### 3. Install the backend
 
 ```bash
+cd backend
+
 pip install -e .
 ```
 
 ### 4. Install development tools
 
 ```bash
-pip install pytest pytest-cov ruff pre-commit
+pip install pytest pytest-cov ruff mypy pre-commit
+```
+
+---
+
+## Frontend Setup
+
+From the project root:
+
+```bash
+cd frontend
+
+npm install
+```
+
+Run the frontend development server:
+
+```bash
+npm run dev
 ```
 
 ---
 
 ## Running Tests
+
+Contributors should run the following checks before opening a pull request:
+
+- Ruff (linting)
+- MyPy (static type checking)
+- Pytest (test suite)
+
+All three checks are required for contributions to be accepted.
 
 Run the full test suite:
 
@@ -63,7 +94,7 @@ python -m pytest --cov=issuescout --cov-report=term-missing
 
 ## Code Quality
 
-Run Ruff:
+Lint the project:
 
 ```bash
 ruff check .
@@ -75,10 +106,16 @@ Automatically fix issues:
 ruff check . --fix
 ```
 
-Format code:
+Format the project:
 
 ```bash
 ruff format .
+```
+
+Run static type checking:
+
+```bash
+mypy issuescout
 ```
 
 ---
@@ -133,14 +170,29 @@ refactor: simplify scanner pipeline
 
 ---
 
+## Development Workflow
+
+Typical development workflow:
+
+1. Create a feature branch.
+2. Implement your changes.
+3. Run linting, formatting, type checking, and tests.
+4. Commit using Conventional Commits.
+5. Push your branch.
+6. Open a Pull Request against the default branch.
+
+---
+
 ## Pull Requests
 
 Before submitting a pull request, ensure:
 
-- All tests pass
-- Ruff passes without errors
-- New functionality includes tests
+- All tests pass (`python -m pytest`)
+- Ruff passes without errors (`ruff check .`)
+- MyPy passes without errors (`mypy issuescout`)
+- New functionality includes appropriate tests
 - Documentation is updated when necessary
+- Both backend and frontend build successfully
 
 ---
 
@@ -157,4 +209,10 @@ When opening an issue, include:
 
 ---
 
-Thank you for helping improve IssueScout!
+## Questions
+
+If you have questions about the project, feel free to open a GitHub Discussion or create an issue describing your question.
+
+---
+
+Thank you for helping improve **IssueScout** and supporting the open-source community! 🚀
