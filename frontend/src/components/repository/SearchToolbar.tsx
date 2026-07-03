@@ -1,42 +1,86 @@
 import Input from "../ui/Input";
 
-export default function SearchToolbar() {
+type Props = {
+  searchQuery: string;
+  sortBy: string;
+  filterBy: string;
+  onSearchChange: (value: string) => void;
+  onSortChange: (value: string) => void;
+  onFilterChange: (value: string) => void;
+};
+
+export default function SearchToolbar({
+  searchQuery,
+  sortBy,
+  filterBy,
+  onSearchChange,
+  onSortChange,
+  onFilterChange,
+}: Props) {
   return (
-    <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <div className="w-full md:max-w-md">
-        <Input
-          placeholder="Search issues..."
-        />
-      </div>
+    <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="w-full lg:max-w-md">
+          <Input
+            placeholder="Search issues by title or number..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
+        </div>
 
-      <div className="flex gap-3">
-        <select className="rounded-lg border border-slate-300 bg-white px-4 py-3">
-          <option>
-            Highest Confidence
-          </option>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <select
+            value={sortBy}
+            onChange={(e) => onSortChange(e.target.value)}
+            className="rounded-xl border border-slate-300 bg-white px-4 py-3"
+          >
+            <option value="confidence-desc">
+              Highest Confidence
+            </option>
 
-          <option>
-            Lowest Confidence
-          </option>
+            <option value="confidence-asc">
+              Lowest Confidence
+            </option>
 
-          <option>
-            Issue Number
-          </option>
-        </select>
+            <option value="issue-desc">
+              Newest Issue
+            </option>
 
-        <select className="rounded-lg border border-slate-300 bg-white px-4 py-3">
-          <option>
-            All Issues
-          </option>
+            <option value="issue-asc">
+              Oldest Issue
+            </option>
 
-          <option>
-            Assigned
-          </option>
+            <option value="title">
+              Alphabetical
+            </option>
+          </select>
 
-          <option>
-            Unassigned
-          </option>
-        </select>
+          <select
+            value={filterBy}
+            onChange={(e) => onFilterChange(e.target.value)}
+            className="rounded-xl border border-slate-300 bg-white px-4 py-3"
+          >
+            <option value="all">
+              All Issues
+            </option>
+
+            <option value="assigned">
+              Assigned
+            </option>
+
+            <option value="unassigned">
+              Unassigned
+            </option>
+
+            <option value="linked">
+              Linked PR
+            </option>
+
+            <option value="unlinked">
+              No Linked PR
+            </option>
+          </select>
+        </div>
       </div>
     </div>
   );

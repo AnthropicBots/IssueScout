@@ -1,15 +1,75 @@
-import type { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes, ReactNode } from "react";
 
-type InputProps = InputHTMLAttributes<HTMLInputElement>;
+import clsx from "clsx";
+
+type InputSize = "sm" | "md" | "lg";
+
+interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement> {
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  error?: boolean;
+  size?: InputSize;
+}
 
 export default function Input({
-  className = "",
+  className,
+  leftIcon,
+  rightIcon,
+  error = false,
+  size = "md",
+  disabled,
   ...props
 }: InputProps) {
   return (
-    <input
-      className={`w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 ${className}`}
-      {...props}
-    />
+    <div className="relative w-full">
+
+      {leftIcon && (
+        <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+          {leftIcon}
+        </div>
+      )}
+
+      <input
+        disabled={disabled}
+        className={clsx(
+          "w-full rounded-xl border bg-white transition-all duration-200",
+          "placeholder:text-slate-400",
+          "focus:outline-none focus:ring-2 focus:ring-blue-500/20",
+          "disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400",
+
+          {
+            "border-red-400 focus:border-red-500 focus:ring-red-200":
+              error,
+
+            "border-slate-300 focus:border-blue-500":
+              !error,
+
+            "pl-12": leftIcon,
+
+            "pr-12": rightIcon,
+
+            "px-3 py-2 text-sm":
+              size === "sm",
+
+            "px-4 py-3 text-base":
+              size === "md",
+
+            "px-5 py-4 text-lg":
+              size === "lg",
+          },
+
+          className,
+        )}
+        {...props}
+      />
+
+      {rightIcon && (
+        <div className="absolute inset-y-0 right-4 flex items-center text-slate-400">
+          {rightIcon}
+        </div>
+      )}
+
+    </div>
   );
 }
