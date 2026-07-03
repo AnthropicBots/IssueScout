@@ -8,6 +8,13 @@ from fastapi import (
     Query,
     status,
 )
+
+from issuescout.api.v1.dependencies import (
+    get_issue_service,
+    get_repository_service,
+    get_scan_job_service,
+    get_scanner_engine,
+)
 from issuescout.models.responses import (
     IssueResponse,
     RepositoryResponse,
@@ -20,41 +27,63 @@ from issuescout.models.responses import (
 from issuescout.scanner.engine import ScannerEngine
 from issuescout.models.scan_status import ScanStatus
 from issuescout.services.issue_service import IssueService
-from issuescout.services.repository_service import RepositoryService
+from issuescout.application.repository_service import (
+    ApplicationRepositoryService,
+)
 from issuescout.services.scan_job_service import ScanJobService
+from issuescout.api.v1.docs.responses import (
+    REPOSITORY_RESPONSES,
+    SCAN_JOB_CREATE_RESPONSES,
+    SCAN_JOB_STATS_RESPONSES,
+)
+
+from issuescout.api.v1.docs.summaries import (
+    REPOSITORY_SUMMARY,
+    ISSUES_SUMMARY,
+    SCAN_CREATE_SUMMARY,
+    SCAN_LIST_SUMMARY,
+    SCAN_STATS_SUMMARY,
+    SCAN_STATUS_SUMMARY,
+    SCAN_RESULT_SUMMARY,
+    SCAN_CANCEL_SUMMARY,
+    SCAN_DELETE_SUMMARY,
+    SYNC_SCAN_SUMMARY,
+)
+
+from issuescout.api.v1.docs.descriptions import (
+    REPOSITORY_DESCRIPTION,
+    ISSUES_DESCRIPTION,
+    SCAN_CREATE_DESCRIPTION,
+    SCAN_LIST_DESCRIPTION,
+    SCAN_STATS_DESCRIPTION,
+    SCAN_STATUS_DESCRIPTION,
+    SCAN_RESULT_DESCRIPTION,
+    SCAN_CANCEL_DESCRIPTION,
+    SCAN_DELETE_DESCRIPTION,
+    SYNC_SCAN_DESCRIPTION,
+)
+
+from issuescout.api.v1.docs.tags import (
+    GITHUB_TAG,
+)
 
 router = APIRouter(
-    tags=["GitHub"],
+    tags=[str(GITHUB_TAG)],
 )
-scan_job_service = ScanJobService()
-
-
-def get_repository_service() -> RepositoryService:
-    return RepositoryService()
-
-
-def get_issue_service() -> IssueService:
-    return IssueService()
-
-
-def get_scanner_engine() -> ScannerEngine:
-    return ScannerEngine()
-
-
-def get_scan_job_service() -> ScanJobService:
-    return scan_job_service
 
 
 @router.get(
     "/github/{owner}/{repository}",
     response_model=RepositoryResponse,
-    summary="Repository Information",
-    description="Retrieve metadata for any GitHub repository.",
+    summary=REPOSITORY_SUMMARY,
+    description=REPOSITORY_DESCRIPTION,
+    operation_id="getRepository",
+    responses=REPOSITORY_RESPONSES,  # type: ignore[arg-type]
 )
 async def github(
     owner: str,
     repository: str,
-    service: RepositoryService = Depends(
+    service: ApplicationRepositoryService = Depends(
         get_repository_service,
     ),
 ):
@@ -78,8 +107,8 @@ async def github(
 @router.get(
     "/issues/{owner}/{repository}",
     response_model=list[IssueResponse],
-    summary="List Open Issues",
-    description="Retrieve all currently open issues for any GitHub repository.",
+    summary=ISSUES_SUMMARY,
+    description=ISSUES_DESCRIPTION,
 )
 async def issues(
     owner: str,
@@ -108,8 +137,10 @@ async def issues(
 @router.post(
     "/scan/{owner}/{repository}",
     response_model=ScanJobResponse,
-    summary="Create Scan Job",
-    description="Create a repository scan job.",
+    summary=SCAN_CREATE_SUMMARY,
+    description=SCAN_CREATE_DESCRIPTION,
+    operation_id="createScanJob",
+    responses=SCAN_JOB_CREATE_RESPONSES,  # type: ignore[arg-type]
 )
 async def create_scan_job(
     owner: str,
@@ -138,7 +169,8 @@ async def create_scan_job(
 @router.get(
     "/scan/jobs",
     response_model=list[ScanJobSummaryResponse],
-    summary="List Scan Jobs",
+    summary=SCAN_LIST_SUMMARY,
+    description=SCAN_LIST_DESCRIPTION,
 )
 async def list_scan_jobs(
     status: str | None = None,
@@ -188,7 +220,10 @@ async def list_scan_jobs(
 @router.get(
     "/scan/jobs/stats",
     response_model=ScanJobStatsResponse,
-    summary="Scan Job Statistics",
+    summary=SCAN_STATS_SUMMARY,
+    description=SCAN_STATS_DESCRIPTION,
+    operation_id="getScanJobStatistics",
+    responses=SCAN_JOB_STATS_RESPONSES,  # type: ignore[arg-type]
 )
 async def get_scan_job_statistics(
     service: ScanJobService = Depends(
@@ -203,7 +238,8 @@ async def get_scan_job_statistics(
 @router.get(
     "/scan/jobs/{job_id}",
     response_model=ScanJobStatusResponse,
-    summary="Get Scan Job Status",
+    summary=SCAN_STATUS_SUMMARY,
+    description=SCAN_STATUS_DESCRIPTION,
 )
 async def get_scan_job_status(
     job_id: str,
@@ -231,7 +267,8 @@ async def get_scan_job_status(
 @router.get(
     "/scan/jobs/{job_id}/result",
     response_model=ScanJobResultResponse,
-    summary="Get Scan Result",
+    summary=SCAN_RESULT_SUMMARY,
+    description=SCAN_RESULT_DESCRIPTION,
 )
 async def get_scan_job_result(
     job_id: str,
@@ -259,7 +296,8 @@ async def get_scan_job_result(
 @router.post(
     "/scan/jobs/{job_id}/cancel",
     response_model=ScanJobStatusResponse,
-    summary="Cancel Scan Job",
+    summary=SCAN_CANCEL_SUMMARY,
+    description=SCAN_CANCEL_DESCRIPTION,
 )
 async def cancel_scan_job(
     job_id: str,
@@ -295,7 +333,8 @@ async def cancel_scan_job(
 @router.delete(
     "/scan/jobs/{job_id}",
     status_code=status.HTTP_204_NO_CONTENT,
-    summary="Delete Scan Job",
+    summary=SCAN_DELETE_SUMMARY,
+    description=SCAN_DELETE_DESCRIPTION,
 )
 async def delete_scan_job(
     job_id: str,
@@ -316,11 +355,8 @@ async def delete_scan_job(
 
 @router.get(
     "/scan/repository/{owner}/{repository}",
-    summary="Scan Repository",
-    description=(
-        "Synchronously analyze a GitHub repository and "
-        "predict pull request relationships for open issues."
-    ),
+    summary=SYNC_SCAN_SUMMARY,
+    description=SYNC_SCAN_DESCRIPTION,
 )
 async def scan_repository(
     owner: str,

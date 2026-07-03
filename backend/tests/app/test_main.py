@@ -38,7 +38,11 @@ def test_root_endpoint():
     assert response.status_code == 200
 
     assert response.json() == {
-        "message": "Welcome to IssueScout 🚀",
+        "name": "IssueScout API",
+        "version": "0.1.0",
+        "docs": "/docs",
+        "openapi": "/openapi.json",
+        "health": "/health",
     }
 
 
@@ -49,4 +53,6 @@ def test_health_endpoint():
 
     assert response.json() == {
         "status": "healthy",
+        "service": "IssueScout API",
+        "version": "0.1.0",
     }

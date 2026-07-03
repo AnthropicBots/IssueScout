@@ -11,8 +11,8 @@ from collections import Counter
 from issuescout.models.scan_status import ScanStatus
 from issuescout.scanner.engine import ScannerEngine
 from issuescout.repositories import (
-    InMemoryScanJobRepository,
     ScanJobRepository,
+    create_scan_job_repository,
 )
 
 
@@ -24,8 +24,11 @@ class ScanJobService:
     def __init__(
         self,
         repository: ScanJobRepository | None = None,
+        scanner_engine: ScannerEngine | None = None,
     ) -> None:
-        self._repository = repository or InMemoryScanJobRepository()
+        self._repository = repository or create_scan_job_repository()
+
+        self._scanner_engine = scanner_engine or ScannerEngine()
 
     def create_job(
         self,
@@ -65,7 +68,6 @@ class ScanJobService:
         )
 
         try:
-            engine = ScannerEngine()
 
             def update_progress(
                 processed: int,
@@ -80,7 +82,7 @@ class ScanJobService:
                 else:
                     job.progress = 0
 
-            job.result = await engine.scan_repository(
+            job.result = await self._scanner_engine.scan_repository(
                 job.owner,
                 job.repository,
                 progress_callback=update_progress,

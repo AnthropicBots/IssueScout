@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+import logging
 from issuescout.api.v1.routes import router
 from issuescout.core.config import settings
 from issuescout.core.exceptions import (
@@ -8,6 +8,14 @@ from issuescout.core.exceptions import (
 )
 from issuescout.middleware import (
     logging_middleware,
+)
+from issuescout.models.responses import (
+    HealthResponse,
+    RootResponse,
+)
+from issuescout.core.logging import LOGGER_NAME
+from issuescout.api.v1.docs.tags import (
+    GENERAL_TAG,
 )
 
 app = FastAPI(
@@ -40,27 +48,45 @@ app.middleware("http")(
     logging_middleware,
 )
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+
+logging.getLogger(LOGGER_NAME)
+
 
 @app.get(
     "/",
+    response_model=RootResponse,
     summary="Welcome",
-    tags=["General"],
+    tags=[GENERAL_TAG],
 )
 async def root():
-    return {
-        "message": "Welcome to IssueScout 🚀",
-    }
+    return RootResponse(
+        name="IssueScout API",
+        version=app.version,
+        docs="/docs",
+        openapi="/openapi.json",
+        health="/health",
+    )
 
 
 @app.get(
     "/health",
+    response_model=HealthResponse,
     summary="Health Check",
-    tags=["General"],
+    tags=[GENERAL_TAG],
 )
 async def health():
-    return {
-        "status": "healthy",
-    }
+    return HealthResponse(
+        status="healthy",
+        service="IssueScout API",
+        version=app.version,
+    )
 
 
-app.include_router(router)
+app.include_router(
+    router,
+    prefix="/api/v1",
+)

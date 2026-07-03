@@ -9,6 +9,10 @@ from .scan_job import (
 )
 from .scan_job_stats import ScanJobStatsResponse
 from .prediction import PredictionResponse
+from .system import (
+    HealthResponse,
+    RootResponse,
+)
 
 __all__ = [
     "RepositoryResponse",
@@ -20,4 +24,6 @@ __all__ = [
     "ScanJobResultResponse",
     "ScanJobStatsResponse",
     "PredictionResponse",
+    "HealthResponse",
+    "RootResponse",
 ]
