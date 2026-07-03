@@ -662,7 +662,7 @@ Their work makes projects like IssueScout possible.
 
 **IssueScout** is maintained by the **AnthropicBots** organization.
 
-Originally created and developed by **Bhuvansh Kataria**.
+Originally created and developed by [**Bhuvansh Kataria**](https://github.com/BHUVANSH855).
 
 GitHub Organization:
 
