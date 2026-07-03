@@ -137,7 +137,7 @@ export default function IssueDetailPage() {
 
             {/* Actions */}
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap items-center gap-4 border-t pt-6">
 
               <a
                 href={issueUrl(
@@ -147,13 +147,11 @@ export default function IssueDetailPage() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-5 py-3 text-white transition hover:bg-slate-800"
+                className="inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-slate-900 to-slate-700 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
               >
-                View GitHub Issue
-
                 <ExternalLink size={18} />
+                Open Issue on GitHub
               </a>
-
               {issue.linked_pr_number && (
                 <a
                   href={pullRequestUrl(
@@ -163,14 +161,12 @@ export default function IssueDetailPage() {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-white transition hover:bg-blue-700"
+                  className="inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
                 >
-                  View Pull Request
-
                   <ExternalLink size={18} />
+                  Open Linked Pull Request
                 </a>
               )}
-
             </div>
 
           </div>

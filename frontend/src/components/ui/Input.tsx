@@ -33,7 +33,7 @@ export default function Input({
       <input
         disabled={disabled}
         className={clsx(
-          "w-full rounded-xl border bg-white transition-all duration-200",
+          "w-full rounded-xl border bg-white text-slate-900 caret-blue-600 transition-all duration-200",
           "placeholder:text-slate-400",
           "focus:outline-none focus:ring-2 focus:ring-blue-500/20",
           "disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400",

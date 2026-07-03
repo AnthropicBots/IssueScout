@@ -12,11 +12,13 @@ export default function HomePage() {
 
       {/* Why IssueScout */}
 
-      <TrustSection />
+      <section id="about-issuescout">
+        <TrustSection />
+      </section>
 
       {/* Repository Scanner */}
 
-      <section>
+      <section id="repository-scanner">
 
         <div className="mb-8 text-center">
 

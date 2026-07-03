@@ -50,6 +50,11 @@ class Fetcher:
         issues = []
 
         for issue in github_issues:
+            # GitHub's Issues API also returns pull requests.
+            # Skip them so IssueScout only analyzes real issues.
+            if "pull_request" in issue:
+                continue
+
             issues.append(
                 Issue(
                     number=issue["number"],

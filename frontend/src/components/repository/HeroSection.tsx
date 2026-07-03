@@ -12,6 +12,24 @@ import heroImage from "../../assets/hero.png";
 import Button from "../ui/Button";
 
 export default function HeroSection() {
+
+  const scrollToScanner = () => {
+    document
+      .getElementById("repository-scanner")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  };
+
+  const scrollToAbout = () => {
+    document
+      .getElementById("about-issuescout")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  };
   return (
     <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 px-8 py-16 text-white shadow-2xl lg:px-16">
 
@@ -59,6 +77,7 @@ export default function HeroSection() {
               variant="primary"
               size="lg"
               rightIcon={<ArrowRight size={18} />}
+              onClick={scrollToScanner}
             >
               Start Scanning
             </Button>
@@ -67,6 +86,7 @@ export default function HeroSection() {
               variant="outline"
               size="lg"
               className="border-white/30 bg-white/10 text-white hover:bg-white/20"
+              onClick={scrollToAbout}
             >
               Learn More
             </Button>
@@ -117,12 +137,15 @@ export default function HeroSection() {
 
           <div className="absolute h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
 
-          <img
-            src={heroImage}
-            alt="IssueScout Dashboard Preview"
-            className="relative w-full max-w-lg drop-shadow-2xl"
-          />
+          <div className="relative flex justify-center items-center">
+            <div className="absolute h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
 
+            <img
+              src={heroImage}
+              alt="IssueScout Dashboard Preview"
+              className="relative w-[85%] max-w-md lg:max-w-lg object-contain drop-shadow-2xl"
+            />
+          </div>
         </div>
 
       </div>

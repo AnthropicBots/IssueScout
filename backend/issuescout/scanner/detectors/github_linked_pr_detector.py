@@ -84,6 +84,10 @@ class GitHubLinkedPRDetector(LinkedPRDetector):
             prediction,
         )
 
+        # Only treat ACCEPTED predictions as linked pull requests.
+        if not prediction.accepted:
+            return None
+
         return prediction.prediction.pull_request
 
     async def close(self):

@@ -101,8 +101,22 @@ class ScannerEngine:
                     issue,
                 )
 
+                print("=" * 80)
+                print(f"Issue #{issue.number}: {issue.title}")
+
+                for result in results:
+                    print(
+                        f"{result.analyzer}: "
+                        f"passed={result.passed}, "
+                        f"score={result.score}, "
+                        f"reason={result.reason}"
+                    )
+
                 if not all(result.passed for result in results):
+                    print("FILTERED")
                     continue
+
+                print("KEPT")
 
                 linked_pr = context.linked_pr_cache.get(
                     issue.number,
@@ -114,7 +128,10 @@ class ScannerEngine:
                         title=issue.title,
                         assigned=issue.assigned,
                         assignee=issue.assignee,
-                        confidence=self.confidence.calculate(results),
+                        confidence=self.confidence.calculate(
+                            issue,
+                            results,
+                        ),
                         linked_pr_number=(
                             linked_pr.number if linked_pr is not None else None
                         ),
@@ -131,6 +148,10 @@ class ScannerEngine:
                         processed,
                         total,
                     )
+            print("=" * 80)
+            print(f"Fetched issues : {len(issues)}")
+            print(f"Returned issues: {len(summaries)}")
+            print("=" * 80)
 
             return ScanResult(
                 repository=f"{owner}/{repo}",
@@ -140,5 +161,5 @@ class ScannerEngine:
             )
 
         finally:
-            await self.detector.close()
             await self.fetcher.close()
+            await self.detector.close()

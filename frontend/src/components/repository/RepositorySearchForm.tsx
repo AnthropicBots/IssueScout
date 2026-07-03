@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   Sparkles,
@@ -19,10 +19,46 @@ import LoadingState from "../status/LoadingState";
 import RepositoryResults from "./RepositoryResults";
 
 export default function RepositorySearchForm() {
-  const [owner, setOwner] = useState("");
-  const [repository, setRepository] = useState("");
+  const [owner, setOwner] = useState(() => {
+    return sessionStorage.getItem("issuescout-owner") ?? "";
+  });
+
+  const [repository, setRepository] = useState(() => {
+    return sessionStorage.getItem("issuescout-repository") ?? "";
+  });
+
+  const cachedResult = (() => {
+    const data = sessionStorage.getItem(
+      "issuescout-last-result",
+    );
+
+    return data ? JSON.parse(data) : null;
+  })();
 
   const scan = useRepositoryScan();
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      "issuescout-owner",
+      owner,
+    );
+  }, [owner]);
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      "issuescout-repository",
+      repository,
+    );
+  }, [repository]);
+
+  useEffect(() => {
+    if (!scan.data) return;
+
+    sessionStorage.setItem(
+      "issuescout-last-result",
+      JSON.stringify(scan.data),
+    );
+  }, [scan.data]);
 
   return (
     <div className="mt-12 space-y-8">
@@ -221,9 +257,9 @@ export default function RepositorySearchForm() {
         />
       )}
 
-      {scan.data && (
+      {(scan.data || cachedResult) && (
         <RepositoryResults
-          result={scan.data}
+          result={scan.data ?? cachedResult}
           owner={owner}
           repo={repository}
         />
