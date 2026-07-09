@@ -23,3 +23,13 @@ class PullRequestAPI:
 
     async def close(self):
         await self.client.close()
+
+    async def get_pull_request(
+        self,
+        owner: str,
+        repository: str,
+        pull_request_number: int,
+    ) -> dict:
+        return await self.client.get(
+            (f"/repos/{owner}/{repository}/pulls/{pull_request_number}")
+        )

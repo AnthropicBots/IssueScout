@@ -73,6 +73,63 @@ async def test_fetch_context_builds_repository_scan_context():
 
 
 @pytest.mark.anyio
+async def test_fetch_context_builds_pull_request_lookup():
+
+    repository_data = {
+        "owner": {
+            "login": "python",
+        },
+        "name": "cpython",
+    }
+
+    pull_requests = [
+        PullRequest(
+            number=10,
+            title="First PR",
+            body="",
+            author="alice",
+            branch_name="main",
+        ),
+        PullRequest(
+            number=20,
+            title="Second PR",
+            body="",
+            author="bob",
+            branch_name="feature",
+        ),
+    ]
+
+    fetcher = Fetcher()
+
+    with (
+        patch.object(
+            fetcher,
+            "fetch_repository",
+            AsyncMock(return_value=repository_data),
+        ),
+        patch.object(
+            fetcher,
+            "fetch_open_issues",
+            AsyncMock(return_value=[]),
+        ),
+        patch.object(
+            fetcher,
+            "fetch_open_pull_requests",
+            AsyncMock(return_value=pull_requests),
+        ),
+    ):
+        context = await fetcher.fetch_context(
+            "python",
+            "cpython",
+        )
+
+        assert context.pull_request_lookup == {
+            10: pull_requests[0],
+            20: pull_requests[1],
+        }
+
+
+@pytest.mark.anyio
 async def test_fetch_context_calls_all_fetch_methods():
 
     repository_data = {

@@ -13,6 +13,9 @@ from tests.helpers.factories import (
     make_issue,
     make_pull_request,
 )
+from issuescout.domain.models import (
+    CandidatePullRequestDetails,
+)
 
 
 @pytest.fixture
@@ -40,6 +43,19 @@ def failing_result():
         passed=False,
         score=0,
         reason="failed",
+    )
+
+
+def mock_candidate_enricher(engine: ScannerEngine) -> None:
+    engine.candidate_enricher = AsyncMock()
+
+    engine.candidate_enricher.enrich.return_value = CandidatePullRequestDetails(
+        number=1,
+        title="Mock PR",
+        body="",
+        state="closed",
+        merged=True,
+        author="alice",
     )
 
 
@@ -85,6 +101,18 @@ async def test_scan_repository_returns_scan_result(
         detector=detector,
         pipeline=pipeline,
         confidence=confidence,
+    )
+    mock_candidate_enricher(engine)
+
+    engine.candidate_enricher = AsyncMock()
+
+    engine.candidate_enricher.enrich.return_value = CandidatePullRequestDetails(
+        number=42,
+        title="Fix login bug",
+        body="Fix login bug",
+        state="closed",
+        merged=True,
+        author="alice",
     )
 
     result = await engine.scan_repository(
@@ -138,6 +166,7 @@ async def test_scan_repository_filters_failed_issue(
         pipeline=pipeline,
         confidence=confidence,
     )
+    mock_candidate_enricher(engine)
 
     result = await engine.scan_repository(
         "python",
@@ -185,6 +214,7 @@ async def test_detector_called_for_each_issue(
         pipeline=pipeline,
         confidence=confidence,
     )
+    mock_candidate_enricher(engine)
 
     await engine.scan_repository(
         "python",
@@ -227,6 +257,7 @@ async def test_pipeline_called_for_each_issue(
         pipeline=pipeline,
         confidence=confidence,
     )
+    mock_candidate_enricher(engine)
 
     await engine.scan_repository(
         "python",
@@ -269,6 +300,7 @@ async def test_confidence_calculated_for_each_accepted_issue(
         pipeline=pipeline,
         confidence=confidence,
     )
+    mock_candidate_enricher(engine)
 
     await engine.scan_repository(
         "python",
@@ -308,6 +340,7 @@ async def test_scan_repository_handles_missing_linked_pr(
         pipeline=pipeline,
         confidence=confidence,
     )
+    mock_candidate_enricher(engine)
 
     result = await engine.scan_repository(
         "python",
@@ -350,6 +383,7 @@ async def test_fetcher_closed_after_scan(
         pipeline=pipeline,
         confidence=confidence,
     )
+    mock_candidate_enricher(engine)
 
     await engine.scan_repository(
         "python",
@@ -389,6 +423,7 @@ async def test_detector_closed_after_scan(
         pipeline=pipeline,
         confidence=confidence,
     )
+    mock_candidate_enricher(engine)
 
     await engine.scan_repository(
         "python",
@@ -396,3 +431,164 @@ async def test_detector_closed_after_scan(
     )
 
     detector.close.assert_awaited_once()
+
+
+@pytest.mark.anyio
+async def test_progress_callback_called_for_empty_repository(
+    repository,
+):
+    context = RepositoryScanContext(
+        repository=repository,
+        issues=[],
+    )
+
+    fetcher = AsyncMock()
+    fetcher.fetch_context.return_value = context
+
+    detector = AsyncMock()
+
+    callback = Mock()
+
+    engine = ScannerEngine(
+        fetcher=fetcher,
+        detector=detector,
+    )
+    mock_candidate_enricher(engine)
+
+    await engine.scan_repository(
+        "python",
+        "cpython",
+        progress_callback=callback,
+    )
+
+    callback.assert_called_once_with(
+        0,
+        0,
+    )
+
+
+@pytest.mark.anyio
+async def test_detect_linked_pr_returns_none_on_exception(
+    repository,
+):
+    issue = make_issue(
+        number=123,
+    )
+
+    context = RepositoryScanContext(
+        repository=repository,
+        issues=[issue],
+    )
+
+    fetcher = AsyncMock()
+
+    detector = AsyncMock()
+    detector.find_linked_pr.side_effect = RuntimeError(
+        "GitHub unavailable",
+    )
+
+    engine = ScannerEngine(
+        fetcher=fetcher,
+        detector=detector,
+    )
+    mock_candidate_enricher(engine)
+
+    issue_number, linked_pr = await engine._detect_linked_pr(
+        context,
+        issue,
+    )
+
+    assert issue_number == 123
+    assert linked_pr is None
+
+
+@pytest.mark.anyio
+async def test_detect_linked_pr_returns_pull_request(
+    repository,
+):
+    issue = make_issue(
+        number=55,
+    )
+
+    pr = make_pull_request(
+        number=999,
+    )
+
+    context = RepositoryScanContext(
+        repository=repository,
+        issues=[issue],
+    )
+
+    fetcher = AsyncMock()
+
+    detector = AsyncMock()
+    detector.find_linked_pr.return_value = pr
+
+    engine = ScannerEngine(
+        fetcher=fetcher,
+        detector=detector,
+    )
+    mock_candidate_enricher(engine)
+
+    issue_number, linked_pr = await engine._detect_linked_pr(
+        context,
+        issue,
+    )
+
+    assert issue_number == 55
+    assert linked_pr is pr
+
+
+@pytest.mark.anyio
+async def test_fetch_missing_pull_requests_ignores_fetch_errors():
+    engine = ScannerEngine()
+    mock_candidate_enricher(engine)
+
+    engine.fetcher = AsyncMock()
+
+    engine.fetcher.fetch_pull_request.side_effect = RuntimeError()
+
+    context = Mock()
+    context.pull_request_lookup = {}
+
+    resolved = []
+
+    await engine._fetch_missing_pull_requests(
+        owner="python",
+        repo="cpython",
+        context=context,
+        resolved_pull_requests=resolved,
+        missing_pull_requests={123},
+    )
+
+    assert resolved == []
+
+    assert context.pull_request_lookup == {}
+
+
+@pytest.mark.anyio
+async def test_fetch_missing_pull_requests_skips_cached_pull_requests():
+    engine = ScannerEngine()
+    mock_candidate_enricher(engine)
+
+    engine.fetcher = AsyncMock()
+
+    context = Mock()
+
+    context.pull_request_lookup = {
+        123: Mock(),
+    }
+
+    resolved = []
+
+    await engine._fetch_missing_pull_requests(
+        owner="python",
+        repo="cpython",
+        context=context,
+        resolved_pull_requests=resolved,
+        missing_pull_requests={123},
+    )
+
+    engine.fetcher.fetch_pull_request.assert_not_awaited()
+
+    assert resolved == []

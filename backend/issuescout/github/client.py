@@ -37,6 +37,7 @@ class GitHubClient:
             base_url=settings.GITHUB_API,
             headers=headers,
             timeout=settings.REQUEST_TIMEOUT,
+            follow_redirects=True,
         )
         self.cache = GitHubCache()
 
@@ -163,6 +164,15 @@ class GitHubClient:
                 page_endpoint,
                 headers=headers,
             )
+
+            if not isinstance(data, list):
+                raise GitHubAPIError(
+                    (
+                        "Expected GitHub list response "
+                        f"for {page_endpoint}, "
+                        f"got {type(data).__name__}: {data}"
+                    )
+                )
 
             if not data:
                 break

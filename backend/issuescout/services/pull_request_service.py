@@ -69,6 +69,21 @@ class PullRequestService:
             endpoint,
         )
 
+    async def get_pull_request(
+        self,
+        owner: str,
+        repository: str,
+        pull_request_number: int,
+    ) -> dict:
+        """
+        Retrieve a single pull request.
+        """
+        endpoint = f"/repos/{owner}/{repository}/pulls/{pull_request_number}"
+
+        return await self.client.get(
+            endpoint,
+        )
+
     async def get_pull_request_commits(
         self,
         owner: str,
@@ -76,6 +91,32 @@ class PullRequestService:
         number: int,
     ):
         endpoint = f"/repos/{owner}/{repo}/pulls/{number}/commits"
+
+        return await self.client.get_all(
+            endpoint,
+        )
+
+    async def get_pull_request_reviews(
+        self,
+        owner: str,
+        repo: str,
+        number: int,
+    ) -> list[dict]:
+
+        endpoint = f"/repos/{owner}/{repo}/pulls/{number}/reviews"
+
+        return await self.client.get_all(
+            endpoint,
+        )
+
+    async def get_pull_request_comments(
+        self,
+        owner: str,
+        repo: str,
+        number: int,
+    ) -> list[dict]:
+
+        endpoint = f"/repos/{owner}/{repo}/pulls/{number}/comments"
 
         return await self.client.get_all(
             endpoint,

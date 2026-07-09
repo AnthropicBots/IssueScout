@@ -40,6 +40,16 @@ class Issue(BaseModel):
         default_factory=set,
     )
 
+    body: str | None = None
+
+    comments: list[dict] = Field(
+        default_factory=list,
+    )
+
+    timeline_events: list[dict] = Field(
+        default_factory=list,
+    )
+
     mentioned_files: set[str] = Field(
         default_factory=set,
     )

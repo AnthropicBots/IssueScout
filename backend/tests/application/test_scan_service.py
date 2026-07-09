@@ -9,6 +9,7 @@ from issuescout.application.scan_service import (
 
 @pytest.mark.anyio
 async def test_scan_repository():
+
     scanner = AsyncMock()
 
     scanner.scan_repository.return_value = "result"
@@ -28,3 +29,21 @@ async def test_scan_repository():
         "owner",
         "repo",
     )
+
+
+@pytest.mark.anyio
+async def test_scan_repository_propagates_exception():
+
+    scanner = AsyncMock()
+
+    scanner.scan_repository.side_effect = RuntimeError("boom")
+
+    service = ApplicationScanService(
+        scanner,
+    )
+
+    with pytest.raises(RuntimeError):
+        await service.scan_repository(
+            "owner",
+            "repo",
+        )

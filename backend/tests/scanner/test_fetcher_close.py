@@ -15,6 +15,8 @@ async def test_close_closes_all_services():
     fetcher.pull_request_service.close = AsyncMock()
     fetcher.review_service.close = AsyncMock()
     fetcher.commit_history_service.close = AsyncMock()
+    fetcher.comment_service.close = AsyncMock()
+    fetcher.timeline_service.close = AsyncMock()
 
     await fetcher.close()
 
@@ -23,6 +25,8 @@ async def test_close_closes_all_services():
     fetcher.pull_request_service.close.assert_awaited_once()
     fetcher.review_service.close.assert_awaited_once()
     fetcher.commit_history_service.close.assert_awaited_once()
+    fetcher.comment_service.close.assert_awaited_once()
+    fetcher.timeline_service.close.assert_awaited_once()
 
 
 @pytest.mark.anyio
@@ -35,6 +39,8 @@ async def test_close_can_be_called_multiple_times():
     fetcher.pull_request_service.close = AsyncMock()
     fetcher.review_service.close = AsyncMock()
     fetcher.commit_history_service.close = AsyncMock()
+    fetcher.comment_service.close = AsyncMock()
+    fetcher.timeline_service.close = AsyncMock()
 
     await fetcher.close()
     await fetcher.close()
@@ -44,3 +50,5 @@ async def test_close_can_be_called_multiple_times():
     assert fetcher.pull_request_service.close.await_count == 2
     assert fetcher.review_service.close.await_count == 2
     assert fetcher.commit_history_service.close.await_count == 2
+    assert fetcher.comment_service.close.await_count == 2
+    assert fetcher.timeline_service.close.await_count == 2

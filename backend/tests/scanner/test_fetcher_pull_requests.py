@@ -1,13 +1,15 @@
+## here is C:\Users\milan\IssueScout\backend\tests\scanner\test_fetcher_pull_requests.py
+
 from unittest.mock import AsyncMock, patch
 
 import pytest
 
+from issuescout.models.pull_request import PullRequest
 from issuescout.scanner.fetcher import Fetcher
 
 
 @pytest.mark.anyio
 async def test_build_pull_request_maps_basic_fields():
-
     pull = {
         "number": 10,
         "title": "Fix parser",
@@ -369,3 +371,49 @@ async def test_labels_are_mapped_to_set():
             "bug",
             "windows",
         }
+
+
+@pytest.mark.anyio
+async def test_fetch_pull_request_builds_single_pull_request():
+
+    fetcher = Fetcher()
+
+    github_pr = {
+        "number": 42,
+    }
+
+    built_pr = PullRequest(
+        number=42,
+        title="Fix login",
+        body="",
+        author="alice",
+        branch_name="main",
+    )
+
+    fetcher.pull_request_service.get_pull_request = AsyncMock(
+        return_value=github_pr,
+    )
+
+    fetcher._build_pull_request = AsyncMock(
+        return_value=built_pr,
+    )
+
+    result = await fetcher.fetch_pull_request(
+        "python",
+        "cpython",
+        42,
+    )
+
+    assert result is built_pr
+
+    fetcher.pull_request_service.get_pull_request.assert_awaited_once_with(
+        "python",
+        "cpython",
+        42,
+    )
+
+    fetcher._build_pull_request.assert_awaited_once_with(
+        "python",
+        "cpython",
+        github_pr,
+    )

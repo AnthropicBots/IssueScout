@@ -33,3 +33,30 @@ async def test_predict():
         prs,
         verbose=True,
     )
+
+
+@pytest.mark.anyio
+async def test_predict_default_verbose_false():
+
+    prediction = AsyncMock()
+
+    prediction.predict.return_value = "prediction"
+
+    service = ApplicationPredictionService(
+        prediction,
+    )
+
+    issue = object()
+
+    prs = []
+
+    await service.predict(
+        issue,
+        prs,
+    )
+
+    prediction.predict.assert_awaited_once_with(
+        issue,
+        prs,
+        verbose=False,
+    )

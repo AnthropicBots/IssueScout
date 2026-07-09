@@ -103,4 +103,4 @@ class ConfidenceCalculator:
             elif days <= 90:
                 score += 8
 
-        return max(0, min(score, 100))
+        return score

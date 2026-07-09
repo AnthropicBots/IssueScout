@@ -1,15 +1,29 @@
-from .collector import (
-    EvidenceCollector as EvidenceCollector,
+from .builder import (
+    EvidenceBuilder,
 )
-from .timeline import (
-    TimelineEvidenceCollector as TimelineEvidenceCollector,
+from .collector import (
+    EvidenceCollector,
 )
 from .comments import (
-    CommentEvidenceCollector as CommentEvidenceCollector,
+    CommentEvidenceCollector,
+)
+from .model import (
+    EvidenceItem,
+    EvidenceSummary,
+)
+from .weights import (
+    EvidenceWeights,
+)
+from .timeline import (
+    TimelineEvidenceCollector,
 )
 
 __all__ = [
-    "EvidenceCollector",
-    "TimelineEvidenceCollector",
     "CommentEvidenceCollector",
+    "EvidenceBuilder",
+    "EvidenceCollector",
+    "EvidenceItem",
+    "EvidenceSummary",
+    "EvidenceWeights",
+    "TimelineEvidenceCollector",
 ]

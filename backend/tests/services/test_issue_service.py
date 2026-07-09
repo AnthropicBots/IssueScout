@@ -121,3 +121,109 @@ async def test_close():
         await service.close()
 
         api.close.assert_awaited_once()
+
+
+async def test_list_open_issues_with_limit():
+
+    with patch(
+        "issuescout.services.issue_service.IssueAPI",
+    ) as MockAPI:
+        api = MockAPI.return_value
+
+        api.list_open = AsyncMock(
+            return_value=[],
+        )
+
+        service = IssueService()
+
+        await service.list_open_issues(
+            "python",
+            "cpython",
+            limit=25,
+        )
+
+        api.list_open.assert_awaited_once_with(
+            "python",
+            "cpython",
+            limit=25,
+        )
+
+
+async def test_list_open_issues_with_page_size():
+
+    with patch(
+        "issuescout.services.issue_service.IssueAPI",
+    ) as MockAPI:
+        api = MockAPI.return_value
+
+        api.list_open = AsyncMock(
+            return_value=[],
+        )
+
+        service = IssueService()
+
+        await service.list_open_issues(
+            "python",
+            "cpython",
+            page_size=50,
+        )
+
+        api.list_open.assert_awaited_once_with(
+            "python",
+            "cpython",
+            page_size=50,
+        )
+
+
+async def test_list_open_issues_with_limit_and_page_size():
+
+    with patch(
+        "issuescout.services.issue_service.IssueAPI",
+    ) as MockAPI:
+        api = MockAPI.return_value
+
+        api.list_open = AsyncMock(
+            return_value=[],
+        )
+
+        service = IssueService()
+
+        await service.list_open_issues(
+            "python",
+            "cpython",
+            limit=25,
+            page_size=50,
+        )
+
+        api.list_open.assert_awaited_once_with(
+            "python",
+            "cpython",
+            limit=25,
+            page_size=50,
+        )
+
+
+async def test_list_closed_issues_custom_limit():
+
+    with patch(
+        "issuescout.services.issue_service.IssueAPI",
+    ) as MockAPI:
+        api = MockAPI.return_value
+
+        api.list_closed = AsyncMock(
+            return_value=[],
+        )
+
+        service = IssueService()
+
+        await service.list_closed_issues(
+            "python",
+            "cpython",
+            limit=5,
+        )
+
+        api.list_closed.assert_awaited_once_with(
+            "python",
+            "cpython",
+            limit=5,
+        )

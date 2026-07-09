@@ -15,6 +15,10 @@ from .scan_result import (
     IssueSummary,
     ScanResult,
 )
+from .evidence import (
+    GitHubReference,
+    ResolvedReference,
+)
 
 __all__ = [
     "AnalysisResult",
@@ -28,4 +32,6 @@ __all__ = [
     "RepositoryScanContext",
     "IssueSummary",
     "ScanResult",
+    "GitHubReference",
+    "ResolvedReference",
 ]

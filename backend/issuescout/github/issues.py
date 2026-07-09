@@ -28,30 +28,51 @@ class IssueAPI:
         self,
         owner: str,
         repository: str,
-        limit: int = 100,
+        *,
+        limit: int | None = 100,
+        page_size: int | None = None,
     ) -> list[dict]:
         """
         Retrieve open issues.
+
+        Supports incremental scanning by limiting
+        the number of retrieved issues.
         """
+
+        if page_size is None:
+            return await self.client.get_all(
+                f"/repos/{owner}/{repository}/issues?state=open",
+                limit=limit,
+            )
 
         return await self.client.get_all(
             f"/repos/{owner}/{repository}/issues?state=open",
             limit=limit,
+            page_size=page_size,
         )
 
     async def list_closed(
         self,
         owner: str,
         repository: str,
-        limit: int = 100,
+        *,
+        limit: int | None = 100,
+        page_size: int | None = None,
     ) -> list[dict]:
         """
         Retrieve closed issues.
         """
 
+        if page_size is None:
+            return await self.client.get_all(
+                f"/repos/{owner}/{repository}/issues?state=closed",
+                limit=limit,
+            )
+
         return await self.client.get_all(
             f"/repos/{owner}/{repository}/issues?state=closed",
             limit=limit,
+            page_size=page_size,
         )
 
     async def close(self) -> None:

@@ -8,10 +8,20 @@ from issuescout.scanner.fetcher import Fetcher
 @pytest.mark.anyio
 async def test_fetch_open_issues_empty():
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+    ):
         service = MockIssueService.return_value
+        comment_service = MockCommentService.return_value
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=[],
@@ -46,10 +56,20 @@ async def test_fetch_open_issues_maps_basic_fields():
         "labels": [],
     }
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+    ):
         service = MockIssueService.return_value
+        comment_service = MockCommentService.return_value
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=[
@@ -93,10 +113,21 @@ async def test_assigned_issue():
         "labels": [],
     }
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+    ):
         service = MockIssueService.return_value
+
+        comment_service = MockCommentService.return_value
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=[
@@ -136,10 +167,20 @@ async def test_unassigned_issue():
         "labels": [],
     }
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+    ):
         service = MockIssueService.return_value
+        comment_service = MockCommentService.return_value
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=[
@@ -323,10 +364,28 @@ async def test_multiple_issues_are_returned():
             }
         )
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+        patch(
+            "issuescout.scanner.fetcher.TimelineService",
+        ) as MockTimelineService,
+    ):
         service = MockIssueService.return_value
+        comment_service = MockCommentService.return_value
+        timeline_service = MockTimelineService.return_value
+
+        timeline_service.get_issue_timeline = AsyncMock(
+            return_value=[],
+        )
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=github_issues,

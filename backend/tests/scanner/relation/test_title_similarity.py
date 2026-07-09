@@ -91,3 +91,24 @@ async def test_partial_similarity_scores_between_exact_and_unrelated():
     )
 
     assert exact_result.score >= partial_result.score >= unrelated_result.score
+
+
+@pytest.mark.anyio
+async def test_high_similarity_is_normalized():
+
+    analyzer = TitleSimilarityAnalyzer()
+
+    issue = make_issue(
+        title="Crash in asyncio SSL transport",
+    )
+
+    pr = make_pull_request(
+        title="Fix asyncio SSL transport crash",
+    )
+
+    result = await analyzer.analyze(
+        issue,
+        pr,
+    )
+
+    assert result.confidence >= 60

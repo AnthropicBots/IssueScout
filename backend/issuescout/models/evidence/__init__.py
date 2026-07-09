@@ -1,7 +1,7 @@
-from .issue_evidence import (
-    IssueEvidence as IssueEvidence,
-)
+from .github_reference import GitHubReference
+from .resolved_reference import ResolvedReference
 
 __all__ = [
-    "IssueEvidence",
+    "GitHubReference",
+    "ResolvedReference",
 ]

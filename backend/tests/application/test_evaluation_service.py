@@ -8,10 +8,14 @@ from issuescout.application.evaluation_service import (
 
 class FakeRepository:
     def __init__(self):
-        self.records = ["r1", "r2"]
+        self.records = [
+            "r1",
+            "r2",
+        ]
 
 
 def test_evaluate_dataset():
+
     loader = Mock()
     runner = Mock()
     pipeline = Mock()
@@ -19,7 +23,11 @@ def test_evaluate_dataset():
     repository = FakeRepository()
 
     loader.load.return_value = repository
-    runner.run.return_value = ["comparison"]
+
+    runner.run.return_value = [
+        "comparison",
+    ]
+
     pipeline.summarize.return_value = "summary"
 
     service = ApplicationEvaluationService(
@@ -35,16 +43,30 @@ def test_evaluate_dataset():
     assert result == "summary"
 
     loader.load.assert_called_once()
-    runner.run.assert_called_once_with(repository.records)
-    pipeline.summarize.assert_called_once_with(["comparison"])
+
+    runner.run.assert_called_once_with(
+        repository.records,
+    )
+
+    pipeline.summarize.assert_called_once_with(
+        [
+            "comparison",
+        ]
+    )
 
 
 def test_summarize():
+
     runner = Mock()
+
     loader = Mock()
+
     pipeline = Mock()
 
-    runner.run.return_value = ["comparison"]
+    runner.run.return_value = [
+        "comparison",
+    ]
+
     pipeline.summarize.return_value = "summary"
 
     service = ApplicationEvaluationService(
@@ -53,11 +75,52 @@ def test_summarize():
         pipeline=pipeline,
     )
 
-    records = ["a", "b"]
+    records = [
+        "a",
+        "b",
+    ]
 
-    result = service.summarize(records)
+    result = service.summarize(
+        records,
+    )
 
     assert result == "summary"
 
-    runner.run.assert_called_once_with(records)
-    pipeline.summarize.assert_called_once_with(["comparison"])
+    runner.run.assert_called_once_with(
+        records,
+    )
+
+    pipeline.summarize.assert_called_once_with(
+        [
+            "comparison",
+        ]
+    )
+
+
+def test_summarize_empty_records():
+
+    runner = Mock()
+
+    loader = Mock()
+
+    pipeline = Mock()
+
+    runner.run.return_value = []
+
+    pipeline.summarize.return_value = "summary"
+
+    service = ApplicationEvaluationService(
+        runner=runner,
+        loader=loader,
+        pipeline=pipeline,
+    )
+
+    result = service.summarize(
+        [],
+    )
+
+    assert result == "summary"
+
+    runner.run.assert_called_once_with([])
+
+    pipeline.summarize.assert_called_once_with([])

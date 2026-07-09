@@ -34,13 +34,35 @@ class IssueService:
         self,
         owner: str,
         repository: str,
+        *,
+        limit: int | None = None,
+        page_size: int | None = None,
     ) -> list[dict]:
         """
-        Retrieve all open issues.
+        Retrieve open issues.
+
+        The number of returned issues can be limited
+        to support incremental repository scanning.
         """
+
+        if limit is None and page_size is None:
+            return await self.issue_api.list_open(
+                owner,
+                repository,
+            )
+
+        kwargs = {}
+
+        if limit is not None:
+            kwargs["limit"] = limit
+
+        if page_size is not None:
+            kwargs["page_size"] = page_size
+
         return await self.issue_api.list_open(
             owner,
             repository,
+            **kwargs,
         )
 
     async def list_closed_issues(

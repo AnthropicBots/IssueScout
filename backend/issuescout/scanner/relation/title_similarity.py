@@ -5,8 +5,8 @@ from issuescout.models import (
 from issuescout.prediction.reason_builder import (
     ReasonBuilder,
 )
-from issuescout.utils.text_similarity import (
-    similarity_percentage,
+from issuescout.scanner.relation.title_similarity_utils import (
+    normalized_title_similarity,
 )
 
 from .base import RelationAnalyzer
@@ -27,7 +27,7 @@ class TitleSimilarityAnalyzer(RelationAnalyzer):
         pull_request: PullRequest,
     ) -> RelationResult:
 
-        percentage = similarity_percentage(
+        percentage = normalized_title_similarity(
             issue.title,
             pull_request.title,
         )
