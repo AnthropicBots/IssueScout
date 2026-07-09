@@ -29,17 +29,110 @@
 
 ---
 
+## 🎬 Demo
+
+> **See IssueScout in action**
+
+<p align="center">
+
+<img src="docs/assets/demo.gif" alt="IssueScout Demo" width="100%">
+
+</p>
+
+> **Demo workflow**
+>
+> Repository → Scan → Intelligent Analysis → Ranked Issues → PR Prediction → Confidence Score
+
+---
+
+## 📸 Screenshots
+
+| Home | Repository Analysis |
+|------|----------------------|
+| ![](docs/assets/home.png) | ![](docs/assets/results.png) |
+
+| Issue Details | Prediction View |
+|---------------|-----------------|
+| ![](docs/assets/issue-details.png) | ![](docs/assets/prediction.png) |
+
+---
+
+# ⚡ Quick Start
+
+Get IssueScout running in under 5 minutes.
+
+```bash
+git clone https://github.com/AnthropicBots/IssueScout.git
+
+cd IssueScout/backend
+
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# Linux/macOS
+source .venv/bin/activate
+
+pip install -e .
+
+uvicorn issuescout.main:app --reload
+```
+
+Then start the frontend:
+
+```bash
+cd ../frontend
+
+npm install
+
+npm run dev
+```
+
+- 🌐 Frontend: http://localhost:5173
+- 📖 API Docs: http://127.0.0.1:8000/docs
+
+---
+
+# 🎯 Why Use IssueScout?
+
+Finding meaningful issues in large open-source repositories can be time-consuming.
+
+IssueScout analyzes multiple repository signals to help contributors focus on the most promising opportunities.
+
+| Traditional GitHub Search | IssueScout |
+|---------------------------|------------|
+| Manual issue browsing | ✅ Automated repository analysis |
+| Depends on labels | ✅ Multi-signal ranking |
+| No confidence estimation | ✅ Confidence scoring |
+| Limited issue context | ✅ Explainable predictions |
+| No PR relationship analysis | ✅ Issue ↔ Pull Request prediction |
+
+---
+
+# 🚀 Key Highlights
+
+- 🔍 Analyze any public GitHub repository
+- 🧠 Multi-signal issue and pull request relation engine
+- 📊 Explainable confidence scoring
+- ⚡ FastAPI backend with asynchronous scanning
+- 🎨 Modern React + TypeScript frontend
+- 🧪 484+ automated tests
+- 🔄 GitHub Actions CI with Ruff & MyPy
+- 📚 Comprehensive documentation
+- 🏗️ Clean, modular, production-ready architecture
+
+---
+
 # 📖 Overview
 
-> **Production-ready full-stack application** built to help developers identify high-quality GitHub contribution opportunities using evidence-driven analysis and explainable issue ranking.
+IssueScout is an intelligent GitHub contribution assistant that helps developers discover meaningful open-source contribution opportunities through evidence-driven repository analysis.
 
-> **IssueScout** helps developers quickly discover meaningful open-source contribution opportunities by combining repository analysis, evidence collection, intelligent ranking, and explainable issue evaluation in a modern full-stack application.
+Instead of relying solely on labels like **good first issue** or **help wanted**, IssueScout analyzes repository activity, issue discussions, commits, pull requests, reviews, timelines, and metadata to identify meaningful relationships between issues and development activity.
 
-IssueScout is an intelligent GitHub contribution assistant designed to help developers discover meaningful open-source contribution opportunities.
+Its explainable ranking engine provides confidence scores and supporting evidence for every prediction, helping contributors understand *why* an issue is recommended rather than simply presenting a ranked list.
 
-Rather than relying solely on labels such as **good first issue** or **help wanted**, IssueScout analyzes multiple signals across a repository to identify relationships between issues and pull requests.
-
-The project combines GitHub repository metadata, issue timelines, commits, comments, reviews, and multiple similarity algorithms to produce explainable predictions about issue activity.
+Built with a modern React frontend and a FastAPI backend, IssueScout is designed to work with any public GitHub repository while remaining fast, transparent, and extensible.
 
 ---
 
@@ -109,7 +202,42 @@ IssueScout combines multiple independent detectors including:
 
 ---
 
-# 🏗️ High-Level Architecture
+# 📊 Example Repository Analysis
+
+Repository:
+
+```text
+python/cpython
+```
+
+Issue Selected:
+
+```text
+#152997
+Add an iconv-based codec engine to support all system locale encodings
+```
+
+IssueScout Analysis:
+
+| Metric | Result |
+|---------|--------|
+| Repository Scan | ✅ Completed |
+| Confidence Score | 94% |
+| Related Pull Requests | 3 Candidates |
+| Evidence Signals | 11 |
+| Ranking | Top Recommendation |
+
+Example Evidence
+
+- ✅ Title similarity detected
+- ✅ Commit reference found
+- ✅ Timeline activity matched
+- ✅ Author relationship detected
+- ✅ Repository metadata similarity
+
+> Every recommendation is accompanied by supporting evidence so contributors can understand **why** it was ranked.
+
+# 🏗️ System Architecture
 
 ```text
                   React Frontend
@@ -191,21 +319,6 @@ IssueScout/
 ├── LICENSE
 └── README.md
 ```
-
----
-
-# 💡 Why IssueScout?
-
-Traditional GitHub searches depend heavily on repository labels and manual inspection.
-
-IssueScout improves this process by combining evidence from multiple GitHub resources into a unified prediction engine that helps contributors understand:
-
-- Which issues are likely already linked to pull requests.
-- How issues relate to commits and discussions.
-- The confidence of each prediction.
-- Why a prediction was made.
-
-This makes repository exploration faster, more transparent, and easier to understand.
 
 ---
 
@@ -374,7 +487,7 @@ http://127.0.0.1:8000/openapi.json
 
 ---
 
-# 📡 Available Endpoints
+# 🌐 REST API Endpoints
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
@@ -503,25 +616,28 @@ Dependabot automatically keeps:
 
 ---
 
-# 📦 Project Highlights
+# 📦 What Makes IssueScout Different?
 
-- Modular architecture
-- Asynchronous GitHub client
-- Evidence-based repository analysis
-- Intelligent relation engine
-- Explainable prediction system
-- Structured logging
-- Global exception handling
-- Request logging middleware
-- Response models
-- Pagination utilities
-- Automated testing
-- Continuous integration
-- Production-ready project structure
+Unlike traditional GitHub search tools, IssueScout focuses on understanding repository activity rather than simply filtering issues by labels.
+
+### Core Capabilities
+
+- 🔍 Repository-wide evidence collection
+- 🧠 Multi-signal relation analysis
+- 📈 Explainable issue ranking
+- 🎯 Pull request prediction
+- 📊 Confidence scoring
+- ⚡ Asynchronous repository scanning
+- 🏗️ Modular architecture
+- 🧪 Extensive automated testing
+- 🔄 Continuous integration
+- 📚 Comprehensive documentation
+
+IssueScout is designed to help contributors spend less time searching and more time contributing.
 
 ---
 
-# 📈 Project Status
+# 📈 Project Maturity
 
 IssueScout is actively developed and maintained.
 
@@ -662,7 +778,7 @@ Their work makes projects like IssueScout possible.
 
 **IssueScout** is maintained by the **AnthropicBots** organization.
 
-Originally created and developed by **Bhuvansh Kataria**.
+Originally created and developed by [**Bhuvansh Kataria**](https://github.com/BHUVANSH855).
 
 GitHub Organization:
 
