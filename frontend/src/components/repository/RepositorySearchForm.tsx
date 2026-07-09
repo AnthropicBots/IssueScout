@@ -61,42 +61,48 @@ export default function RepositorySearchForm() {
   }, [scan.data]);
 
   return (
-    <div className="mt-12 space-y-8">
-
-      <Card className="overflow-hidden border-0 bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 text-white shadow-2xl">
-
-        <div className="space-y-8 p-8 lg:p-12">
-
+    <div
+      id="repository-scanner"
+      className="mt-16 space-y-10"
+    >
+      <Card className="overflow-hidden rounded-[2rem] border border-slate-800 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white shadow-[0_35px_90px_rgba(15,23,42,0.35)]">
+        <div className="space-y-10 p-8 lg:p-12">
           {/* Header */}
 
-          <div className="space-y-4 text-center">
-
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-white/10 backdrop-blur">
-              <GitBranch size={42} />
+          <div className="space-y-5 text-center">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-white/10 bg-white/10 shadow-lg backdrop-blur-xl">
+              <GitBranch
+                size={40}
+                className="text-cyan-300"
+              />
             </div>
 
-            <h2 className="text-4xl font-bold">
-              Scan Any GitHub Repository
-            </h2>
+            <div className="space-y-3">
+              <h2 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
+                Analyze Any GitHub Repository
+              </h2>
 
-            <p className="mx-auto max-w-3xl text-lg text-slate-300">
-              Discover contribution opportunities using
-              IssueScout's intelligent prediction engine.
-              Analyze issues, confidence scores,
-              assignments, and linked pull requests in
-              seconds.
-            </p>
-
+              <p className="mx-auto max-w-3xl text-lg leading-8 text-slate-300">
+                Enter a public GitHub repository to analyze
+                open issues, discover contributor-friendly
+                tasks, predict pull request relationships,
+                evaluate confidence scores, and identify the
+                best opportunities for meaningful
+                open-source contributions.
+              </p>
+            </div>
           </div>
 
-          {/* Search */}
+          {/* Search Form */}
 
           <form
-            className="grid gap-4 lg:grid-cols-[1fr_1fr_auto]"
+            className="grid gap-5 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl lg:grid-cols-[1fr_1fr_auto]"
             onSubmit={(e) => {
               e.preventDefault();
 
-              if (!owner.trim() || !repository.trim()) return;
+              if (!owner.trim() || !repository.trim()) {
+                return;
+              }
 
               scan.mutate({
                 owner: owner.trim(),
@@ -104,12 +110,13 @@ export default function RepositorySearchForm() {
               });
             }}
           >
-
             <Input
               placeholder="Repository Owner (e.g. angular)"
               value={owner}
               onChange={(e) =>
-                setOwner(e.target.value.replace(/\s/g, ""))
+                setOwner(
+                  e.target.value.replace(/\s/g, "")
+                )
               }
             />
 
@@ -125,7 +132,7 @@ export default function RepositorySearchForm() {
 
             <Button
               type="submit"
-              className="flex items-center justify-center gap-2"
+              className="flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap"
               disabled={
                 scan.isPending ||
                 !owner.trim() ||
@@ -140,24 +147,28 @@ export default function RepositorySearchForm() {
               ) : (
                 <>
                   <Search size={18} />
-
                   Scan Repository
                 </>
               )}
             </Button>
-
           </form>
 
-          {/* Quick Examples */}
+          <p className="text-center text-sm text-slate-300">
+            Press{" "}
+            <kbd className="rounded border border-white/20 bg-white/10 px-2 py-1 text-xs">
+              Enter
+            </kbd>{" "}
+            to start scanning.
+          </p>
+
+          {/* Popular Repositories */}
 
           <div>
-
-            <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-300">
-              Popular repositories
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-300">
+              Popular Repositories
             </p>
 
             <div className="flex flex-wrap gap-3">
-
               {[
                 "microsoft/vscode",
                 "angular/angular",
@@ -167,82 +178,80 @@ export default function RepositorySearchForm() {
               ].map((repo) => (
                 <button
                   key={repo}
+                  type="button"
                   onClick={() => {
-                    const [o, r] =
-                      repo.split("/");
+                    const [o, r] = repo.split("/");
 
                     setOwner(o);
                     setRepository(r);
                   }}
-                  className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm transition hover:bg-white/20"
+                  className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-400/30 hover:bg-white/10"
                 >
                   {repo}
                 </button>
               ))}
-
             </div>
-
           </div>
 
           {/* Features */}
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition-all duration-200 hover:-translate-y-1 hover:border-cyan-400/20 hover:bg-white/10">
+              <Sparkles
+                className="mb-4 text-cyan-300"
+                size={26}
+              />
 
-            <div className="rounded-xl bg-white/10 p-5 backdrop-blur">
-
-              <Sparkles className="mb-3" />
-
-              <h3 className="font-semibold">
+              <h3 className="text-lg font-semibold">
                 AI Predictions
               </h3>
 
-              <p className="mt-2 text-sm text-slate-300">
-                Predict linked pull requests with
-                confidence scoring.
+              <p className="mt-3 text-sm leading-7 text-slate-300">
+                Predict linked pull requests with intelligent
+                confidence scoring and repository analysis.
               </p>
-
             </div>
 
-            <div className="rounded-xl bg-white/10 p-5 backdrop-blur">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition-all duration-200 hover:-translate-y-1 hover:border-cyan-400/20 hover:bg-white/10">
+              <GitBranch
+                className="mb-4 text-blue-300"
+                size={26}
+              />
 
-              <GitBranch className="mb-3" />
-
-              <h3 className="font-semibold">
+              <h3 className="text-lg font-semibold">
                 GitHub Analysis
               </h3>
 
-              <p className="mt-2 text-sm text-slate-300">
-                Analyze repositories in real time
-                using the GitHub API.
+              <p className="mt-3 text-sm leading-7 text-slate-300">
+                Analyze repositories in real time using the
+                GitHub API and advanced repository
+                intelligence.
               </p>
-
             </div>
 
-            <div className="rounded-xl bg-white/10 p-5 backdrop-blur">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition-all duration-200 hover:-translate-y-1 hover:border-cyan-400/20 hover:bg-white/10">
+              <ArrowRight
+                className="mb-4 text-emerald-300"
+                size={26}
+              />
 
-              <ArrowRight className="mb-3" />
-
-              <h3 className="font-semibold">
+              <h3 className="text-lg font-semibold">
                 Contribution Ready
               </h3>
 
-              <p className="mt-2 text-sm text-slate-300">
-                Quickly discover issues ready for
-                contributors.
+              <p className="mt-3 text-sm leading-7 text-slate-300">
+                Discover high-quality issues that are ready
+                for contributors in just a few seconds.
               </p>
-
             </div>
-
           </div>
-
         </div>
-
       </Card>
 
       {scan.isPending && (
         <LoadingState
           title="Scanning Repository..."
-          description="Fetching issues, analyzing pull requests, and calculating prediction confidence."
+          description="Fetching issues, analyzing pull requests, calculating confidence scores, and preparing contributor insights."
         />
       )}
 
@@ -264,7 +273,6 @@ export default function RepositorySearchForm() {
           repo={repository}
         />
       )}
-
     </div>
   );
 }

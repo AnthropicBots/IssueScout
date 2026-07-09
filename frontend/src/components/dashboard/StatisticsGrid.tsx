@@ -8,8 +8,18 @@ export default function StatisticsGrid({
   children,
 }: StatisticsGridProps) {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+    <section
+      aria-label="Repository Statistics"
+      className="
+        grid
+        gap-6
+        sm:grid-cols-2
+        xl:grid-cols-3
+        2xl:grid-cols-6
+        auto-rows-fr
+      "
+    >
       {children}
-    </div>
+    </section>
   );
 }

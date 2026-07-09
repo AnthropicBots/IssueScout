@@ -1,8 +1,14 @@
-import type { InputHTMLAttributes, ReactNode } from "react";
+import type {
+  InputHTMLAttributes,
+  ReactNode,
+} from "react";
 
 import clsx from "clsx";
 
-type InputSize = "sm" | "md" | "lg";
+type InputSize =
+  | "sm"
+  | "md"
+  | "lg";
 
 interface InputProps
   extends InputHTMLAttributes<HTMLInputElement> {
@@ -23,9 +29,8 @@ export default function Input({
 }: InputProps) {
   return (
     <div className="relative w-full">
-
       {leftIcon && (
-        <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+        <div className="pointer-events-none absolute inset-y-0 left-5 flex items-center text-slate-400 transition-colors">
           {leftIcon}
         </div>
       )}
@@ -33,29 +38,39 @@ export default function Input({
       <input
         disabled={disabled}
         className={clsx(
-          "w-full rounded-xl border bg-white text-slate-900 caret-blue-600 transition-all duration-200",
+          "w-full rounded-2xl border bg-white text-slate-900 shadow-sm",
           "placeholder:text-slate-400",
-          "focus:outline-none focus:ring-2 focus:ring-blue-500/20",
-          "disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400",
+          "transition-all duration-300",
+          "caret-blue-600",
+          "focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:shadow-md",
+          "disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400",
 
           {
-            "border-red-400 focus:border-red-500 focus:ring-red-200":
+            // Error
+
+            "border-red-300 focus:border-red-500 focus:ring-red-500/10":
               error,
 
-            "border-slate-300 focus:border-blue-500":
+            // Normal
+
+            "border-slate-300 hover:border-slate-400":
               !error,
 
-            "pl-12": leftIcon,
+            // Icons
 
-            "pr-12": rightIcon,
+            "pl-14": leftIcon,
 
-            "px-3 py-2 text-sm":
+            "pr-14": rightIcon,
+
+            // Sizes
+
+            "px-4 py-2.5 text-sm":
               inputSize === "sm",
 
-            "px-4 py-3 text-base":
+            "px-5 py-3.5 text-base":
               inputSize === "md",
 
-            "px-5 py-4 text-lg":
+            "px-6 py-4.5 text-lg":
               inputSize === "lg",
           },
 
@@ -65,11 +80,10 @@ export default function Input({
       />
 
       {rightIcon && (
-        <div className="absolute inset-y-0 right-4 flex items-center text-slate-400">
+        <div className="absolute inset-y-0 right-5 flex items-center text-slate-400 transition-colors">
           {rightIcon}
         </div>
       )}
-
     </div>
   );
 }

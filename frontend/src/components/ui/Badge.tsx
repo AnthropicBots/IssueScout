@@ -1,4 +1,7 @@
-import type { HTMLAttributes, ReactNode } from "react";
+import type {
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 
 import clsx from "clsx";
 
@@ -31,26 +34,28 @@ export default function Badge({
   return (
     <span
       className={clsx(
-        "inline-flex items-center gap-2 rounded-full font-medium transition-colors",
+        "inline-flex items-center justify-center gap-2 rounded-full border font-semibold shadow-sm transition-all duration-200",
 
         {
-          "px-2.5 py-1 text-xs": size === "sm",
+          "px-3 py-1 text-xs":
+            size === "sm",
 
-          "px-3 py-1.5 text-sm": size === "md",
+          "px-4 py-2 text-sm":
+            size === "md",
 
-          "bg-blue-100 text-blue-700":
+          "border-blue-200 bg-blue-50 text-blue-700":
             color === "blue",
 
-          "bg-green-100 text-green-700":
+          "border-green-200 bg-green-50 text-green-700":
             color === "green",
 
-          "bg-yellow-100 text-yellow-700":
+          "border-yellow-200 bg-yellow-50 text-yellow-700":
             color === "yellow",
 
-          "bg-red-100 text-red-700":
+          "border-red-200 bg-red-50 text-red-700":
             color === "red",
 
-          "bg-slate-100 text-slate-700":
+          "border-slate-200 bg-slate-100 text-slate-700":
             color === "gray",
         },
 
@@ -58,9 +63,13 @@ export default function Badge({
       )}
       {...props}
     >
-      {icon}
+      {icon && (
+        <span className="flex items-center">
+          {icon}
+        </span>
+      )}
 
-      {children}
+      <span>{children}</span>
     </span>
   );
 }

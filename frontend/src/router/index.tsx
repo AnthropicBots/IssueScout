@@ -1,4 +1,6 @@
 import { Suspense, lazy } from "react";
+
+import LoadingState from "../components/status/LoadingState";
 import { Route, Routes } from "react-router-dom";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
@@ -10,11 +12,7 @@ const NotFoundPage = lazy(() => import("../pages/NotFoundPage"));
 export default function AppRouter() {
   return (
     <Suspense
-      fallback={
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="text-sm text-slate-500">Loading...</div>
-        </div>
-      }
+      fallback={<LoadingState />}
     >
       <Routes>
         <Route

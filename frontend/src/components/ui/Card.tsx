@@ -32,34 +32,48 @@ export default function Card({
   return (
     <div
       className={clsx(
-        "rounded-2xl transition-all duration-300",
+        "overflow-hidden rounded-[1.75rem] transition-all duration-300 ease-out",
 
         {
+          // Default
+
           "border border-slate-200 bg-white shadow-sm":
             variant === "default",
 
-          "border-2 border-slate-200 bg-white":
+          // Outlined
+
+          "border-2 border-slate-200 bg-white shadow-sm":
             variant === "outlined",
+
+          // Filled
 
           "bg-slate-50":
             variant === "filled",
 
-          "border border-white/20 bg-white/70 backdrop-blur":
+          // Glass
+
+          "border border-white/30 bg-white/70 shadow-lg backdrop-blur-xl":
             variant === "glass",
 
-          "hover:-translate-y-1 hover:shadow-xl":
+          // Hover
+
+          "hover:-translate-y-1 hover:border-blue-100 hover:shadow-2xl":
             hover,
 
-          "cursor-pointer":
+          // Clickable
+
+          "cursor-pointer active:scale-[0.99]":
             clickable,
 
-          "p-4":
+          // Padding
+
+          "p-5":
             padding === "sm",
 
-          "p-6":
+          "p-7":
             padding === "md",
 
-          "p-8":
+          "p-9":
             padding === "lg",
         },
 

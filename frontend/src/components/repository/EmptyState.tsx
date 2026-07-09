@@ -3,8 +3,8 @@ import NoResultState from "../status/NoResultState";
 export default function EmptyState() {
   return (
     <NoResultState
-      title="No Issues Found"
-      description="IssueScout couldn't find any issues matching the current repository or filters. Try scanning another repository or adjusting your search criteria."
+      title="No Matching Issues Found"
+      description="No issues matched your current search, filters, or sorting criteria. Try clearing the search, changing the selected filters, or scan another GitHub repository to discover more contribution opportunities."
     />
   );
 }
