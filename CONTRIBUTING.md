@@ -1,40 +1,77 @@
 # Contributing to IssueScout
 
-Thank you for your interest in contributing to IssueScout! 🚀
+First off, thank you for your interest in contributing to **IssueScout**! 🎉
 
-We welcome bug reports, feature requests, documentation improvements, and code contributions.
+IssueScout is an open-source platform for intelligent GitHub repository analysis and contribution discovery. We welcome contributions of all kinds, including bug fixes, new features, documentation improvements, tests, UI enhancements, and performance optimizations.
 
 ---
 
-## Development Setup
+# 📋 Before You Start
 
-### 1. Clone the repository
+Before opening an issue or pull request, please:
+
+- Search existing issues and pull requests.
+- Read this guide completely.
+- Keep pull requests focused on a single change.
+- Discuss large features in an issue before implementation.
+
+---
+
+# 🚀 Development Setup
+
+## 1. Fork the Repository
+
+Fork the repository on GitHub.
+
+---
+
+## 2. Clone Your Fork
 
 ```bash
-git clone https://github.com/AnthropicBots/IssueScout.git
+git clone https://github.com/<your-username>/IssueScout.git
 
 cd IssueScout
 ```
 
-## Backend Setup
+---
 
-### 2. Create a virtual environment
+## 3. Add the Upstream Repository
 
-Windows
+```bash
+git remote add upstream https://github.com/AnthropicBots/IssueScout.git
+```
+
+Verify remotes:
+
+```bash
+git remote -v
+```
+
+---
+
+# ⚙️ Backend Setup
+
+## Create a Virtual Environment
+
+### Windows
 
 ```powershell
 python -m venv .venv
+
 .venv\Scripts\activate
 ```
 
-Linux/macOS
+### Linux / macOS
 
 ```bash
 python3 -m venv .venv
+
 source .venv/bin/activate
 ```
 
-### 3. Install the backend
+---
+
+## Install Backend
 
 ```bash
 cd backend
@@ -42,7 +79,9 @@ cd backend
 pip install -e .
 ```
 
-### 4. Install development tools
+---
+
+## Install Development Dependencies
 
 ```bash
 pip install pytest pytest-cov ruff mypy pre-commit
@@ -50,9 +89,7 @@ pip install pytest pytest-cov ruff mypy pre-commit
 
 ---
 
-## Frontend Setup
-
-From the project root:
+# 🎨 Frontend Setup
 
 ```bash
 cd frontend
@@ -60,7 +97,7 @@ cd frontend
 npm install
 ```
 
-Run the frontend development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -68,51 +105,55 @@ npm run dev
 
 ---
 
-## Running Tests
+# 🌿 Creating a Branch
 
-Contributors should run the following checks before opening a pull request:
+Always create a new branch before making changes.
 
-- Ruff (linting)
-- MyPy (static type checking)
-- Pytest (test suite)
+Examples:
 
-All three checks are required for contributions to be accepted.
+```text
+feature/repository-comparison
 
-Run the full test suite:
+fix/scanner-timeout
 
-```bash
-python -m pytest
-```
+docs/update-readme
 
-Run tests with coverage:
+test/repository-intelligence
 
-```bash
-python -m pytest --cov=issuescout --cov-report=term-missing
+refactor/evidence-builder
 ```
 
 ---
 
-## Code Quality
+# 🧪 Backend Validation
 
-Lint the project:
+Run these commands before opening a pull request.
+
+Run tests:
+
+```bash
+pytest
+```
+
+Run coverage:
+
+```bash
+pytest --cov=issuescout
+```
+
+Lint:
 
 ```bash
 ruff check .
 ```
 
-Automatically fix issues:
-
-```bash
-ruff check . --fix
-```
-
-Format the project:
+Format:
 
 ```bash
 ruff format .
 ```
 
-Run static type checking:
+Type checking:
 
 ```bash
 mypy issuescout
@@ -120,7 +161,23 @@ mypy issuescout
 
 ---
 
-## Pre-commit
+# 🖥️ Frontend Validation
+
+Lint:
+
+```bash
+npm run lint
+```
+
+Production build:
+
+```bash
+npm run build
+```
+
+---
+
+# 🔄 Pre-commit
 
 Install hooks:
 
@@ -136,83 +193,128 @@ pre-commit run --all-files
 
 ---
 
-## Branch Naming
+# 💬 Commit Messages
+
+IssueScout follows the **Conventional Commits** specification.
 
 Examples:
 
-```
-feature/github-pagination
-fix/client-timeout
-docs/update-readme
-test/metadata-similarity
-refactor/github-client
-```
+```text
+feat: add repository comparison
 
----
+fix: prevent scanner timeout
 
-## Commit Messages
+docs: update API documentation
 
-Follow Conventional Commits.
+test: improve evidence collector coverage
 
-Examples:
-
-```
-feat: add GitHub pagination helper
-
-fix: handle missing repository metadata
-
-docs: update README
-
-test: improve GitHub client coverage
-
-refactor: simplify scanner pipeline
+refactor: simplify repository fetcher
 ```
 
 ---
 
-## Development Workflow
+# 🔀 Pull Requests
 
-Typical development workflow:
+Before submitting a pull request, ensure that:
 
-1. Create a feature branch.
-2. Implement your changes.
-3. Run linting, formatting, type checking, and tests.
-4. Commit using Conventional Commits.
-5. Push your branch.
-6. Open a Pull Request against the default branch.
-
----
-
-## Pull Requests
-
-Before submitting a pull request, ensure:
-
-- All tests pass (`python -m pytest`)
-- Ruff passes without errors (`ruff check .`)
-- MyPy passes without errors (`mypy issuescout`)
-- New functionality includes appropriate tests
-- Documentation is updated when necessary
-- Both backend and frontend build successfully
+- Backend tests pass.
+- Ruff passes.
+- MyPy passes.
+- Frontend lint passes.
+- Frontend production build succeeds.
+- New functionality includes appropriate tests.
+- Documentation has been updated if necessary.
+- Your branch is up to date with the latest default branch.
 
 ---
 
-## Reporting Issues
+# 📝 Development Workflow
 
-When opening an issue, include:
+A typical contribution follows this workflow:
 
-- Operating System
+```text
+Fork Repository
+        │
+        ▼
+Clone Repository
+        │
+        ▼
+Create Feature Branch
+        │
+        ▼
+Implement Changes
+        │
+        ▼
+Run Backend Checks
+        │
+        ▼
+Run Frontend Checks
+        │
+        ▼
+Commit Changes
+        │
+        ▼
+Push Branch
+        │
+        ▼
+Open Pull Request
+```
+
+---
+
+# 🐞 Reporting Bugs
+
+When opening a bug report, please include:
+
+- Operating system
 - Python version
+- Node.js version
+- Browser (if frontend-related)
 - Steps to reproduce
 - Expected behavior
 - Actual behavior
-- Logs or screenshots (if applicable)
+- Error messages or logs
+- Screenshots (if applicable)
 
 ---
 
-## Questions
+# 💡 Feature Requests
 
-If you have questions about the project, feel free to open a GitHub Discussion or create an issue describing your question.
+Feature requests are welcome.
+
+Please describe:
+
+- The problem you're trying to solve.
+- Your proposed solution.
+- Alternative approaches you've considered.
+- Any additional context or examples.
 
 ---
 
-Thank you for helping improve **IssueScout** and supporting the open-source community! 🚀
+# 📚 Documentation
+
+Documentation improvements are always appreciated.
+
+Useful areas include:
+
+- README
+- API documentation
+- Architecture
+- Backend
+- Scanner
+- Tutorials
+- Code comments
+
+---
+
+# 🤝 Code of Conduct
+
+Please follow our **Code of Conduct** and maintain a welcoming, respectful, and collaborative environment for everyone.
+
+---
+
+# ❤️ Thank You
+
+Every contribution—whether it's code, documentation, testing, or feedback—helps make IssueScout better for the entire open-source community.
+
+Happy contributing! 🚀

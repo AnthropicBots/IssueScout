@@ -2,9 +2,9 @@
 
 ## Our Pledge
 
-We, as members, contributors, and maintainers of **IssueScout**, are committed to fostering an open, welcoming, diverse, inclusive, and harassment-free community for everyone.
+We, as members, contributors, and maintainers of **IssueScout**, are committed to fostering an open, welcoming, inclusive, respectful, and harassment-free community for everyone.
 
-Participation in the project should be a positive experience regardless of:
+We pledge to make participation in our community a positive experience regardless of:
 
 - Age
 - Body size
@@ -22,32 +22,32 @@ Participation in the project should be a positive experience regardless of:
 - Sexual orientation
 - Any other personal characteristic
 
-We pledge to act and interact in ways that build a respectful, collaborative, and supportive community.
+We are committed to acting and interacting in ways that build a healthy, collaborative, and respectful open-source community.
 
 ---
 
 # Our Standards
 
-Examples of behavior that contributes to a positive environment include:
+Examples of behavior that contributes to a positive community include:
 
 - Being respectful and welcoming.
 - Using inclusive and professional language.
-- Giving and accepting constructive feedback.
-- Showing empathy toward other contributors.
+- Giving and accepting constructive feedback gracefully.
+- Showing empathy toward other community members.
 - Respecting differing viewpoints and experiences.
 - Helping newcomers learn and contribute.
-- Prioritizing collaboration over conflict.
+- Collaborating openly and professionally.
 - Focusing on what benefits the project and its community.
 
 Examples of unacceptable behavior include:
 
 - Harassment, discrimination, or hate speech.
-- Personal attacks or insulting remarks.
+- Personal attacks, insults, or derogatory remarks.
 - Trolling or intentionally disruptive behavior.
 - Publishing another person's private information without permission.
 - Threats, intimidation, or abusive conduct.
 - Deliberate misinformation.
-- Any behavior that would reasonably be considered inappropriate in a professional open-source community.
+- Any conduct that would reasonably be considered inappropriate in a professional open-source community.
 
 ---
 
@@ -57,7 +57,7 @@ Project maintainers are responsible for clarifying and enforcing this Code of Co
 
 Maintainers may remove, edit, or reject comments, commits, code, issues, pull requests, discussions, or other contributions that violate these guidelines.
 
-All enforcement decisions will be made fairly and consistently.
+All enforcement decisions will be made fairly, consistently, and in the best interest of the community.
 
 ---
 
@@ -67,9 +67,9 @@ This Code of Conduct applies to all official IssueScout community spaces, includ
 
 - GitHub Issues
 - Pull Requests
-- Discussions
+- GitHub Discussions
 - Documentation
-- Project wiki
+- Project Wiki
 - Future communication channels operated by the project
 
 It also applies whenever an individual is officially representing IssueScout in public spaces.
@@ -84,23 +84,23 @@ When reporting an incident, please include:
 
 - A description of the incident.
 - Relevant links or screenshots.
-- Steps to reproduce (if applicable).
-- Any additional context that may help the investigation.
+- Any supporting evidence.
+- Additional context that may help the investigation.
 
-Reports will be reviewed promptly and handled confidentially whenever possible.
+Reports will be reviewed promptly and handled confidentially whenever reasonably possible.
 
 ---
 
 # Enforcement Guidelines
 
-Depending on the severity of the violation, maintainers may take actions including:
+Depending on the severity and frequency of a violation, maintainers may take actions including:
 
 1. Private warning.
 2. Request to modify or remove inappropriate content.
 3. Temporary restriction from participation.
 4. Permanent removal from the community.
 
-The chosen response will be proportional to the severity and frequency of the behavior.
+Enforcement decisions will always aim to be fair, consistent, and proportionate.
 
 ---
 
@@ -108,11 +108,12 @@ The chosen response will be proportional to the severity and frequency of the be
 
 Everyone participating in IssueScout is expected to:
 
-- Treat others with respect.
-- Be patient and constructive.
+- Treat others with kindness and respect.
+- Communicate professionally.
+- Be patient with contributors of all experience levels.
 - Assume good intentions whenever reasonable.
-- Welcome contributors of all experience levels.
-- Help maintain a friendly and collaborative environment.
+- Welcome constructive discussion and collaboration.
+- Help foster an inclusive and supportive community.
 
 ---
 
@@ -124,4 +125,6 @@ https://www.contributor-covenant.org/version/2/1/code_of_conduct/
 
 ---
 
-Thank you for helping make **IssueScout** a welcoming, respectful, and inclusive open-source community for everyone. 🚀
+# Thank You
+
+Thank you for helping make **IssueScout** a welcoming, respectful, and collaborative open-source project for developers around the world. 🚀
