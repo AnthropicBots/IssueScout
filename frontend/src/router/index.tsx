@@ -15,15 +15,21 @@ export default function AppRouter() {
       fallback={<LoadingState />}
     >
       <Routes>
+        {/* Home */}
+
         <Route
           path="/"
           element={<HomePage />}
         />
 
+        {/* Issue Details */}
+
         <Route
           path="/:owner/:repo/issues/:issueNumber"
           element={<IssueDetailPage />}
         />
+
+        {/* Fallback */}
 
         <Route
           path="*"

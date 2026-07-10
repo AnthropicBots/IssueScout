@@ -7,6 +7,10 @@ from issuescout.domain.models import (
 from issuescout.services.pull_request_service import (
     PullRequestService,
 )
+
+from issuescout.core.exceptions import (
+    GitHubNotFoundError,
+)
 from issuescout.scanner.intelligence.pull_request import (
     PullRequestDiscussionCollector,
 )
@@ -28,13 +32,29 @@ class CandidatePullRequestEnricher:
         owner: str,
         repository: str,
         candidate: CandidatePullRequest,
-    ) -> CandidatePullRequestDetails:
+    ) -> CandidatePullRequestDetails | None:
 
-        pull_request = await self.pull_request_service.get_pull_request(
-            owner,
-            repository,
-            candidate.number,
-        )
+        try:
+            pull_request = await self.pull_request_service.get_pull_request(
+                owner,
+                repository,
+                candidate.number,
+            )
+
+        except GitHubNotFoundError:
+            #
+            # Candidate PR disappeared.
+            #
+            # This commonly happens when:
+            #
+            # • issue references a deleted PR
+            # • history rewrite
+            # • force push
+            # • stale timeline reference
+            #
+            # Continue scanning the repository.
+            #
+            return None
 
         files = await self.pull_request_service.get_pull_request_files(
             owner,
@@ -42,11 +62,14 @@ class CandidatePullRequestEnricher:
             candidate.number,
         )
 
-        commits = await self.pull_request_service.get_pull_request_commits(
-            owner,
-            repository,
-            candidate.number,
-        )
+        try:
+            commits = await self.pull_request_service.get_pull_request_commits(
+                owner,
+                repository,
+                candidate.number,
+            )
+        except Exception:
+            commits = []
 
         reviews = await self.pull_request_service.get_pull_request_reviews(
             owner,

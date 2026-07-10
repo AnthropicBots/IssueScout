@@ -170,9 +170,15 @@ Contributors who help improve the security of IssueScout may be acknowledged in 
 
 # 📬 Contact
 
-If a dedicated security email or private reporting channel becomes available in the future, this document will be updated.
+If you discover a security vulnerability, please report it privately rather than opening a public GitHub issue.
 
-Until then, please use the project's private maintainer communication channels for responsible disclosure.
+Until a dedicated security contact is established, please use one of the following methods:
+
+1. Open a private GitHub Security Advisory (preferred), if enabled for the repository.
+2. Contact the project maintainers through the repository's official communication channels.
+3. If neither option is available, open a regular GitHub issue **only if the report does not disclose sensitive vulnerability details** and request a private communication channel.
+
+Please avoid publishing proof-of-concept exploits or sensitive technical details until the issue has been investigated and, where appropriate, fixed.
 
 ---
 

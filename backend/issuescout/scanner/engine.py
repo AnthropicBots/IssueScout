@@ -55,7 +55,8 @@ class ScannerEngine:
         detector: GitHubLinkedPRDetector | None = None,
         pipeline: AnalysisPipeline | None = None,
         confidence: ConfidenceCalculator | None = None,
-        repository_intelligence: (RepositoryIntelligenceCollector | None) = None,
+        repository_intelligence: RepositoryIntelligenceCollector | None = None,
+        candidate_discovery: CandidatePullRequestService | None = None,
     ):
         self.fetcher = fetcher or Fetcher()
 
@@ -77,7 +78,7 @@ class ScannerEngine:
         self.repository_intelligence = (
             repository_intelligence or RepositoryIntelligenceCollector()
         )
-        self.candidate_discovery = CandidatePullRequestService()
+        self.candidate_discovery = candidate_discovery or CandidatePullRequestService()
         self.candidate_enricher = CandidatePullRequestEnricher()
         self.resolution_analyzer = ResolutionAnalyzer()
 
@@ -180,153 +181,141 @@ class ScannerEngine:
             summaries = []
 
             for issue in issues:
-                candidate_numbers = self.candidate_pool_builder.build(
-                    issue,
-                )
-
-                context.candidate_pull_request_numbers = candidate_numbers
-
-                resolved_pull_requests, missing_pull_requests = (
-                    self.candidate_resolver.resolve(
-                        candidate_numbers,
-                        context.pull_request_lookup,
-                    )
-                )
-
-                print(
-                    "Missing candidate PRs:",
-                    sorted(
-                        missing_pull_requests,
-                    ),
-                )
-
-                await self._fetch_missing_pull_requests(
-                    owner=owner,
-                    repo=repo,
-                    context=context,
-                    resolved_pull_requests=resolved_pull_requests,
-                    missing_pull_requests=missing_pull_requests,
-                )
-
-                context.candidate_pull_requests = self.candidate_ranker.rank(
-                    issue,
-                    resolved_pull_requests,
-                )
-                results = await self.pipeline.run(
-                    context,
-                    issue,
-                )
-
-                print("=" * 80)
-                print(f"Issue #{issue.number}: {issue.title}")
-                print(
-                    "Candidate PR references:",
-                    sorted(
-                        context.candidate_pull_request_numbers,
-                    ),
-                )
-                print(
-                    "Resolved candidates:",
-                    [pr.number for pr in context.candidate_pull_requests],
-                )
-
-                for result in results:
-                    print(
-                        f"{result.analyzer}: "
-                        f"passed={result.passed}, "
-                        f"score={result.score}, "
-                        f"reason={result.reason}"
+                try:
+                    candidate_numbers = self.candidate_pool_builder.build(
+                        issue,
                     )
 
-                if not all(result.passed for result in results):
-                    print("FILTERED")
-                    continue
+                    context.candidate_pull_request_numbers = candidate_numbers
 
-                print("KEPT")
-
-                linked_pr = (
-                    context.candidate_pull_requests[0]
-                    if context.candidate_pull_requests
-                    else context.linked_pr_cache.get(
-                        issue.number,
-                    )
-                )
-
-                candidate_summaries: list[CandidatePullRequestSummary] = []
-
-                discovered = await self.candidate_discovery.discover(
-                    owner,
-                    repo,
-                    issue.number,
-                    existing_numbers={
-                        pr.number for pr in context.candidate_pull_requests
-                    },
-                )
-
-                for candidate in discovered:
-                    details = await self.candidate_enricher.enrich(
-                        owner,
-                        repo,
-                        candidate,
-                    )
-
-                    analysis = self.resolution_analyzer.analyze(
-                        issue.title,
-                        issue.body,
-                        details,
-                    )
-
-                    candidate_summaries.append(
-                        CandidatePullRequestSummary(
-                            number=details.number,
-                            title=details.title,
-                            confidence=analysis.confidence,
-                            url=candidate.url,
-                            sources=sorted(candidate.sources),
-                            reasons=analysis.reasons,
-                            evidence=analysis.evidence.items,
+                    resolved_pull_requests, missing_pull_requests = (
+                        self.candidate_resolver.resolve(
+                            candidate_numbers,
+                            context.pull_request_lookup,
                         )
                     )
 
-                candidate_summaries.sort(
-                    key=lambda candidate: candidate.confidence,
-                    reverse=True,
-                )
-
-                summaries.append(
-                    IssueSummary(
-                        number=issue.number,
-                        title=issue.title,
-                        assigned=issue.assigned,
-                        assignee=issue.assignee,
-                        confidence=self.confidence.calculate(
-                            issue,
-                            results,
-                        ),
-                        linked_pr_number=(
-                            linked_pr.number if linked_pr is not None else None
-                        ),
-                        linked_pr_title=(
-                            linked_pr.title if linked_pr is not None else None
-                        ),
-                        candidate_count=len(
-                            candidate_summaries,
-                        ),
-                        candidate_pull_requests=candidate_summaries,
+                    await self._fetch_missing_pull_requests(
+                        owner=owner,
+                        repo=repo,
+                        context=context,
+                        resolved_pull_requests=resolved_pull_requests,
+                        missing_pull_requests=missing_pull_requests,
                     )
-                )
 
-                processed += 1
-
-                if progress_callback is not None:
-                    progress_callback(
-                        processed,
-                        total,
+                    context.candidate_pull_requests = self.candidate_ranker.rank(
+                        issue,
+                        resolved_pull_requests,
                     )
-            print("=" * 80)
-            print(f"Fetched issues : {len(issues)}")
-            print(f"Returned issues: {len(summaries)}")
-            print("=" * 80)
+                    results = await self.pipeline.run(
+                        context,
+                        issue,
+                    )
+
+                    if not all(result.passed for result in results):
+                        continue
+
+                    linked_pr = (
+                        context.candidate_pull_requests[0]
+                        if context.candidate_pull_requests
+                        else context.linked_pr_cache.get(
+                            issue.number,
+                        )
+                    )
+
+                    candidate_summaries: list[CandidatePullRequestSummary] = []
+
+                    try:
+                        discovered = await self.candidate_discovery.discover(
+                            owner,
+                            repo,
+                            issue.number,
+                            existing_numbers={
+                                pr.number for pr in context.candidate_pull_requests
+                            },
+                        )
+                    except Exception:
+                        # Candidate discovery is a best-effort enhancement.
+                        # If discovery fails, continue processing the issue
+                        # using the already resolved candidate pull requests.
+                        discovered = []
+
+                    for candidate in discovered:
+                        details = await self.candidate_enricher.enrich(
+                            owner,
+                            repo,
+                            candidate,
+                        )
+
+                        if details is None:
+                            continue
+
+                        analysis = self.resolution_analyzer.analyze(
+                            issue.title,
+                            issue.body,
+                            details,
+                        )
+
+                        candidate_summaries.append(
+                            CandidatePullRequestSummary(
+                                number=details.number,
+                                title=details.title,
+                                confidence=analysis.confidence,
+                                url=candidate.url,
+                                sources=sorted(candidate.sources),
+                                reasons=analysis.reasons,
+                                evidence=analysis.evidence.items,
+                            )
+                        )
+
+                    candidate_summaries.sort(
+                        key=lambda candidate: candidate.confidence,
+                        reverse=True,
+                    )
+
+                    summaries.append(
+                        IssueSummary(
+                            number=issue.number,
+                            title=issue.title,
+                            assigned=issue.assigned,
+                            assignee=issue.assignee,
+                            confidence=self.confidence.calculate(
+                                issue,
+                                results,
+                            ),
+                            linked_pr_number=(
+                                linked_pr.number if linked_pr is not None else None
+                            ),
+                            linked_pr_title=(
+                                linked_pr.title if linked_pr is not None else None
+                            ),
+                            candidate_count=len(
+                                candidate_summaries,
+                            ),
+                            candidate_pull_requests=candidate_summaries,
+                        )
+                    )
+
+                    processed += 1
+
+                    if progress_callback is not None:
+                        progress_callback(
+                            processed,
+                            total,
+                        )
+
+                except Exception as error:
+                    print(f"Failed to process issue #{issue.number}: {error}")
+
+                    processed += 1
+
+                    if progress_callback is not None:
+                        progress_callback(
+                            processed,
+                            total,
+                        )
+
+                    continue
 
             return ScanResult(
                 repository=f"{owner}/{repo}",

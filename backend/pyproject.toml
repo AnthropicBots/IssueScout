@@ -6,6 +6,30 @@ build-backend = "setuptools.build_meta"
 name = "issuescout"
 version = "0.1.0"
 description = "GitHub issue and pull request relation detection engine"
+authors = [
+    { name = "AnthropicBots" }
+]
+
+license = { text = "MIT" }
+
+keywords = [
+    "github",
+    "open-source",
+    "issue-discovery",
+    "pull-request",
+    "fastapi",
+    "react",
+    "analysis",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+
 readme = "README.md"
 requires-python = ">=3.12"
 

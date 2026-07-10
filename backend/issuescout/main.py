@@ -17,6 +17,7 @@ from issuescout.core.logging import LOGGER_NAME
 from issuescout.api.v1.docs.tags import (
     GENERAL_TAG,
 )
+from issuescout import __version__
 
 app = FastAPI(
     title="IssueScout API",
@@ -27,7 +28,7 @@ app = FastAPI(
         "metadata to help contributors discover suitable "
         "issues and understand their relationships."
     ),
-    version="0.1.0",
+    version=__version__,
     contact={
         "name": "Bhuvansh Kataria",
         "url": "https://github.com/BHUVANSH855",

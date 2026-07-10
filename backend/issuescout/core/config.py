@@ -27,6 +27,11 @@ class Settings(BaseSettings):
     GITHUB_MAX_RETRIES: int = 3
     GITHUB_RETRY_BACKOFF: float = 1.5
 
+    # Cache configuration
+    CACHE_TTL: int = 600
+
+    CACHE_MAX_SIZE: int = 1000
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

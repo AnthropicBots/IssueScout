@@ -6,6 +6,9 @@ from issuescout.application.evaluation_service import (
 from issuescout.application.prediction_service import (
     ApplicationPredictionService,
 )
+from issuescout.application.candidate_pull_request_service import (
+    CandidatePullRequestService,
+)
 from issuescout.application.repository_service import (
     ApplicationRepositoryService,
 )
@@ -54,7 +57,11 @@ class ApplicationContainer:
             default_analyzers(),
         )
 
-        self._scanner_engine = ScannerEngine()
+        self._candidate_pull_request_service = CandidatePullRequestService()
+
+        self._scanner_engine = ScannerEngine(
+            candidate_discovery=self._candidate_pull_request_service,
+        )
 
         self._repository_service = RepositoryService()
 

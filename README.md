@@ -37,6 +37,101 @@ Unlike traditional issue search tools, IssueScout explains **why** an issue is r
 
 ---
 
+# 👥 Who Is IssueScout For?
+
+IssueScout is designed for:
+
+- **Open-source contributors** looking for meaningful issues beyond repository labels.
+- **Project maintainers** who want better visibility into issue and pull request relationships.
+- **Students and newcomers** exploring real-world open-source projects.
+- **Engineering teams** interested in repository analytics and explainable contribution recommendations.
+
+---
+
+# ⚡ Quick Start
+
+Get IssueScout running locally in just a few minutes.
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/AnthropicBots/IssueScout.git
+
+cd IssueScout
+```
+
+---
+
+## Configure the Backend (Optional but Recommended)
+
+Copy the example environment file and configure your GitHub Personal Access Token.
+
+```bash
+cd backend
+
+cp .env.example .env
+```
+
+Then edit `.env` and set:
+
+```text
+GITHUB_TOKEN=your_personal_access_token
+```
+
+IssueScout works without a token, but authenticated requests provide significantly higher GitHub API rate limits.
+
+---
+
+## 2. Start the Backend
+
+```bash
+cd backend
+
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# Linux / macOS
+source .venv/bin/activate
+
+pip install -e .
+
+uvicorn issuescout.main:app --reload
+```
+
+Backend:
+
+```
+http://127.0.0.1:8000
+```
+
+Swagger:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## 3. Start the Frontend
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend:
+
+```
+http://localhost:5173
+```
+
+---
+
 # 🎬 Demo
 
 > **Repository → Analysis → Prediction → Confidence → Contribution**
@@ -139,70 +234,6 @@ Interactive Dashboard
 - ✅ Production-ready architecture
 - 📚 Comprehensive documentation
 - 🔄 Continuous integration support
-
----
-
-# ⚡ Quick Start
-
-Get IssueScout running locally in just a few minutes.
-
-## 1. Clone the Repository
-
-```bash
-git clone https://github.com/AnthropicBots/IssueScout.git
-
-cd IssueScout
-```
-
----
-
-## 2. Start the Backend
-
-```bash
-cd backend
-
-python -m venv .venv
-
-# Windows
-.venv\Scripts\activate
-
-# Linux / macOS
-source .venv/bin/activate
-
-pip install -e .
-
-uvicorn issuescout.main:app --reload
-```
-
-Backend:
-
-```
-http://127.0.0.1:8000
-```
-
-Swagger:
-
-```
-http://127.0.0.1:8000/docs
-```
-
----
-
-## 3. Start the Frontend
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
-Frontend:
-
-```
-http://localhost:5173
-```
 
 ---
 
@@ -428,7 +459,7 @@ IssueScout
 
 ---
 
-# ⚡ Installation
+# 🔧 Advanced Setup
 
 ## Requirements
 
@@ -559,7 +590,7 @@ GITHUB_TOKEN=your_personal_access_token
 
 ---
 
-# ▶️ Running IssueScout
+# ▶️ Running After Installation
 
 ## Backend
 
@@ -1026,6 +1057,16 @@ This ensures every change merged into the project satisfies the same quality sta
 
 ---
 
+## Development Tools
+
+- Pre-commit
+- GitHub Actions
+- MyPy
+- Ruff
+- ESLint
+
+---
+
 ## External APIs
 
 - GitHub REST API
@@ -1095,7 +1136,7 @@ Every recommendation is supported by evidence and confidence scoring, helping co
 
 # 📈 Project Status
 
-IssueScout has reached its first production release.
+IssueScout is feature complete for its planned v1.0 release and is undergoing final quality polishing before release.
 
 | Component | Status |
 |-----------|--------|
@@ -1228,15 +1269,18 @@ All checks should pass before opening a pull request.
 
 # 📚 Documentation
 
-Additional documentation is available in the **docs/** directory.
+The following documents provide a deeper understanding of IssueScout's architecture and implementation:
 
-- API.md
-- ARCHITECTURE.md
-- BACKEND.md
-- SCANNER.md
-- CONTRIBUTING.md
-- CHANGELOG.md
-- ROADMAP.md
+- `docs/API.md` — REST API reference.
+- `docs/ARCHITECTURE.md` — Overall system architecture.
+- `docs/BACKEND.md` — Backend implementation details.
+- `docs/SCANNER.md` — Scanner pipeline and relation engine.
+
+Additional project resources include:
+
+- `CONTRIBUTING.md`
+- `CHANGELOG.md`
+- `ROADMAP.md`
 
 ---
 
@@ -1279,13 +1323,9 @@ Project Lead
 
 **Bhuvansh Kataria**
 
-GitHub
+GitHub: https://github.com/BHUVANSH855
 
-https://github.com/BHUVANSH855
-
-Organization
-
-https://github.com/AnthropicBots
+Organization: https://github.com/AnthropicBots
 
 ---
 

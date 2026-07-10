@@ -12,6 +12,12 @@ from issuescout.services.issue_service import (
 from issuescout.services.timeline_service import (
     TimelineService,
 )
+from issuescout.scanner.relationships import (
+    RelationshipEngine,
+)
+from issuescout.models.relationships import (
+    RelationshipTarget,
+)
 from issuescout.utils.github_reference_parser import (
     extract_candidate_pull_request_numbers,
 )
@@ -27,6 +33,8 @@ class CandidatePullRequestService:
         self.issue_service = IssueService()
         self.comment_service = CommentService()
         self.timeline_service = TimelineService()
+
+        self.relationships = RelationshipEngine()
 
     async def discover(
         self,
@@ -55,7 +63,32 @@ class CandidatePullRequestService:
         )
 
         discovered: dict[int, set[str]] = {}
+
         existing_numbers = existing_numbers or set()
+
+        relationships = self.relationships.collect(
+            body=issue.get("body"),
+            comments=comments,
+            timeline=timeline,
+        )
+
+        for relationship in relationships:
+            if relationship.target == RelationshipTarget.ISSUE:
+                continue
+
+            discovered.setdefault(
+                relationship.number,
+                set(),
+            ).add(
+                relationship.source.value,
+            )
+
+        #
+        # Backwards compatibility.
+        #
+        # Keep the legacy extraction until the
+        # new relationship engine fully replaces it.
+        #
 
         self._collect(
             discovered,

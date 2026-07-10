@@ -29,10 +29,20 @@ export default function IssueDetailPage() {
   const location = useLocation();
 
   const issue = location.state?.issue;
-  const owner = location.state?.owner;
-  const repo = location.state?.repo;
 
-  if (!issue) {
+  const owner =
+    location.state?.owner ??
+    issue?.repository_owner ??
+    issue?.owner ??
+    "";
+
+  const repo =
+    location.state?.repo ??
+    issue?.repository_name ??
+    issue?.repository ??
+    "";
+
+  if (!issue || !owner || !repo) {
     return (
       <PageContainer>
         <div className="mx-auto max-w-2xl">
@@ -300,7 +310,7 @@ export default function IssueDetailPage() {
               </div>
 
               <div className="border-t border-white/10 bg-white/5 p-8">
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                   <a
                     href={issueUrl(
                       owner,
@@ -309,7 +319,7 @@ export default function IssueDetailPage() {
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 rounded-2xl bg-white px-7 py-4 font-semibold text-slate-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                    className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 font-semibold text-slate-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:w-auto"
                   >
                     <ExternalLink size={20} />
 
@@ -325,7 +335,7 @@ export default function IssueDetailPage() {
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-7 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                      className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:w-auto"
                     >
                       <ExternalLink size={20} />
 
@@ -335,7 +345,7 @@ export default function IssueDetailPage() {
 
                   <Link
                     to="/"
-                    className="inline-flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:bg-white/20"
+                    className="inline-flex w-full items-center justify-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-6 py-4 font-semibold text-white backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:bg-white/20 sm:w-auto"
                   >
                     <ArrowLeft size={20} />
 

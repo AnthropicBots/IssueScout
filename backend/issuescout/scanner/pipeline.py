@@ -1,7 +1,10 @@
+import logging
 from issuescout.models import (
     Issue,
     RepositoryScanContext,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class AnalysisPipeline:
@@ -22,7 +25,10 @@ class AnalysisPipeline:
                     issue,
                 )
             except Exception:
-                # Skip failed analyzers and continue with the remaining ones.
+                logger.exception(
+                    "Analyzer '%s' failed.",
+                    analyzer.__class__.__name__,
+                )
                 continue
 
             results.append(result)
