@@ -32,7 +32,7 @@ export default function Card({
   return (
     <div
       className={clsx(
-        "overflow-hidden rounded-[1.75rem] transition-all duration-300 ease-out",
+        "overflow-hidden rounded-3xl transition-all duration-300 ease-out",
 
         {
           // Default
@@ -57,7 +57,7 @@ export default function Card({
 
           // Hover
 
-          "hover:-translate-y-1 hover:border-blue-100 hover:shadow-2xl":
+          "hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-xl":
             hover,
 
           // Clickable
@@ -67,13 +67,13 @@ export default function Card({
 
           // Padding
 
-          "p-5":
+          "p-4":
             padding === "sm",
 
-          "p-7":
+          "p-5":
             padding === "md",
 
-          "p-9":
+          "p-6":
             padding === "lg",
         },
 

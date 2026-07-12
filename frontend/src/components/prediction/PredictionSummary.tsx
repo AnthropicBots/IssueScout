@@ -20,51 +20,64 @@ export default function PredictionSummary({
   linkedPR,
 }: PredictionSummaryProps) {
   return (
-    <section className="mt-4 space-y-8">
-      {/* Header */}
+    <section className="space-y-6">
 
-      <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white shadow-[0_25px_60px_rgba(15,23,42,0.20)]">
-        <div className="flex flex-col gap-8 p-8 lg:flex-row lg:items-center lg:justify-between lg:p-10">
+      {/* Compact Header */}
+
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-white/10 px-4 py-2 text-sm font-semibold text-cyan-200 backdrop-blur">
+
+            <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+
               <Brain size={16} />
 
               AI Prediction Engine
+
             </div>
 
-            <h2 className="mt-5 text-4xl font-black tracking-tight">
+            <h2 className="mt-4 text-3xl font-black text-slate-900">
               Prediction Analysis
             </h2>
 
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
-              IssueScout evaluates repository activity,
-              issue metadata, contributor information,
-              and pull request relationships to generate
-              intelligent confidence scores and
-              actionable recommendations.
+            <p className="mt-3 max-w-2xl text-slate-600">
+              Repository intelligence generated from issue
+              metadata, pull request relationships,
+              contributor activity and repository signals.
             </p>
+
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/10 px-8 py-6 text-center backdrop-blur">
-            <p className="text-sm uppercase tracking-[0.2em] text-slate-300">
-              AI Confidence
-            </p>
+          <div className="rounded-3xl bg-gradient-to-br from-blue-600 to-cyan-500 px-8 py-6 text-center text-white shadow-lg">
 
-            <h3 className="mt-2 text-5xl font-black text-cyan-300">
-              {confidence}%
-            </h3>
-
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-cyan-400/20 px-4 py-2 text-sm font-semibold text-cyan-200">
-              <Sparkles size={16} />
-              Repository Intelligence
+            <div className="text-sm uppercase tracking-widest opacity-80">
+              Confidence
             </div>
+
+            <div className="mt-2 text-5xl font-black">
+              {confidence}%
+            </div>
+
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm">
+
+              <Sparkles size={15} />
+
+              AI Prediction
+
+            </div>
+
           </div>
+
         </div>
+
       </div>
 
-      {/* Analysis Cards */}
+      {/* Dashboard */}
 
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid gap-5 xl:grid-cols-2">
+
         <PredictionScore
           confidence={confidence}
         />
@@ -83,7 +96,9 @@ export default function PredictionSummary({
           assigned={assigned}
           linkedPR={linkedPR}
         />
+
       </div>
+
     </section>
   );
 }

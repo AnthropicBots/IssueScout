@@ -1,3 +1,8 @@
+import {
+  Brain,
+  Sparkles,
+} from "lucide-react";
+
 interface ConfidenceGaugeProps {
   value: number;
 }
@@ -5,119 +10,156 @@ interface ConfidenceGaugeProps {
 export default function ConfidenceGauge({
   value,
 }: ConfidenceGaugeProps) {
-  const {
-    textColor,
-    strokeColor,
-    badgeColor,
-    label,
-  } =
+
+  const level =
     value >= 90
       ? {
-          textColor: "text-emerald-600",
-          strokeColor: "#10b981",
-          badgeColor:
-            "bg-emerald-100 text-emerald-700",
           label: "Excellent",
+          color: "text-emerald-600",
+          badge:
+            "bg-emerald-100 text-emerald-700",
+          progress:
+            "from-emerald-500 to-green-500",
         }
       : value >= 70
       ? {
-          textColor: "text-blue-600",
-          strokeColor: "#2563eb",
-          badgeColor:
-            "bg-blue-100 text-blue-700",
           label: "High",
+          color: "text-blue-600",
+          badge:
+            "bg-blue-100 text-blue-700",
+          progress:
+            "from-blue-500 to-cyan-500",
         }
       : value >= 50
       ? {
-          textColor: "text-amber-600",
-          strokeColor:
-            "#f59e0b",
-          badgeColor:
-            "bg-amber-100 text-amber-700",
           label: "Medium",
+          color: "text-amber-600",
+          badge:
+            "bg-amber-100 text-amber-700",
+          progress:
+            "from-amber-500 to-orange-500",
         }
       : {
-          textColor: "text-red-600",
-          strokeColor: "#ef4444",
-          badgeColor:
-            "bg-red-100 text-red-700",
           label: "Low",
+          color: "text-red-600",
+          badge:
+            "bg-red-100 text-red-700",
+          progress:
+            "from-red-500 to-rose-500",
         };
 
-  const radius = 56;
-  const circumference =
-    2 * Math.PI * radius;
-
-  const progress =
-    circumference -
-    (value / 100) * circumference;
-
   return (
-    <div className="flex flex-col items-center">
-      <div className="mb-6 text-center">
-        <h3 className="text-xl font-bold text-slate-900">
-          Confidence Score
-        </h3>
 
-        <p className="mt-2 text-sm text-slate-500">
-          Average AI prediction confidence
-        </p>
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+
+      {/* Header */}
+
+      <div className="flex items-center justify-between">
+
+        <div className="flex items-center gap-3">
+
+          <div className="rounded-2xl bg-blue-100 p-3">
+
+            <Brain
+              size={20}
+              className="text-blue-600"
+            />
+
+          </div>
+
+          <div>
+
+            <h3 className="font-bold text-slate-900">
+              Confidence
+            </h3>
+
+            <p className="text-sm text-slate-500">
+              AI Prediction Score
+            </p>
+
+          </div>
+
+        </div>
+
+        <div
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${level.badge}`}
+        >
+          {level.label}
+        </div>
+
       </div>
 
-      <div className="relative">
-        <svg
-          width="160"
-          height="160"
-          className="-rotate-90"
-        >
-          <circle
-            cx="80"
-            cy="80"
-            r={radius}
-            fill="none"
-            stroke="#e2e8f0"
-            strokeWidth="12"
-          />
+      {/* Score */}
 
-          <circle
-            cx="80"
-            cy="80"
-            r={radius}
-            fill="none"
-            stroke={strokeColor}
-            strokeWidth="12"
-            strokeLinecap="round"
-            strokeDasharray={
-              circumference
-            }
-            strokeDashoffset={
-              progress
-            }
+      <div className="mt-8 text-center">
+
+        <div
+          className={`text-6xl font-black ${level.color}`}
+        >
+          {value}%
+        </div>
+
+        <p className="mt-2 text-slate-500">
+          Repository Confidence
+        </p>
+
+      </div>
+
+      {/* Progress */}
+
+      <div className="mt-8">
+
+        <div className="mb-2 flex justify-between text-sm text-slate-500">
+
+          <span>0%</span>
+
+          <span>100%</span>
+
+        </div>
+
+        <div className="h-3 overflow-hidden rounded-full bg-slate-200">
+
+          <div
+            className={`h-full rounded-full bg-gradient-to-r ${level.progress} transition-all duration-700`}
             style={{
-              transition:
-                "stroke-dashoffset 700ms ease",
+              width: `${value}%`,
             }}
           />
-        </svg>
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <h2
-            className={`text-4xl font-black ${textColor}`}
-          >
-            {value}%
-          </h2>
-
-          <p className="mt-1 text-sm font-medium text-slate-500">
-            Confidence
-          </p>
         </div>
+
       </div>
 
-      <div
-        className={`mt-8 rounded-full px-5 py-2 text-sm font-semibold ${badgeColor}`}
-      >
-        {label}
+      {/* Footer */}
+
+      <div className="mt-8 rounded-2xl bg-slate-50 p-4">
+
+        <div className="flex items-center gap-2">
+
+          <Sparkles
+            size={18}
+            className="text-blue-600"
+          />
+
+          <span className="font-semibold text-slate-700">
+            AI Repository Intelligence
+          </span>
+
+        </div>
+
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+
+          Confidence combines repository activity,
+          issue metadata, pull request relationships,
+          contributor information and historical
+          repository signals.
+
+        </p>
+
       </div>
+
     </div>
+
   );
+
 }

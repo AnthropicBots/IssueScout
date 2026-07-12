@@ -1,60 +1,161 @@
 import {
   ArrowLeft,
+  Calendar,
+  ExternalLink,
+  FolderGit2,
   GitBranch,
+  User,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface IssueHeaderProps {
   issueNumber: number;
   title: string;
+  owner?: string;
+  repository?: string;
+  author?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+function formatDate(date?: string) {
+  if (!date) return "-";
+
+  return new Date(date).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 }
 
 export default function IssueHeader({
   issueNumber,
   title,
+  owner,
+  repository,
+  author,
+  createdAt,
+  updatedAt,
 }: IssueHeaderProps) {
+  const issueUrl =
+    owner && repository
+      ? `https://github.com/${owner}/${repository}/issues/${issueNumber}`
+      : undefined;
+
   return (
-    <section className="mb-10">
-      <Link
-        to="/"
-        className="group mb-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:-translate-x-1 hover:border-blue-200 hover:text-blue-600 hover:shadow-md"
-      >
-        <ArrowLeft
-          size={18}
-          className="transition-transform duration-200 group-hover:-translate-x-1"
-        />
+    <section className="mb-8">
 
-        Back to Repository
-      </Link>
+      {/* Top Actions */}
 
-      <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white shadow-[0_30px_70px_rgba(15,23,42,0.25)]">
-        <div className="flex flex-col gap-8 p-8 lg:flex-row lg:items-center lg:justify-between lg:p-10">
-          <div className="min-w-0 flex-1">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-white/10 px-4 py-2 text-sm font-semibold text-cyan-200 backdrop-blur">
-              <GitBranch size={16} />
+      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+        <Link
+          to="/"
+          className="inline-flex w-fit items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 font-semibold text-slate-700 shadow-sm transition hover:border-blue-200 hover:text-blue-600 hover:shadow-md"
+        >
+          <ArrowLeft size={18} />
+          Back to Repository
+        </Link>
+
+        <div className="flex flex-wrap gap-3">
+
+          {issueUrl && (
+            <a
+              href={issueUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 font-semibold text-slate-800 shadow-sm transition hover:border-blue-200 hover:text-blue-600 hover:shadow-md"
+            >
+              <ExternalLink size={18} />
+              Open on GitHub
+            </a>
+          )}
+
+        </div>
+
+      </div>
+
+      {/* Hero */}
+
+      <div className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+
+        <div className="grid gap-8 p-8 lg:grid-cols-[1.7fr_1fr]">
+
+          {/* Left */}
+
+          <div>
+
+            <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+              <GitBranch size={15} />
               GitHub Issue Analysis
             </div>
 
-            <h1 className="text-4xl font-black tracking-tight lg:text-5xl">
+            <h1 className="mt-5 text-4xl font-black text-slate-900">
               Issue #{issueNumber}
             </h1>
 
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">
+            <p className="mt-4 max-w-3xl text-lg text-slate-600">
               {title}
             </p>
+
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white/10 px-8 py-6 text-center backdrop-blur">
-            <p className="text-sm uppercase tracking-[0.2em] text-slate-300">
-              Issue ID
-            </p>
+          {/* Right */}
 
-            <h2 className="mt-2 text-5xl font-black text-cyan-300">
-              #{issueNumber}
-            </h2>
+          <div className="grid grid-cols-2 gap-5">
+
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                <FolderGit2 size={16} />
+                Repository
+              </div>
+
+              <p className="mt-2 font-bold text-slate-900">
+                {owner && repository
+                  ? `${owner}/${repository}`
+                  : "-"}
+              </p>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                <User size={16} />
+                Author
+              </div>
+
+              <p className="mt-2 font-bold text-slate-900">
+                {author ?? "-"}
+              </p>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                <Calendar size={16} />
+                Created
+              </div>
+
+              <p className="mt-2 font-bold text-slate-900">
+                {formatDate(createdAt)}
+              </p>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                <Calendar size={16} />
+                Updated
+              </div>
+
+              <p className="mt-2 font-bold text-slate-900">
+                {formatDate(updatedAt)}
+              </p>
+            </div>
+
           </div>
+
         </div>
+
       </div>
+
     </section>
   );
 }

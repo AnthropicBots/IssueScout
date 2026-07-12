@@ -2,7 +2,6 @@ import {
   ArrowLeft,
   ExternalLink,
   GitPullRequest,
-  Sparkles,
   User,
 } from "lucide-react";
 
@@ -87,45 +86,87 @@ export default function IssueDetailPage() {
       <IssueHeader
         issueNumber={issue.number}
         title={issue.title}
+        owner={owner}
+        repository={repo}
+        author={issue.author}
+        createdAt={issue.created_at}
+        updatedAt={issue.updated_at}
       />
 
-      {/* Hero */}
+      <div className="mb-8 grid gap-4 md:grid-cols-4">
 
-      <div className="mb-10 overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white shadow-[0_30px_70px_rgba(15,23,42,0.25)]">
-        <div className="grid gap-10 p-10 lg:grid-cols-[1.5fr_auto] lg:items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-white/10 px-4 py-2 text-sm font-semibold text-cyan-200 backdrop-blur">
-              <Sparkles size={16} />
+        <Card
+          padding="sm"
+          hover={false}
+        >
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Confidence
+          </p>
 
-              Issue Intelligence
-            </div>
+          <h3 className="mt-2 text-3xl font-black text-blue-600">
+            {issue.confidence}%
+          </h3>
 
-            <h1 className="mt-6 text-5xl font-black leading-tight tracking-tight">
-              Repository Issue
-            </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            AI Prediction
+          </p>
+        </Card>
 
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">
-              Review assignment status, confidence score,
-              linked pull requests, repository intelligence,
-              and AI-generated recommendations before
-              contributing.
-            </p>
-          </div>
+        <Card
+          padding="sm"
+          hover={false}
+        >
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Assignment
+          </p>
 
-          <div className="rounded-3xl border border-white/10 bg-white/10 px-8 py-7 text-center backdrop-blur">
-            <p className="text-sm uppercase tracking-[0.2em] text-slate-300">
-              Confidence
-            </p>
+          <h3 className="mt-2 text-xl font-bold text-slate-900">
+            {issue.assigned
+              ? "Assigned"
+              : "Open"}
+          </h3>
 
-            <h2 className="mt-2 text-6xl font-black text-cyan-300">
-              {issue.confidence}%
-            </h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Contributor Status
+          </p>
+        </Card>
 
-            <div className="mt-5 rounded-full bg-cyan-400/20 px-4 py-2 text-sm font-semibold text-cyan-200">
-              AI Prediction
-            </div>
-          </div>
-        </div>
+        <Card
+          padding="sm"
+          hover={false}
+        >
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Linked PR
+          </p>
+
+          <h3 className="mt-2 text-xl font-bold text-slate-900">
+            {issue.linked_pr_number
+              ? `#${issue.linked_pr_number}`
+              : "None"}
+          </h3>
+
+          <p className="mt-1 text-sm text-slate-500">
+            Relationship
+          </p>
+        </Card>
+
+        <Card
+          padding="sm"
+          hover={false}
+        >
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Repository
+          </p>
+
+          <h3 className="mt-2 text-xl font-bold text-slate-900 truncate">
+            {repo}
+          </h3>
+
+          <p className="mt-1 text-sm text-slate-500">
+            {owner}
+          </p>
+        </Card>
+
       </div>
 
       <Section>
@@ -268,92 +309,111 @@ export default function IssueDetailPage() {
               )}
             />
 
-            {/* GitHub Actions */}
+            {/* GitHub Resources */}
 
-            <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white shadow-[0_20px_60px_rgba(15,23,42,0.20)]">
-              <div className="grid gap-8 p-8 lg:grid-cols-[1fr_auto] lg:items-center">
+            <Card className="border border-slate-200">
+
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+
                 <div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-white/10 px-4 py-2 text-sm font-semibold text-cyan-200 backdrop-blur">
-                    <Sparkles size={16} />
 
+                  <h3 className="text-2xl font-bold text-slate-900">
                     GitHub Resources
-                  </div>
-
-                  <h3 className="mt-5 text-3xl font-black tracking-tight">
-                    Continue Your Investigation
                   </h3>
 
-                  <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
-                    Open the original GitHub issue,
-                    inspect the linked pull request,
-                    review discussions, and verify the
-                    repository activity before starting
-                    your contribution.
+                  <p className="mt-2 max-w-2xl text-slate-600">
+                    Continue investigating this issue directly on GitHub,
+                    inspect pull requests, repository activity and discussions.
                   </p>
+
                 </div>
 
-                <div className="hidden lg:block">
-                  <div className="rounded-3xl border border-white/10 bg-white/10 px-8 py-7 text-center backdrop-blur">
-                    <p className="text-sm uppercase tracking-[0.2em] text-slate-300">
-                      Issue
-                    </p>
+                <div className="rounded-2xl bg-slate-100 px-5 py-3">
 
-                    <h3 className="mt-2 text-5xl font-black text-cyan-300">
-                      #{issue.number}
-                    </h3>
+                  <p className="text-xs uppercase tracking-wider text-slate-500">
+                    Repository
+                  </p>
 
-                    <p className="mt-2 text-sm text-slate-300">
-                      GitHub Repository
-                    </p>
-                  </div>
+                  <p className="mt-1 font-bold text-slate-900">
+                    {owner}/{repo}
+                  </p>
+
                 </div>
+
               </div>
 
-              <div className="border-t border-white/10 bg-white/5 p-8">
-                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+              <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+
+                {/* Open Issue */}
+
+                <a
+                  href={issueUrl(owner, repo, issue.number)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-6 py-4 font-semibold text-white transition hover:bg-slate-800"
+                >
+                  <ExternalLink size={18} />
+
+                  Open Issue
+                </a>
+
+                {/* Pull Request */}
+
+                {issue.linked_pr_number ? (
+
                   <a
-                    href={issueUrl(
+                    href={pullRequestUrl(
                       owner,
                       repo,
-                      issue.number,
+                      issue.linked_pr_number,
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 font-semibold text-slate-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:w-auto"
+                    className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700"
                   >
-                    <ExternalLink size={20} />
+                    <ExternalLink size={18} />
 
-                    Open Issue on GitHub
+                    Open Pull Request
                   </a>
 
-                  {issue.linked_pr_number && (
-                    <a
-                      href={pullRequestUrl(
-                        owner,
-                        repo,
-                        issue.linked_pr_number,
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl sm:w-auto"
-                    >
-                      <ExternalLink size={20} />
+                ) : (
 
-                      Open Linked Pull Request
-                    </a>
-                  )}
-
-                  <Link
-                    to="/"
-                    className="inline-flex w-full items-center justify-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-6 py-4 font-semibold text-white backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:bg-white/20 sm:w-auto"
+                  <button
+                    disabled
+                    className="cursor-not-allowed rounded-2xl bg-slate-200 px-6 py-4 font-semibold text-slate-500"
                   >
-                    <ArrowLeft size={20} />
+                    No Linked PR
+                  </button>
 
-                    Back to Repository
-                  </Link>
-                </div>
+                )}
+
+                {/* Repository */}
+
+                <a
+                  href={`https://github.com/${owner}/${repo}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-800 transition hover:border-blue-500 hover:text-blue-600"
+                >
+                  <ExternalLink size={18} />
+
+                  Repository
+                </a>
+
+                {/* Back */}
+
+                <Link
+                  to="/"
+                  className="flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-800 transition hover:border-blue-500 hover:text-blue-600"
+                >
+                  <ArrowLeft size={18} />
+
+                  Back
+                </Link>
+
               </div>
-            </div>
+
+            </Card>
 
           </div>
         </Card>

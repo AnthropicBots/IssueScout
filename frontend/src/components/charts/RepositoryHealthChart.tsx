@@ -1,6 +1,7 @@
 import {
   Activity,
   CheckCircle2,
+  HeartPulse,
   TrendingUp,
 } from "lucide-react";
 
@@ -11,136 +12,208 @@ interface RepositoryHealthChartProps {
 export default function RepositoryHealthChart({
   score,
 }: RepositoryHealthChartProps) {
-  const {
-    level,
-    progressColor,
-    badgeColor,
-    icon,
-  } =
+  const health =
     score >= 90
       ? {
-          level: "Excellent",
-          progressColor:
-            "from-emerald-500 to-green-600",
-          badgeColor:
-            "bg-emerald-100 text-emerald-700",
+          label: "Excellent",
           icon: (
             <CheckCircle2
-              size={20}
+              size={18}
               className="text-emerald-600"
             />
           ),
+          badge:
+            "bg-emerald-100 text-emerald-700",
+          progress:
+            "from-emerald-500 to-green-500",
+          description:
+            "Repository is healthy and contributor friendly.",
         }
       : score >= 70
       ? {
-          level: "Good",
-          progressColor:
-            "from-blue-500 to-cyan-500",
-          badgeColor:
-            "bg-blue-100 text-blue-700",
+          label: "Good",
           icon: (
             <TrendingUp
-              size={20}
+              size={18}
               className="text-blue-600"
             />
           ),
+          badge:
+            "bg-blue-100 text-blue-700",
+          progress:
+            "from-blue-500 to-cyan-500",
+          description:
+            "Repository shows healthy contribution activity.",
         }
-      : {
-          level: "Needs Review",
-          progressColor:
-            "from-amber-500 to-orange-500",
-          badgeColor:
-            "bg-amber-100 text-amber-700",
+      : score >= 50
+      ? {
+          label: "Needs Review",
           icon: (
             <Activity
-              size={20}
+              size={18}
               className="text-amber-600"
             />
           ),
+          badge:
+            "bg-amber-100 text-amber-700",
+          progress:
+            "from-amber-500 to-orange-500",
+          description:
+            "Repository is active but requires additional review.",
+        }
+      : {
+          label: "Low",
+          icon: (
+            <HeartPulse
+              size={18}
+              className="text-red-600"
+            />
+          ),
+          badge:
+            "bg-red-100 text-red-700",
+          progress:
+            "from-red-500 to-rose-500",
+          description:
+            "Repository requires manual inspection before contribution.",
         };
 
   return (
-    <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-lg">
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+
       {/* Header */}
 
-      <div className="mb-6">
-        <h3 className="text-xl font-bold text-slate-900">
-          Repository Health
-        </h3>
+      <div className="flex items-center gap-3">
 
-        <p className="mt-2 text-sm text-slate-500">
-          Overall health based on IssueScout's repository
-          analysis.
-        </p>
+        <div className="rounded-2xl bg-blue-100 p-3">
+
+          <HeartPulse
+            size={20}
+            className="text-blue-600"
+          />
+
+        </div>
+
+        <div>
+
+          <h3 className="font-bold text-slate-900">
+            Repository Health
+          </h3>
+
+          <p className="text-sm text-slate-500">
+            Overall repository quality
+          </p>
+
+        </div>
+
       </div>
 
       {/* Score */}
 
-      <div className="mb-8 text-center">
-        <div className="text-5xl font-black tracking-tight text-slate-900">
+      <div className="mt-8 text-center">
+
+        <div className="text-6xl font-black text-slate-900">
+
           {score}%
+
         </div>
 
         <div
-          className={`mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ${badgeColor}`}
+          className={`mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ${health.badge}`}
         >
-          {icon}
-          {level}
+
+          {health.icon}
+
+          {health.label}
+
         </div>
+
       </div>
 
       {/* Progress */}
 
-      <div>
-        <div className="mb-3 flex items-center justify-between text-sm font-medium text-slate-500">
+      <div className="mt-8">
+
+        <div className="mb-2 flex justify-between text-sm text-slate-500">
+
           <span>Health Score</span>
 
           <span>{score}%</span>
+
         </div>
 
-        <div className="overflow-hidden rounded-full bg-slate-200">
+        <div className="h-3 overflow-hidden rounded-full bg-slate-200">
+
           <div
-            className={`h-4 rounded-full bg-gradient-to-r ${progressColor} transition-all duration-700`}
+            className={`h-full rounded-full bg-gradient-to-r ${health.progress} transition-all duration-700`}
             style={{
               width: `${score}%`,
             }}
           />
+
         </div>
+
       </div>
 
-      {/* Legend */}
+      {/* Summary */}
 
-      <div className="mt-8 grid grid-cols-3 gap-3 text-center">
-        <div className="rounded-xl bg-red-50 p-3">
-          <div className="text-xs font-semibold uppercase tracking-wide text-red-600">
-            Low
-          </div>
+      <div className="mt-8 rounded-2xl bg-slate-50 p-4">
 
-          <div className="mt-1 text-sm text-slate-600">
-            0–69%
-          </div>
-        </div>
+        <p className="font-semibold text-slate-900">
 
-        <div className="rounded-xl bg-blue-50 p-3">
-          <div className="text-xs font-semibold uppercase tracking-wide text-blue-600">
-            Good
-          </div>
+          {health.label}
 
-          <div className="mt-1 text-sm text-slate-600">
-            70–89%
-          </div>
-        </div>
+        </p>
 
-        <div className="rounded-xl bg-green-50 p-3">
-          <div className="text-xs font-semibold uppercase tracking-wide text-green-600">
-            Excellent
-          </div>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
 
-          <div className="mt-1 text-sm text-slate-600">
-            90–100%
-          </div>
-        </div>
+          {health.description}
+
+        </p>
+
       </div>
+
+      {/* Quick Metrics */}
+
+      <div className="mt-6 grid grid-cols-3 gap-3">
+
+        <div className="rounded-xl bg-slate-50 p-3 text-center">
+
+          <div className="text-xs uppercase tracking-wide text-slate-500">
+            Stability
+          </div>
+
+          <div className="mt-1 font-bold text-slate-900">
+            High
+          </div>
+
+        </div>
+
+        <div className="rounded-xl bg-slate-50 p-3 text-center">
+
+          <div className="text-xs uppercase tracking-wide text-slate-500">
+            Activity
+          </div>
+
+          <div className="mt-1 font-bold text-slate-900">
+            Active
+          </div>
+
+        </div>
+
+        <div className="rounded-xl bg-slate-50 p-3 text-center">
+
+          <div className="text-xs uppercase tracking-wide text-slate-500">
+            AI Status
+          </div>
+
+          <div className="mt-1 font-bold text-slate-900">
+            Ready
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   );
 }
