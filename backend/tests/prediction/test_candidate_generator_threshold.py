@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 from issuescout.models import Issue, PullRequest
 from issuescout.prediction.candidate_generator import CandidateGenerator
@@ -11,7 +11,12 @@ def test_branch_name_matching_issue_number():
         number=123,
         title="Improve docs",
         author="alice",
-        created_at=datetime(2024, 1, 1),
+        created_at=datetime(
+            2024,
+            1,
+            1,
+            tzinfo=UTC,
+        ),
     )
 
     pr = PullRequest(
@@ -20,7 +25,12 @@ def test_branch_name_matching_issue_number():
         body="",
         branch_name="feature/123-docs",
         author="bob",
-        created_at=datetime(2024, 1, 2),
+        created_at=datetime(
+            2024,
+            1,
+            2,
+            tzinfo=UTC,
+        ),
     )
 
     candidates = generator.generate(

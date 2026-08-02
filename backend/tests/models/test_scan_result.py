@@ -1,12 +1,10 @@
-from issuescout.models.scan_result import (
-    IssueSummary,
-    ScanResult,
+from issuescout.evidence.model import (
+    EvidenceItem,
 )
 from issuescout.models.scan_result import (
     CandidatePullRequestSummary,
-)
-from issuescout.evidence.model import (
-    EvidenceItem,
+    IssueSummary,
+    ScanResult,
 )
 
 

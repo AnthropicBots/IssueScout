@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import asyncio
-from pathlib import Path
 import json
+from pathlib import Path
+
 from issuescout.evaluation.dataset.builder import DatasetBuilder
 from issuescout.evaluation.dataset.generator import DatasetGenerator
 

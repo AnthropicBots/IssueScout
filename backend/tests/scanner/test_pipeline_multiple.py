@@ -5,7 +5,6 @@ from issuescout.models import (
     RepositoryScanContext,
 )
 from issuescout.scanner.pipeline import AnalysisPipeline
-
 from tests.helpers.factories import (
     make_issue,
 )

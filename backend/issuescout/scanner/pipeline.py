@@ -1,4 +1,5 @@
 import logging
+
 from issuescout.models import (
     Issue,
     RepositoryScanContext,

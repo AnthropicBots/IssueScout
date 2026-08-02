@@ -37,10 +37,7 @@ class GroundTruthCollector(BaseGroundTruthCollector):
             return None
 
         return datetime.fromisoformat(
-            value.replace(
-                "Z",
-                "+00:00",
-            )
+            value,
         )
 
     async def collect(

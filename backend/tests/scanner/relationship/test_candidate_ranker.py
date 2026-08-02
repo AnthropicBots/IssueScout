@@ -1,7 +1,6 @@
 from issuescout.scanner.ranking import (
     CandidateRanker,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

@@ -3,11 +3,9 @@ import pytest
 from issuescout.prediction.analysis_service import (
     AnalysisService,
 )
-
 from issuescout.scanner.relation.result import (
     RelationResult,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

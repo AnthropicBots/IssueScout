@@ -1,13 +1,12 @@
 from issuescout.models.analysis import (
     RelationPrediction,
 )
-from issuescout.scanner.relation.result import (
-    RelationResult,
-)
 from issuescout.prediction.confidence_service import (
     ConfidenceService,
 )
-
+from issuescout.scanner.relation.result import (
+    RelationResult,
+)
 from tests.helpers.factories import (
     make_pull_request,
 )

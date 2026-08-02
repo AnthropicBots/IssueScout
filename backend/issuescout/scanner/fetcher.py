@@ -1,28 +1,29 @@
-from issuescout.models.issue import Issue
 import asyncio
+
+from issuescout.models.issue import Issue
 from issuescout.models.pull_request import PullRequest
 from issuescout.models.scan_context import RepositoryScanContext
 from issuescout.scanner.builders.pull_request_builder import PullRequestBuilder
 from issuescout.scanner.builders.repository import (
     RepositoryBuilder,
 )
-from issuescout.services.issue_service import IssueService
-from issuescout.services.pull_request_service import PullRequestService
-from issuescout.services.repository_service import RepositoryService
-from issuescout.utils.issue_file_parser import (
-    extract_file_mentions,
-)
-from issuescout.services.review_service import (
-    ReviewService,
+from issuescout.services.comment_service import (
+    CommentService,
 )
 from issuescout.services.commit_history_service import (
     CommitHistoryService,
 )
-from issuescout.services.comment_service import (
-    CommentService,
+from issuescout.services.issue_service import IssueService
+from issuescout.services.pull_request_service import PullRequestService
+from issuescout.services.repository_service import RepositoryService
+from issuescout.services.review_service import (
+    ReviewService,
 )
 from issuescout.services.timeline_service import (
     TimelineService,
+)
+from issuescout.utils.issue_file_parser import (
+    extract_file_mentions,
 )
 
 

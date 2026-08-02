@@ -1,19 +1,19 @@
 from __future__ import annotations
 
+from collections import Counter
 from datetime import (
     UTC,
     datetime,
 )
 
+from issuescout.core.logging import logger
 from issuescout.models.scan_job import ScanJob
-from collections import Counter
-
 from issuescout.models.scan_status import ScanStatus
-from issuescout.scanner.engine import ScannerEngine
 from issuescout.repositories import (
     ScanJobRepository,
     create_scan_job_repository,
 )
+from issuescout.scanner.engine import ScannerEngine
 
 
 class ScanJobService:
@@ -94,7 +94,12 @@ class ScanJobService:
 
             job.status = ScanStatus.COMPLETED
 
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
+            logger.exception(
+                "Scan job failed: %s",
+                job.job_id,
+            )
+
             job.status = ScanStatus.FAILED
 
             job.error = str(exc)

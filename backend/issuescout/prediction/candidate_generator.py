@@ -101,7 +101,6 @@ class CandidateGenerator:
             return True
 
         # Shared labels
-        if issue.labels & pull_request.labels:
-            return True
-
-        return False
+        return bool(
+            issue.labels & pull_request.labels,
+        )

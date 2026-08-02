@@ -7,9 +7,9 @@ from .summary import EvaluationSummary
 
 __all__ = [
     "AccuracyMetric",
-    "PrecisionMetric",
-    "RecallMetric",
+    "EvaluationSummary",
     "MeanAveragePrecision",
     "MeanReciprocalRank",
-    "EvaluationSummary",
+    "PrecisionMetric",
+    "RecallMetric",
 ]

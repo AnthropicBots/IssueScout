@@ -1,5 +1,6 @@
-from .repository import RepositoryResponse
 from .issue import IssueResponse
+from .prediction import PredictionResponse
+from .repository import RepositoryResponse
 from .scan import ScanResponse
 from .scan_job import (
     ScanJobResponse,
@@ -7,21 +8,20 @@ from .scan_job import (
     ScanJobSummaryResponse,
 )
 from .scan_job_stats import ScanJobStatsResponse
-from .prediction import PredictionResponse
 from .system import (
     HealthResponse,
     RootResponse,
 )
 
 __all__ = [
-    "RepositoryResponse",
+    "HealthResponse",
     "IssueResponse",
-    "ScanResponse",
+    "PredictionResponse",
+    "RepositoryResponse",
+    "RootResponse",
     "ScanJobResponse",
+    "ScanJobStatsResponse",
     "ScanJobStatusResponse",
     "ScanJobSummaryResponse",
-    "ScanJobStatsResponse",
-    "PredictionResponse",
-    "HealthResponse",
-    "RootResponse",
+    "ScanResponse",
 ]

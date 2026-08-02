@@ -27,7 +27,7 @@ class EvidenceBuilder:
         weight: int,
         passed: bool,
         details: dict[str, object] | None = None,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         self._items.append(
             EvidenceItem(
                 type=type,
@@ -43,7 +43,7 @@ class EvidenceBuilder:
     def extend(
         self,
         items: list[EvidenceItem],
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         self._items.extend(items)
         return self
 
@@ -51,7 +51,7 @@ class EvidenceBuilder:
         self,
         *,
         weight: int,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="title_similarity",
             label="Title Similarity",
@@ -65,7 +65,7 @@ class EvidenceBuilder:
         *,
         weight: int,
         overlap: int,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="body_similarity",
             label="Body Similarity",
@@ -79,7 +79,7 @@ class EvidenceBuilder:
 
     def add_merged(
         self,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="merged",
             label="Merged Pull Request",
@@ -92,7 +92,7 @@ class EvidenceBuilder:
         self,
         *,
         review_count: int,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="reviews",
             label="Pull Request Reviews",
@@ -108,7 +108,7 @@ class EvidenceBuilder:
         self,
         *,
         comment_count: int,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="discussion",
             label="Discussion",
@@ -124,7 +124,7 @@ class EvidenceBuilder:
         self,
         *,
         commit_count: int,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="commits",
             label="Commit History",
@@ -140,7 +140,7 @@ class EvidenceBuilder:
         self,
         *,
         file_count: int,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="changed_files",
             label="Changed Files",
@@ -156,7 +156,7 @@ class EvidenceBuilder:
         self,
         *,
         confidence: int,
-    ) -> "EvidenceBuilder":
+    ) -> EvidenceBuilder:
         return self.add(
             type="discussion_intelligence",
             label="Discussion Intelligence",
@@ -173,6 +173,6 @@ class EvidenceBuilder:
             items=list(self._items),
         )
 
-    def clear(self) -> "EvidenceBuilder":
+    def clear(self) -> EvidenceBuilder:
         self._items.clear()
         return self

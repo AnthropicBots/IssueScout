@@ -3,7 +3,6 @@ import pytest
 from issuescout.scanner.relation.comment_reference import (
     CommentReferenceAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

@@ -4,15 +4,15 @@ from .github import (
     GitHubNotFoundError,
     GitHubRateLimitError,
 )
+from .handlers import register_exception_handlers
 from .repository import (
     RepositoryError,
     RepositoryNotFoundError,
 )
 from .scanner import (
-    ScannerError,
     ScanFailedError,
+    ScannerError,
 )
-from .handlers import register_exception_handlers
 
 __all__ = [
     "GitHubAPIError",
@@ -21,7 +21,7 @@ __all__ = [
     "GitHubRateLimitError",
     "RepositoryError",
     "RepositoryNotFoundError",
-    "ScannerError",
     "ScanFailedError",
+    "ScannerError",
     "register_exception_handlers",
 ]

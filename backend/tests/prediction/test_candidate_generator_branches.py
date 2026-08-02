@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 from issuescout.models import Issue, PullRequest
 from issuescout.prediction.candidate_generator import CandidateGenerator
@@ -11,7 +11,12 @@ def test_related_issue_is_candidate():
         number=42,
         title="Bug",
         author="alice",
-        created_at=datetime(2024, 1, 1),
+        created_at=datetime(
+            2024,
+            1,
+            1,
+            tzinfo=UTC,
+        ),
     )
 
     pr = PullRequest(
@@ -20,7 +25,12 @@ def test_related_issue_is_candidate():
         body="",
         branch_name="feature",
         author="bob",
-        created_at=datetime(2024, 1, 2),
+        created_at=datetime(
+            2024,
+            1,
+            2,
+            tzinfo=UTC,
+        ),
         related_issues={42},
     )
 
@@ -35,7 +45,12 @@ def test_shared_labels_make_candidate():
         title="Bug",
         author="alice",
         labels={"bug"},
-        created_at=datetime(2024, 1, 1),
+        created_at=datetime(
+            2024,
+            1,
+            1,
+            tzinfo=UTC,
+        ),
     )
 
     pr = PullRequest(
@@ -44,7 +59,12 @@ def test_shared_labels_make_candidate():
         body="",
         branch_name="branch",
         author="bob",
-        created_at=datetime(2024, 1, 2),
+        created_at=datetime(
+            2024,
+            1,
+            2,
+            tzinfo=UTC,
+        ),
         labels={"bug"},
     )
 

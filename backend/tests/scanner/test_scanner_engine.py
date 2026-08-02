@@ -2,19 +2,18 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
+from issuescout.domain.models import (
+    CandidatePullRequestDetails,
+)
 from issuescout.models import (
     AnalysisResult,
     Repository,
     RepositoryScanContext,
 )
 from issuescout.scanner.engine import ScannerEngine
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,
-)
-from issuescout.domain.models import (
-    CandidatePullRequestDetails,
 )
 
 
@@ -136,7 +135,7 @@ async def test_scan_repository_returns_scan_result(
 
 
 @pytest.mark.anyio
-async def test_scan_repository_filters_failed_issue(
+async def test_scan_repository_keeps_failed_analysis_issue(
     repository,
     failing_result,
 ):
@@ -159,6 +158,7 @@ async def test_scan_repository_filters_failed_issue(
     ]
 
     confidence = Mock()
+    confidence.calculate.return_value = 42
 
     engine = ScannerEngine(
         fetcher=fetcher,
@@ -166,6 +166,7 @@ async def test_scan_repository_filters_failed_issue(
         pipeline=pipeline,
         confidence=confidence,
     )
+
     mock_candidate_enricher(engine)
 
     result = await engine.scan_repository(
@@ -173,11 +174,14 @@ async def test_scan_repository_filters_failed_issue(
         "cpython",
     )
 
-    assert result.total_issues == 0
-    assert result.available_issues == 0
-    assert result.issues == []
+    assert result.total_issues == 1
+    assert result.available_issues == 1
+    assert len(result.issues) == 1
 
-    confidence.calculate.assert_not_called()
+    confidence.calculate.assert_called_once_with(
+        issue,
+        [failing_result],
+    )
 
 
 @pytest.mark.anyio

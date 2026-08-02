@@ -1,20 +1,21 @@
 from __future__ import annotations
 
-from issuescout.domain.models import (
-    CandidatePullRequest,
-    CandidatePullRequestDetails,
-)
-from issuescout.services.pull_request_service import (
-    PullRequestService,
-)
+from typing import cast
 
 from issuescout.core.exceptions import (
     GitHubNotFoundError,
 )
+from issuescout.core.logging import logger
+from issuescout.domain.models import (
+    CandidatePullRequest,
+    CandidatePullRequestDetails,
+)
 from issuescout.scanner.intelligence.pull_request import (
     PullRequestDiscussionCollector,
 )
-from typing import cast
+from issuescout.services.pull_request_service import (
+    PullRequestService,
+)
 
 
 class CandidatePullRequestEnricher:
@@ -68,7 +69,12 @@ class CandidatePullRequestEnricher:
                 repository,
                 candidate.number,
             )
-        except Exception:
+        except Exception:  # noqa: BLE001
+            logger.warning(
+                "Failed to fetch commits for candidate PR #%s",
+                candidate.number,
+                exc_info=True,
+            )
             commits = []
 
         reviews = await self.pull_request_service.get_pull_request_reviews(

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import asyncio
-from http import HTTPStatus
 from asyncio import Semaphore
+from http import HTTPStatus
+
 import httpx
 
 from issuescout.core.config import settings
@@ -123,7 +124,7 @@ class GitHubClient:
 
         if response.status_code >= HTTPStatus.BAD_REQUEST:
             raise GitHubAPIError(
-                (f"GitHub API returned {response.status_code}: {response.text}")
+                f"GitHub API returned {response.status_code}: {response.text}"
             )
 
         data = response.json()
@@ -167,11 +168,9 @@ class GitHubClient:
 
             if not isinstance(data, list):
                 raise GitHubAPIError(
-                    (
-                        "Expected GitHub list response "
-                        f"for {page_endpoint}, "
-                        f"got {type(data).__name__}: {data}"
-                    )
+                    "Expected GitHub list response "
+                    f"for {page_endpoint}, "
+                    f"got {type(data).__name__}: {data}"
                 )
 
             if not data:

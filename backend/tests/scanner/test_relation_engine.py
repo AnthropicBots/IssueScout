@@ -6,7 +6,6 @@ from issuescout.scanner.relation.engine import (
 from issuescout.scanner.relation.factory import (
     create_relation_result,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

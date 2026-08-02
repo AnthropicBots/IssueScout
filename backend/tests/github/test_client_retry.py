@@ -1,5 +1,5 @@
-import pytest
 import httpx
+import pytest
 
 from issuescout.core.exceptions import GitHubAPIError
 from issuescout.github.client import GitHubClient

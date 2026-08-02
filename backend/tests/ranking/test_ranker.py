@@ -1,9 +1,7 @@
 from issuescout.models.analysis import (
     RelationPrediction,
 )
-
 from issuescout.ranking import Ranker
-
 from tests.helpers.factories import (
     make_pull_request,
 )

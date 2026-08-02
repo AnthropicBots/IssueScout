@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 from issuescout.models.issue import Issue
 from issuescout.models.pull_request import PullRequest
 from issuescout.models.repository import Repository
-
 from issuescout.scanner.intelligence.models import (
     RepositoryIntelligence,
 )

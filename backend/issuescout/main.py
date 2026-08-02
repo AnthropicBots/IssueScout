@@ -1,11 +1,18 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import logging
+
+from issuescout import __version__
+from issuescout.api.v1.docs.tags import (
+    GENERAL_TAG,
+)
 from issuescout.api.v1.routes import router
 from issuescout.core.config import settings
 from issuescout.core.exceptions import (
     register_exception_handlers,
 )
+from issuescout.core.logging import LOGGER_NAME
 from issuescout.middleware import (
     logging_middleware,
 )
@@ -13,11 +20,6 @@ from issuescout.models.responses import (
     HealthResponse,
     RootResponse,
 )
-from issuescout.core.logging import LOGGER_NAME
-from issuescout.api.v1.docs.tags import (
-    GENERAL_TAG,
-)
-from issuescout import __version__
 
 app = FastAPI(
     title="IssueScout API",

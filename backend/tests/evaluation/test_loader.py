@@ -1,4 +1,5 @@
 import json
+
 from issuescout.evaluation.loader import EvaluationLoader
 
 

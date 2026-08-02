@@ -18,7 +18,7 @@ class CommentAPI:
         issue_number: int,
     ):
         return await self.client.get_all(
-            (f"/repos/{owner}/{repository}/issues/{issue_number}/comments")
+            f"/repos/{owner}/{repository}/issues/{issue_number}/comments"
         )
 
     async def close(self):

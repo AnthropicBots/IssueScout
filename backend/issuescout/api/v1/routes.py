@@ -15,6 +15,41 @@ from issuescout.api.v1.dependencies import (
     get_scan_job_service,
     get_scanner_engine,
 )
+from issuescout.api.v1.docs.descriptions import (
+    ISSUES_DESCRIPTION,
+    REPOSITORY_DESCRIPTION,
+    SCAN_CANCEL_DESCRIPTION,
+    SCAN_CREATE_DESCRIPTION,
+    SCAN_DELETE_DESCRIPTION,
+    SCAN_LIST_DESCRIPTION,
+    SCAN_RESULT_DESCRIPTION,
+    SCAN_STATS_DESCRIPTION,
+    SCAN_STATUS_DESCRIPTION,
+    SYNC_SCAN_DESCRIPTION,
+)
+from issuescout.api.v1.docs.responses import (
+    REPOSITORY_RESPONSES,
+    SCAN_JOB_CREATE_RESPONSES,
+    SCAN_JOB_STATS_RESPONSES,
+)
+from issuescout.api.v1.docs.summaries import (
+    ISSUES_SUMMARY,
+    REPOSITORY_SUMMARY,
+    SCAN_CANCEL_SUMMARY,
+    SCAN_CREATE_SUMMARY,
+    SCAN_DELETE_SUMMARY,
+    SCAN_LIST_SUMMARY,
+    SCAN_RESULT_SUMMARY,
+    SCAN_STATS_SUMMARY,
+    SCAN_STATUS_SUMMARY,
+    SYNC_SCAN_SUMMARY,
+)
+from issuescout.api.v1.docs.tags import (
+    GITHUB_TAG,
+)
+from issuescout.application.repository_service import (
+    ApplicationRepositoryService,
+)
 from issuescout.models.responses import (
     IssueResponse,
     RepositoryResponse,
@@ -24,48 +59,10 @@ from issuescout.models.responses import (
     ScanJobSummaryResponse,
 )
 from issuescout.models.scan_result import ScanResult
-from issuescout.scanner.engine import ScannerEngine
 from issuescout.models.scan_status import ScanStatus
+from issuescout.scanner.engine import ScannerEngine
 from issuescout.services.issue_service import IssueService
-from issuescout.application.repository_service import (
-    ApplicationRepositoryService,
-)
 from issuescout.services.scan_job_service import ScanJobService
-from issuescout.api.v1.docs.responses import (
-    REPOSITORY_RESPONSES,
-    SCAN_JOB_CREATE_RESPONSES,
-    SCAN_JOB_STATS_RESPONSES,
-)
-
-from issuescout.api.v1.docs.summaries import (
-    REPOSITORY_SUMMARY,
-    ISSUES_SUMMARY,
-    SCAN_CREATE_SUMMARY,
-    SCAN_LIST_SUMMARY,
-    SCAN_STATS_SUMMARY,
-    SCAN_STATUS_SUMMARY,
-    SCAN_RESULT_SUMMARY,
-    SCAN_CANCEL_SUMMARY,
-    SCAN_DELETE_SUMMARY,
-    SYNC_SCAN_SUMMARY,
-)
-
-from issuescout.api.v1.docs.descriptions import (
-    REPOSITORY_DESCRIPTION,
-    ISSUES_DESCRIPTION,
-    SCAN_CREATE_DESCRIPTION,
-    SCAN_LIST_DESCRIPTION,
-    SCAN_STATS_DESCRIPTION,
-    SCAN_STATUS_DESCRIPTION,
-    SCAN_RESULT_DESCRIPTION,
-    SCAN_CANCEL_DESCRIPTION,
-    SCAN_DELETE_DESCRIPTION,
-    SYNC_SCAN_DESCRIPTION,
-)
-
-from issuescout.api.v1.docs.tags import (
-    GITHUB_TAG,
-)
 
 router = APIRouter(
     tags=[str(GITHUB_TAG)],

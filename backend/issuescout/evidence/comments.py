@@ -6,7 +6,6 @@ from issuescout.models import (
     Repository,
     RepositoryScanContext,
 )
-
 from issuescout.services.comment_service import (
     CommentService,
 )

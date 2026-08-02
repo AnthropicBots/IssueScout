@@ -1,11 +1,11 @@
 from .console import (
     ConsoleFormatter as ConsoleFormatter,
 )
-from .json import (
-    JsonFormatter as JsonFormatter,
-)
 from .explanation import (
     explain_prediction as explain_prediction,
+)
+from .json import (
+    JsonFormatter as JsonFormatter,
 )
 
 __all__ = [

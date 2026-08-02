@@ -1,19 +1,15 @@
 from issuescout.models.analysis import (
     RelationPrediction,
 )
-
 from issuescout.models.explanation import (
     ExplanationItem,
 )
-
 from issuescout.prediction.explanation_service import (
     ExplanationService,
 )
-
 from issuescout.scanner.relation.result import (
     RelationResult,
 )
-
 from tests.helpers.factories import (
     make_pull_request,
 )

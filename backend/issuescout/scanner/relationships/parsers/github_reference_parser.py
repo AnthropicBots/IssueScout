@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from typing import ClassVar
 
 from issuescout.models.relationships import (
     Relationship,
@@ -19,10 +20,12 @@ class GitHubRelationshipParser:
     from free-form text.
     """
 
-    _PATTERNS: list[
-        tuple[
-            RelationshipType,
-            re.Pattern[str],
+    _PATTERNS: ClassVar[
+        list[
+            tuple[
+                RelationshipType,
+                re.Pattern[str],
+            ]
         ]
     ] = [
         (
@@ -83,7 +86,7 @@ class GitHubRelationshipParser:
         ),
     ]
 
-    _GENERIC_REFERENCE = re.compile(
+    _GENERIC_REFERENCE: ClassVar[re.Pattern[str]] = re.compile(
         r"(?:PR\s*#|Issue\s*#|GH-|\#)(\d+)",
         re.IGNORECASE,
     )

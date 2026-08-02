@@ -1,7 +1,6 @@
 from issuescout.scanner.intelligence.issue.timeline_reference_collector import (
     IssueTimelineReferenceCollector,
 )
-
 from tests.helpers.factories import make_issue
 
 

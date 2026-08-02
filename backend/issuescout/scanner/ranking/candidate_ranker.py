@@ -7,14 +7,14 @@ from issuescout.models import (
 from issuescout.scanner.evidence import (
     RelationshipEvidenceCollector,
 )
-from issuescout.scanner.relationship import (
-    RelationshipScorer,
+from issuescout.scanner.relation.body_similarity_utils import (
+    normalized_body_similarity,
 )
 from issuescout.scanner.relation.title_similarity_utils import (
     normalized_title_similarity,
 )
-from issuescout.scanner.relation.body_similarity_utils import (
-    normalized_body_similarity,
+from issuescout.scanner.relationship import (
+    RelationshipScorer,
 )
 
 

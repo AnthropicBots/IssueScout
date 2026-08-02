@@ -2,7 +2,6 @@ import pytest
 
 from issuescout.github.utils import Paginator
 
-
 pytestmark = pytest.mark.anyio
 
 

@@ -2,10 +2,10 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from issuescout.github.client import GitHubClient
 from issuescout.core.exceptions import (
     GitHubNotFoundError,
 )
+from issuescout.github.client import GitHubClient
 
 
 def test_client_uses_default_headers():

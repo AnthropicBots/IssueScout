@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib
 from pathlib import Path
+from typing import ClassVar
 
 dataset = importlib.import_module(
     "issuescout.cli.commands.dataset",
@@ -9,7 +10,7 @@ dataset = importlib.import_module(
 
 
 class FakeEvaluation:
-    records = [1, 2]
+    records: ClassVar[list[int]] = [1, 2]
 
     def to_dict(self):
         return {

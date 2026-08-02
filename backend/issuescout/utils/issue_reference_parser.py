@@ -1,6 +1,5 @@
 import re
 
-
 REFERENCE_PATTERNS = (
     r"\bfix(?:es|ed)?\s+#?(\d+)",
     r"\bclose(?:s|d)?\s+#?(\d+)",

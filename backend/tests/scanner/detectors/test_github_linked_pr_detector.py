@@ -10,7 +10,6 @@ from issuescout.models import (
 )
 from issuescout.scanner.detectors import GitHubLinkedPRDetector
 from issuescout.scanner.relation.result import RelationResult
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

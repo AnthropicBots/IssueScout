@@ -2,12 +2,11 @@ from __future__ import annotations
 
 import argparse
 
-from issuescout.cli.commands.evaluate import (
-    run as run_evaluate,
-)
-
 from issuescout.cli.commands.dataset import (
     run as run_dataset,
+)
+from issuescout.cli.commands.evaluate import (
+    run as run_evaluate,
 )
 from issuescout.cli.commands.scan import (
     run as run_scan,

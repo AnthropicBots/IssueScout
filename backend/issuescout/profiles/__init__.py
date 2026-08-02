@@ -3,7 +3,7 @@ from issuescout.profiles.cpython import CPythonProfile
 from issuescout.profiles.registry import ProfileRegistry
 
 __all__ = [
-    "RepositoryProfile",
     "CPythonProfile",
     "ProfileRegistry",
+    "RepositoryProfile",
 ]

@@ -1,14 +1,13 @@
 from datetime import (
+    UTC,
     datetime,
     timedelta,
-    timezone,
 )
 
 from issuescout.models import (
     AnalysisResult,
     Issue,
 )
-
 from issuescout.scanner.confidence import (
     ConfidenceCalculator,
 )
@@ -24,7 +23,7 @@ def make_issue(
     updated_at = None
 
     if updated_days_ago is not None:
-        updated_at = datetime.now(timezone.utc) - timedelta(days=updated_days_ago)
+        updated_at = datetime.now(UTC) - timedelta(days=updated_days_ago)
 
     return Issue(
         number=1,

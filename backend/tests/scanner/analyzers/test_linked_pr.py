@@ -5,11 +5,9 @@ from issuescout.models import (
     Repository,
     RepositoryScanContext,
 )
-
 from issuescout.scanner.analyzers.linked_pr import (
     LinkedPRAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
 )

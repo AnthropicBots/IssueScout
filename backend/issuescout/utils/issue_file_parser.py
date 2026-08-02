@@ -1,6 +1,5 @@
 import re
 
-
 WINDOWS_PATH_PATTERN = re.compile(r"[A-Za-z]:\\(?:[^\\\s]+\\)*[^\\\s]+")
 
 FILE_PATTERN = re.compile(

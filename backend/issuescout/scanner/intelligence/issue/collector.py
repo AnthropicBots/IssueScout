@@ -4,14 +4,14 @@ from issuescout.models import Issue
 from issuescout.scanner.intelligence.issue.body_collector import (
     IssueBodyCollector,
 )
+from issuescout.scanner.intelligence.issue.comment_collector import (
+    IssueCommentCollector,
+)
 from issuescout.scanner.intelligence.models import (
     IssueIntelligence,
 )
 from issuescout.scanner.resolver import (
     ReferenceResolver,
-)
-from issuescout.scanner.intelligence.issue.comment_collector import (
-    IssueCommentCollector,
 )
 
 

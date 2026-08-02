@@ -4,7 +4,6 @@ import pytest
 
 from issuescout.evaluation.dataset.generator import DatasetGenerator
 
-
 pytestmark = pytest.mark.anyio
 
 

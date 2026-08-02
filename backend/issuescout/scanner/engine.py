@@ -1,39 +1,5 @@
 import asyncio
 
-from issuescout.models import (
-    IssueSummary,
-    ScanResult,
-)
-
-from issuescout.scanner.fetcher import Fetcher
-from issuescout.scanner.pipeline import AnalysisPipeline
-
-from issuescout.scanner.analyzers import (
-    AssignmentAnalyzer,
-    LinkedPRAnalyzer,
-)
-
-from issuescout.scanner.detectors import (
-    GitHubLinkedPRDetector,
-)
-from issuescout.scanner.confidence import ConfidenceCalculator
-from issuescout.scanner.candidate import (
-    CandidateGenerator,
-    CandidateResolver,
-)
-from issuescout.scanner.ranking import (
-    CandidateRanker,
-)
-from issuescout.scanner.progress import ProgressCallback
-from issuescout.scanner.planner import (
-    ScanPlanner,
-)
-from issuescout.scanner.intelligence.repository import (
-    RepositoryIntelligenceCollector,
-)
-from issuescout.scanner.candidate.pool import (
-    CandidatePoolBuilder,
-)
 from issuescout.application.candidate.candidate_enricher import (
     CandidatePullRequestEnricher,
 )
@@ -43,8 +9,40 @@ from issuescout.application.candidate_pull_request_service import (
 from issuescout.application.resolution import (
     ResolutionAnalyzer,
 )
+from issuescout.core.logging import logger
+from issuescout.models import (
+    IssueSummary,
+    ScanResult,
+)
 from issuescout.models.scan_result import (
     CandidatePullRequestSummary,
+)
+from issuescout.scanner.analyzers import (
+    AssignmentAnalyzer,
+    LinkedPRAnalyzer,
+)
+from issuescout.scanner.candidate import (
+    CandidateGenerator,
+    CandidateResolver,
+)
+from issuescout.scanner.candidate.pool import (
+    CandidatePoolBuilder,
+)
+from issuescout.scanner.confidence import ConfidenceCalculator
+from issuescout.scanner.detectors import (
+    GitHubLinkedPRDetector,
+)
+from issuescout.scanner.fetcher import Fetcher
+from issuescout.scanner.intelligence.repository import (
+    RepositoryIntelligenceCollector,
+)
+from issuescout.scanner.pipeline import AnalysisPipeline
+from issuescout.scanner.planner import (
+    ScanPlanner,
+)
+from issuescout.scanner.progress import ProgressCallback
+from issuescout.scanner.ranking import (
+    CandidateRanker,
 )
 
 
@@ -92,7 +90,12 @@ class ScannerEngine:
                 context,
                 issue.number,
             )
-        except Exception:
+        except Exception:  # noqa: BLE001
+            logger.warning(
+                "Failed to detect linked pull request for issue #%s",
+                issue.number,
+                exc_info=True,
+            )
             linked_pr = None
 
         return issue.number, linked_pr
@@ -124,7 +127,12 @@ class ScannerEngine:
                     number,
                 )
 
-            except Exception:
+            except Exception:  # noqa: BLE001
+                logger.warning(
+                    "Failed to fetch pull request #%s",
+                    number,
+                    exc_info=True,
+                )
                 continue
 
             context.pull_request_lookup[number] = pull_request
@@ -147,15 +155,16 @@ class ScannerEngine:
 
         plan = self.planner.default_plan()
 
-        issues = context.issues[: plan.issue_limit]
+        issues = context.issues
+
+        if plan.issue_limit is not None:
+            issues = issues[: plan.issue_limit]
 
         context.repository_intelligence = await self.repository_intelligence.collect(
             context.repository,
         )
 
         try:
-            issues = context.issues
-
             processed = 0
             total = len(issues)
 
@@ -212,9 +221,14 @@ class ScannerEngine:
                         issue,
                     )
 
-                    if not all(result.passed for result in results):
-                        continue
-
+                    # The analysis pipeline provides metadata about the issue
+                    # (for example whether it is assigned or already linked to a
+                    # pull request). These analyzers should not prevent the issue
+                    # from appearing in scan results.
+                    #
+                    # Filtering based on assignment or linked pull requests should
+                    # be handled explicitly by higher-level application logic or
+                    # API parameters rather than silently excluding issues here.
                     linked_pr = (
                         context.candidate_pull_requests[0]
                         if context.candidate_pull_requests
@@ -234,10 +248,13 @@ class ScannerEngine:
                                 pr.number for pr in context.candidate_pull_requests
                             },
                         )
-                    except Exception:
-                        # Candidate discovery is a best-effort enhancement.
-                        # If discovery fails, continue processing the issue
-                        # using the already resolved candidate pull requests.
+                    except Exception:  # noqa: BLE001
+                        logger.warning(
+                            "Candidate discovery failed for issue #%s",
+                            issue.number,
+                            exc_info=True,
+                        )
+
                         discovered = []
 
                     for candidate in discovered:
@@ -304,8 +321,11 @@ class ScannerEngine:
                             total,
                         )
 
-                except Exception as error:
-                    print(f"Failed to process issue #{issue.number}: {error}")
+                except Exception:  # noqa: BLE001
+                    logger.exception(
+                        "Failed to process issue #%s",
+                        issue.number,
+                    )
 
                     processed += 1
 

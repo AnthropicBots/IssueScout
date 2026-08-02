@@ -11,12 +11,12 @@ from .commit_message_reference import (
 from .commit_reference import CommitReferenceAnalyzer
 from .file_similarity import FileSimilarityAnalyzer
 from .label_similarity import LabelSimilarityAnalyzer
-from .reviewer_similarity import ReviewerSimilarityAnalyzer
-from .timeline_reference import TimelineReferenceAnalyzer
-from .title_similarity import TitleSimilarityAnalyzer
 from .metadata_similarity import (
     MetadataSimilarityAnalyzer,
 )
+from .reviewer_similarity import ReviewerSimilarityAnalyzer
+from .timeline_reference import TimelineReferenceAnalyzer
+from .title_similarity import TitleSimilarityAnalyzer
 
 
 def default_analyzers():

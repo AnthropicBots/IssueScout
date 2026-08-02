@@ -1,7 +1,7 @@
-from .linked_pr_detector import LinkedPRDetector
 from .github_linked_pr_detector import GitHubLinkedPRDetector
+from .linked_pr_detector import LinkedPRDetector
 
 __all__ = [
-    "LinkedPRDetector",
     "GitHubLinkedPRDetector",
+    "LinkedPRDetector",
 ]

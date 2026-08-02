@@ -3,7 +3,6 @@ import pytest
 from issuescout.scanner.relation.commit_reference import (
     CommitReferenceAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

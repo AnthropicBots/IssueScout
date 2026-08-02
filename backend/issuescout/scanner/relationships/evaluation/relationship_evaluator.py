@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 from issuescout.models.relationships import (
     Relationship,
     RelationshipType,
@@ -11,7 +13,7 @@ class RelationshipEvaluator:
     Assigns a confidence score to discovered relationships.
     """
 
-    _CONFIDENCE = {
+    _CONFIDENCE: ClassVar[dict[RelationshipType, float]] = {
         RelationshipType.FIXES: 1.00,
         RelationshipType.CLOSES: 0.98,
         RelationshipType.RESOLVES: 0.97,

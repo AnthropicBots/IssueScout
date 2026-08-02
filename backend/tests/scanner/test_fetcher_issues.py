@@ -63,9 +63,16 @@ async def test_fetch_open_issues_maps_basic_fields():
         patch(
             "issuescout.scanner.fetcher.CommentService",
         ) as MockCommentService,
+        patch(
+            "issuescout.scanner.fetcher.TimelineService",
+        ) as MockTimelineService,
     ):
         service = MockIssueService.return_value
         comment_service = MockCommentService.return_value
+        timeline_service = MockTimelineService.return_value
+        timeline_service.get_issue_timeline = AsyncMock(
+            return_value=[],
+        )
 
         comment_service.get_comments = AsyncMock(
             return_value=[],
@@ -120,12 +127,20 @@ async def test_assigned_issue():
         patch(
             "issuescout.scanner.fetcher.CommentService",
         ) as MockCommentService,
+        patch(
+            "issuescout.scanner.fetcher.TimelineService",
+        ) as MockTimelineService,
     ):
         service = MockIssueService.return_value
 
         comment_service = MockCommentService.return_value
+        timeline_service = MockTimelineService.return_value
 
         comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
+
+        timeline_service.get_issue_timeline = AsyncMock(
             return_value=[],
         )
 
@@ -174,11 +189,19 @@ async def test_unassigned_issue():
         patch(
             "issuescout.scanner.fetcher.CommentService",
         ) as MockCommentService,
+        patch(
+            "issuescout.scanner.fetcher.TimelineService",
+        ) as MockTimelineService,
     ):
         service = MockIssueService.return_value
         comment_service = MockCommentService.return_value
+        timeline_service = MockTimelineService.return_value
 
         comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
+
+        timeline_service.get_issue_timeline = AsyncMock(
             return_value=[],
         )
 
@@ -227,10 +250,28 @@ async def test_labels_are_converted_to_set():
         ],
     }
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+        patch(
+            "issuescout.scanner.fetcher.TimelineService",
+        ) as MockTimelineService,
+    ):
         service = MockIssueService.return_value
+        comment_service = MockCommentService.return_value
+        timeline_service = MockTimelineService.return_value
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
+
+        timeline_service.get_issue_timeline = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=[
@@ -274,10 +315,28 @@ async def test_milestone_is_mapped():
         "labels": [],
     }
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+        patch(
+            "issuescout.scanner.fetcher.TimelineService",
+        ) as MockTimelineService,
+    ):
         service = MockIssueService.return_value
+        comment_service = MockCommentService.return_value
+        timeline_service = MockTimelineService.return_value
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
+
+        timeline_service.get_issue_timeline = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=[
@@ -316,10 +375,28 @@ async def test_file_mentions_are_extracted():
         "labels": [],
     }
 
-    with patch(
-        "issuescout.scanner.fetcher.IssueService",
-    ) as MockIssueService:
+    with (
+        patch(
+            "issuescout.scanner.fetcher.IssueService",
+        ) as MockIssueService,
+        patch(
+            "issuescout.scanner.fetcher.CommentService",
+        ) as MockCommentService,
+        patch(
+            "issuescout.scanner.fetcher.TimelineService",
+        ) as MockTimelineService,
+    ):
         service = MockIssueService.return_value
+        comment_service = MockCommentService.return_value
+        timeline_service = MockTimelineService.return_value
+
+        comment_service.get_comments = AsyncMock(
+            return_value=[],
+        )
+
+        timeline_service.get_issue_timeline = AsyncMock(
+            return_value=[],
+        )
 
         service.list_open_issues = AsyncMock(
             return_value=[

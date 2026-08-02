@@ -4,11 +4,9 @@ from issuescout.models import (
     Repository,
     RepositoryScanContext,
 )
-
 from issuescout.scanner.analyzers.assignment import (
     AssignmentAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
 )

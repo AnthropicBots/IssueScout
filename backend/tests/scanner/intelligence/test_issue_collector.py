@@ -3,7 +3,6 @@ import pytest
 from issuescout.scanner.intelligence.issue.collector import (
     IssueIntelligenceCollector,
 )
-
 from tests.helpers.factories import make_issue
 
 

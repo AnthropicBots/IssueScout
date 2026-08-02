@@ -2,19 +2,8 @@ from issuescout.models.analysis import (
     PredictionResult,
     RelationPrediction,
 )
-
 from issuescout.models.issue import Issue
 from issuescout.models.pull_request import PullRequest
-
-from issuescout.ranking import Ranker
-
-from issuescout.scanner.relation import (
-    RelationEngine,
-)
-from issuescout.scanner.relation.config import (
-    DEFAULT_THRESHOLD,
-)
-
 from issuescout.prediction.analysis_service import (
     AnalysisService,
 )
@@ -29,6 +18,13 @@ from issuescout.prediction.explanation_builder import (
 )
 from issuescout.prediction.explanation_service import (
     ExplanationService,
+)
+from issuescout.ranking import Ranker
+from issuescout.scanner.relation import (
+    RelationEngine,
+)
+from issuescout.scanner.relation.config import (
+    DEFAULT_THRESHOLD,
 )
 
 

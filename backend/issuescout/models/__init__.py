@@ -3,6 +3,10 @@ from .analysis import (
     PredictionResult,
     RelationPrediction,
 )
+from .evidence import (
+    GitHubReference,
+    ResolvedReference,
+)
 from .explanation import (
     ExplanationItem,
     PredictionExplanation,
@@ -15,23 +19,19 @@ from .scan_result import (
     IssueSummary,
     ScanResult,
 )
-from .evidence import (
-    GitHubReference,
-    ResolvedReference,
-)
 
 __all__ = [
     "AnalysisResult",
-    "PredictionResult",
-    "RelationPrediction",
     "ExplanationItem",
-    "PredictionExplanation",
+    "GitHubReference",
     "Issue",
+    "IssueSummary",
+    "PredictionExplanation",
+    "PredictionResult",
     "PullRequest",
+    "RelationPrediction",
     "Repository",
     "RepositoryScanContext",
-    "IssueSummary",
-    "ScanResult",
-    "GitHubReference",
     "ResolvedReference",
+    "ScanResult",
 ]

@@ -1,7 +1,6 @@
 from issuescout.models.analysis import (
     RelationPrediction,
 )
-
 from issuescout.models.explanation import (
     ExplanationItem,
 )

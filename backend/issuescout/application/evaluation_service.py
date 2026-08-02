@@ -6,9 +6,9 @@ from pathlib import Path
 from issuescout.evaluation.comparison.result import ComparisonResult
 from issuescout.evaluation.loader import EvaluationLoader
 from issuescout.evaluation.metrics.summary import EvaluationSummary
+from issuescout.evaluation.models import EvaluationRecord
 from issuescout.evaluation.pipeline import EvaluationPipeline
 from issuescout.evaluation.runner import EvaluationRunner
-from issuescout.evaluation.models import EvaluationRecord
 
 
 class ApplicationEvaluationService:

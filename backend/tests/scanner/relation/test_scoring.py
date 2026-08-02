@@ -1,7 +1,6 @@
 from issuescout.scanner.relation.metadata import (
     AnalyzerMetadata,
 )
-
 from issuescout.scanner.relation.scoring import (
     ScoringPolicy,
 )

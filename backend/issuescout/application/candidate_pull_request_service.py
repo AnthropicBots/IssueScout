@@ -3,6 +3,12 @@ from __future__ import annotations
 from issuescout.domain.models import (
     CandidatePullRequest,
 )
+from issuescout.models.relationships import (
+    RelationshipTarget,
+)
+from issuescout.scanner.relationships import (
+    RelationshipEngine,
+)
 from issuescout.services.comment_service import (
     CommentService,
 )
@@ -11,12 +17,6 @@ from issuescout.services.issue_service import (
 )
 from issuescout.services.timeline_service import (
     TimelineService,
-)
-from issuescout.scanner.relationships import (
-    RelationshipEngine,
-)
-from issuescout.models.relationships import (
-    RelationshipTarget,
 )
 from issuescout.utils.github_reference_parser import (
     extract_candidate_pull_request_numbers,

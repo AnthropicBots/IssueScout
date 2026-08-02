@@ -6,7 +6,6 @@ from issuescout.models import (
 from .comments import (
     CommentEvidenceCollector,
 )
-
 from .timeline import (
     TimelineEvidenceCollector,
 )

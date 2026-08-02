@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 from issuescout.models import Issue, PullRequest
 from issuescout.prediction.candidate_generator import CandidateGenerator
@@ -11,7 +11,12 @@ def test_filters_pr_outside_candidate_window():
         number=1,
         title="Login bug",
         author="alice",
-        created_at=datetime(2024, 1, 1),
+        created_at=datetime(
+            2024,
+            1,
+            1,
+            tzinfo=UTC,
+        ),
     )
 
     pr = PullRequest(
@@ -20,7 +25,12 @@ def test_filters_pr_outside_candidate_window():
         body="",
         branch_name="fix-login",
         author="alice",
-        created_at=datetime(2024, 6, 1),
+        created_at=datetime(
+            2024,
+            6,
+            1,
+            tzinfo=UTC,
+        ),
     )
 
     candidates = generator.generate(

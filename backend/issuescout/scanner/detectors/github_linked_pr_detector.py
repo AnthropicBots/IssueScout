@@ -1,30 +1,24 @@
+from issuescout.evidence import (
+    EvidenceCollector,
+)
 from issuescout.models import (
     PullRequest,
     RepositoryScanContext,
 )
-
-from issuescout.scanner.detectors.linked_pr_detector import (
-    LinkedPRDetector,
-)
-
 from issuescout.prediction import (
     PredictionService,
 )
-
-from issuescout.evidence import (
-    EvidenceCollector,
+from issuescout.presentation import (
+    ConsoleReporter,
 )
-
+from issuescout.scanner.detectors.linked_pr_detector import (
+    LinkedPRDetector,
+)
 from issuescout.scanner.relation import (
     RelationEngine,
 )
-
 from issuescout.scanner.relation.registry import (
     default_analyzers,
-)
-
-from issuescout.presentation import (
-    ConsoleReporter,
 )
 
 

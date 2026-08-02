@@ -11,11 +11,11 @@ from .model import (
     EvidenceItem,
     EvidenceSummary,
 )
-from .weights import (
-    EvidenceWeights,
-)
 from .timeline import (
     TimelineEvidenceCollector,
+)
+from .weights import (
+    EvidenceWeights,
 )
 
 __all__ = [

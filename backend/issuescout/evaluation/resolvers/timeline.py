@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+from issuescout.evaluation.scoring.timeline import TimelineEvidenceScorer
 from issuescout.evaluation.timeline_relation import (
     TimelineEvidence,
     TimelineRelation,
 )
-from issuescout.evaluation.scoring.timeline import TimelineEvidenceScorer
 
 
 class TimelineRelationResolver:

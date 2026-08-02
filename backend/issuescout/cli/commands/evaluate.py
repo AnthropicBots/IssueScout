@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from pathlib import Path
 import json
+from pathlib import Path
+
 from issuescout.evaluation.loader import EvaluationLoader
+from issuescout.evaluation.metrics.summary import EvaluationSummary
 from issuescout.evaluation.pipeline import EvaluationPipeline
 from issuescout.evaluation.runner import EvaluationRunner
-from issuescout.evaluation.metrics.summary import EvaluationSummary
 
 
 class EvaluationCommand:

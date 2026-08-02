@@ -3,7 +3,6 @@ import pytest
 from issuescout.scanner.relation.branch_similarity import (
     BranchSimilarityAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

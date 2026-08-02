@@ -3,7 +3,6 @@ import pytest
 from issuescout.scanner.relation.body_reference import (
     BodyReferenceAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+
 from issuescout.utils.github_keywords import (
     CLOSING_KEYWORDS,
 )

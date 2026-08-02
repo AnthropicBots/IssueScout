@@ -4,6 +4,6 @@ from .models import (
 )
 
 __all__ = [
-    "RepositoryIntelligence",
     "IssueIntelligence",
+    "RepositoryIntelligence",
 ]

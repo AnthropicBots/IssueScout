@@ -18,7 +18,7 @@ class PullRequestAPI:
         pull_request: int,
     ):
         return await self.client.get(
-            (f"/repos/{owner}/{repository}/pulls/{pull_request}")
+            f"/repos/{owner}/{repository}/pulls/{pull_request}"
         )
 
     async def close(self):
@@ -31,5 +31,5 @@ class PullRequestAPI:
         pull_request_number: int,
     ) -> dict:
         return await self.client.get(
-            (f"/repos/{owner}/{repository}/pulls/{pull_request_number}")
+            f"/repos/{owner}/{repository}/pulls/{pull_request_number}"
         )

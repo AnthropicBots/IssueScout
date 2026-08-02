@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime
 
-
 # ---------------------------------------------------------------------------
 # Prediction Models
 # ---------------------------------------------------------------------------
@@ -34,7 +33,7 @@ class PredictionCandidate:
     def from_dict(
         cls,
         data: dict,
-    ) -> "PredictionCandidate":
+    ) -> PredictionCandidate:
         return cls(
             pull_request_number=data["pull_request_number"],
             score=data["score"],
@@ -112,7 +111,7 @@ class GroundTruthRecord:
     def from_dict(
         cls,
         data: dict,
-    ) -> "GroundTruthRecord":
+    ) -> GroundTruthRecord:
         return cls(
             repository_owner=data["repository_owner"],
             repository_name=data["repository_name"],
@@ -180,7 +179,7 @@ class EvaluationRecord:
     def from_dict(
         cls,
         data: dict,
-    ) -> "EvaluationRecord":
+    ) -> EvaluationRecord:
         return cls(
             ground_truth=GroundTruthRecord.from_dict(
                 data["ground_truth"],
@@ -222,7 +221,7 @@ class RepositoryEvaluation:
     def from_dict(
         cls,
         data: dict,
-    ) -> "RepositoryEvaluation":
+    ) -> RepositoryEvaluation:
         return cls(
             repository_owner=data["repository_owner"],
             repository_name=data["repository_name"],

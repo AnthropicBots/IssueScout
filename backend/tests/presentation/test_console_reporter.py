@@ -2,15 +2,12 @@ from issuescout.models import (
     PredictionResult,
     RelationPrediction,
 )
-
 from issuescout.presentation.console_reporter import (
     ConsoleReporter,
 )
-
 from issuescout.scanner.relation.result import (
     RelationResult,
 )
-
 from tests.helpers.factories import (
     make_pull_request,
 )

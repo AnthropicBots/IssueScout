@@ -1,5 +1,5 @@
-from issuescout.github.client import GitHubClient
 from issuescout.core.exceptions import GitHubNotFoundError
+from issuescout.github.client import GitHubClient
 
 
 class CommitHistoryService:

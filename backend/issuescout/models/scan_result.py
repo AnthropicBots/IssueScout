@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+
 from issuescout.evidence.model import (
     EvidenceItem,
 )

@@ -1,5 +1,4 @@
 from issuescout.models.analysis import PredictionResult
-
 from issuescout.prediction.explanation_metadata import (
     EXPLANATION_METADATA,
 )

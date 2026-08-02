@@ -1,10 +1,10 @@
+from datetime import UTC, datetime, timedelta
+
 import pytest
-from datetime import datetime, timedelta
 
 from issuescout.scanner.relation.metadata_similarity import (
     MetadataSimilarityAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,
@@ -16,7 +16,7 @@ async def test_same_author_and_recent_pr():
 
     analyzer = MetadataSimilarityAnalyzer()
 
-    created = datetime.now()
+    created = datetime.now(UTC)
 
     issue = make_issue(
         author="alice",
@@ -64,7 +64,7 @@ async def test_no_metadata_match():
 
     analyzer = MetadataSimilarityAnalyzer()
 
-    created = datetime.now()
+    created = datetime.now(UTC)
 
     issue = make_issue(
         author="alice",
@@ -90,7 +90,7 @@ async def test_pr_created_within_thirty_days():
 
     analyzer = MetadataSimilarityAnalyzer()
 
-    created = datetime.now()
+    created = datetime.now(UTC)
 
     issue = make_issue(
         author="alice",
@@ -117,7 +117,7 @@ async def test_recent_issue_update_before_pr():
 
     analyzer = MetadataSimilarityAnalyzer()
 
-    created = datetime.now()
+    created = datetime.now(UTC)
 
     issue = make_issue(
         author="alice",
@@ -145,7 +145,7 @@ async def test_score_and_confidence_are_capped():
 
     analyzer = MetadataSimilarityAnalyzer()
 
-    created = datetime.now()
+    created = datetime.now(UTC)
 
     issue = make_issue(
         author="alice",
@@ -172,7 +172,7 @@ async def test_details_when_no_match():
 
     analyzer = MetadataSimilarityAnalyzer()
 
-    created = datetime.now()
+    created = datetime.now(UTC)
 
     issue = make_issue(
         author="alice",

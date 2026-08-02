@@ -1,5 +1,5 @@
-from issuescout.services.scan_job_service import ScanJobService
 from issuescout.models.scan_status import ScanStatus
+from issuescout.services.scan_job_service import ScanJobService
 
 
 def test_list_jobs_empty():

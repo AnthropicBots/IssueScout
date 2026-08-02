@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import cast
+
 from issuescout.models import (
     AnalysisResult,
     Issue,
@@ -96,7 +97,7 @@ class ConfidenceCalculator:
         # --------------------------------------------------
 
         if issue.updated_at is not None:
-            days = (datetime.now(timezone.utc) - issue.updated_at).days
+            days = (datetime.now(UTC) - issue.updated_at).days
 
             if days <= 30:
                 score += 15

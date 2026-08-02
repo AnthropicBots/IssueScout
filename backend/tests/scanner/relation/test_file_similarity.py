@@ -3,7 +3,6 @@ import pytest
 from issuescout.scanner.relation.file_similarity import (
     FileSimilarityAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

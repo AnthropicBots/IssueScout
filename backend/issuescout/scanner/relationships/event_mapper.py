@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from issuescout.models.relationships import RelationshipType
 
-
 _EVENT_MAP: dict[str, RelationshipType] = {
     "cross-referenced": RelationshipType.CROSS_REFERENCED,
     "connected": RelationshipType.LINKED,

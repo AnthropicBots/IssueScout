@@ -3,7 +3,6 @@ import pytest
 from issuescout.scanner.relation.commit_history_similarity import (
     CommitHistorySimilarityAnalyzer,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,

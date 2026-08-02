@@ -1,7 +1,6 @@
 from issuescout.scanner.intelligence.issue.comment_collector import (
     IssueCommentCollector,
 )
-
 from tests.helpers.factories import make_issue
 
 

@@ -1,19 +1,31 @@
 from __future__ import annotations
 
+from issuescout.application.candidate_pull_request_service import (
+    CandidatePullRequestService,
+)
 from issuescout.application.evaluation_service import (
     ApplicationEvaluationService,
 )
 from issuescout.application.prediction_service import (
     ApplicationPredictionService,
 )
-from issuescout.application.candidate_pull_request_service import (
-    CandidatePullRequestService,
-)
 from issuescout.application.repository_service import (
     ApplicationRepositoryService,
 )
 from issuescout.application.scan_service import (
     ApplicationScanService,
+)
+from issuescout.application.use_cases.evaluate_dataset import (
+    EvaluateDatasetUseCase,
+)
+from issuescout.application.use_cases.generate_dataset import (
+    GenerateDatasetUseCase,
+)
+from issuescout.application.use_cases.predict_issue import (
+    PredictIssueUseCase,
+)
+from issuescout.application.use_cases.scan_repository import (
+    ScanRepositoryUseCase,
 )
 from issuescout.evaluation.loader import EvaluationLoader
 from issuescout.evaluation.pipeline import EvaluationPipeline
@@ -27,18 +39,6 @@ from issuescout.scanner.relation.registry import (
 from issuescout.services.issue_service import IssueService
 from issuescout.services.repository_service import RepositoryService
 from issuescout.services.scan_job_service import ScanJobService
-from issuescout.application.use_cases.evaluate_dataset import (
-    EvaluateDatasetUseCase,
-)
-from issuescout.application.use_cases.generate_dataset import (
-    GenerateDatasetUseCase,
-)
-from issuescout.application.use_cases.predict_issue import (
-    PredictIssueUseCase,
-)
-from issuescout.application.use_cases.scan_repository import (
-    ScanRepositoryUseCase,
-)
 
 
 class ApplicationContainer:

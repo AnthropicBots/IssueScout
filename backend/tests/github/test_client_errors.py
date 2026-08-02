@@ -1,9 +1,9 @@
-import pytest
-
 from unittest.mock import (
     AsyncMock,
     Mock,
 )
+
+import pytest
 
 from issuescout.core.exceptions import (
     GitHubAPIError,
@@ -12,7 +12,6 @@ from issuescout.core.exceptions import (
     GitHubRateLimitError,
 )
 from issuescout.github.client import GitHubClient
-
 
 pytestmark = pytest.mark.anyio
 

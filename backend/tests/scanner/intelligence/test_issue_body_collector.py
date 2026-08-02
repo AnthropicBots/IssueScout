@@ -1,7 +1,6 @@
 from issuescout.scanner.intelligence.issue.body_collector import (
     IssueBodyCollector,
 )
-
 from tests.helpers.factories import make_issue
 
 

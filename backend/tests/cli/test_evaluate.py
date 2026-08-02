@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 from issuescout.cli.commands.evaluate import (
     EvaluationCommand,
 )
 
 
 class FakeRepository:
-    records = [1]
+    records: ClassVar[list[int]] = [1]
 
 
 class FakeLoader:

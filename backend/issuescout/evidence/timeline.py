@@ -4,11 +4,9 @@ from issuescout.models import (
     Repository,
     RepositoryScanContext,
 )
-
 from issuescout.services.commit_service import (
     CommitService,
 )
-
 from issuescout.services.timeline_service import (
     TimelineService,
 )

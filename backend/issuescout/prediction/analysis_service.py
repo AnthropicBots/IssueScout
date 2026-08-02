@@ -1,10 +1,8 @@
 from issuescout.models.analysis import (
     RelationPrediction,
 )
-
 from issuescout.models.issue import Issue
 from issuescout.models.pull_request import PullRequest
-
 from issuescout.scanner.relation import RelationEngine
 from issuescout.scanner.relation.weights import (
     STRONG_EVIDENCE_ANALYZERS,
@@ -34,7 +32,8 @@ class AnalysisService:
             )
 
             strong_evidence = any(
-                result.analyzer in STRONG_EVIDENCE_ANALYZERS for result in results
+                result.analyzer in STRONG_EVIDENCE_ANALYZERS and result.score > 0
+                for result in results
             )
 
             if strong_evidence:

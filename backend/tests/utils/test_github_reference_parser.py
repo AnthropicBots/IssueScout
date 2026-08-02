@@ -1,8 +1,6 @@
 from issuescout.utils.github_reference_parser import (
-    extract_issue_numbers,
-)
-from issuescout.utils.github_reference_parser import (
     extract_candidate_pull_request_numbers,
+    extract_issue_numbers,
 )
 
 

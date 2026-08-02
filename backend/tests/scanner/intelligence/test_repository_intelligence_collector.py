@@ -1,7 +1,6 @@
 import pytest
 
 from issuescout.models import Repository
-
 from issuescout.scanner.intelligence.repository.collector import (
     RepositoryIntelligenceCollector,
 )

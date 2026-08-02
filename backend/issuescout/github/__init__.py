@@ -1,11 +1,11 @@
-from .repository import RepositoryAPI
+from .comments import CommentAPI
 from .issues import IssueAPI
 from .pulls import PullRequestAPI
-from .comments import CommentAPI
+from .repository import RepositoryAPI
 
 __all__ = [
-    "RepositoryAPI",
+    "CommentAPI",
     "IssueAPI",
     "PullRequestAPI",
-    "CommentAPI",
+    "RepositoryAPI",
 ]

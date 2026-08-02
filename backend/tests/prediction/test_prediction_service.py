@@ -3,15 +3,12 @@ import pytest
 from issuescout.models.analysis import (
     RelationPrediction,
 )
-
 from issuescout.prediction.prediction_service import (
     PredictionService,
 )
-
 from issuescout.scanner.relation.result import (
     RelationResult,
 )
-
 from tests.helpers.factories import (
     make_issue,
     make_pull_request,
