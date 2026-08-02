@@ -9,6 +9,50 @@ and adheres to
 
 ---
 
+# [Unreleased]
+
+## 🛠 Backend Quality & CI Hardening
+
+IssueScout backend validation and developer workflow improvements.
+
+### Added
+
+- Complete backend static analysis validation pipeline
+- Ruff configuration improvements
+- FastAPI dependency injection lint handling
+- Improved pre-commit validation workflow
+- CI compatibility fixes for Python package installation
+
+### Fixed
+
+- Fixed invalid TOML syntax in `pyproject.toml`
+- Fixed Ruff configuration parsing issues in GitHub Actions
+- Resolved backend lint workflow failures
+- Improved exception handling validation
+- Ensured editable installation works correctly in CI environments
+
+### Validation
+
+The backend now passes all quality gates:
+
+- ✅ Ruff linting
+- ✅ Ruff formatting
+- ✅ MyPy type checking
+- ✅ Backend test suite
+- ✅ Frontend test suite
+- ✅ CodeQL security analysis
+
+### CI Status
+
+Verified GitHub Actions workflows:
+
+- CodeQL / Analyze (python)
+- Tests / backend (3.12)
+- Tests / frontend
+- Lint / lint (3.12)
+
+---
+
 # [1.0.0] - 2026-07-09
 
 ## 🎉 Initial Production Release
