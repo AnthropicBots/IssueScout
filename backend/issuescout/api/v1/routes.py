@@ -19,11 +19,11 @@ from issuescout.models.responses import (
     IssueResponse,
     RepositoryResponse,
     ScanJobResponse,
-    ScanJobResultResponse,
     ScanJobStatsResponse,
     ScanJobStatusResponse,
     ScanJobSummaryResponse,
 )
+from issuescout.models.scan_result import ScanResult
 from issuescout.scanner.engine import ScannerEngine
 from issuescout.models.scan_status import ScanStatus
 from issuescout.services.issue_service import IssueService
@@ -108,7 +108,13 @@ async def github(
     "/issues/{owner}/{repository}",
     response_model=list[IssueResponse],
     summary=ISSUES_SUMMARY,
-    description=ISSUES_DESCRIPTION,
+    description=(
+        ISSUES_DESCRIPTION
+        + "\n\n"
+        + "Note: This endpoint only returns open GitHub issues. "
+        + "It does not perform IssueScout prediction or relationship analysis. "
+        + "Use the scan endpoints to obtain prediction results and linked pull requests."
+    ),
 )
 async def issues(
     owner: str,
@@ -266,7 +272,7 @@ async def get_scan_job_status(
 
 @router.get(
     "/scan/jobs/{job_id}/result",
-    response_model=ScanJobResultResponse,
+    response_model=ScanResult,
     summary=SCAN_RESULT_SUMMARY,
     description=SCAN_RESULT_DESCRIPTION,
 )

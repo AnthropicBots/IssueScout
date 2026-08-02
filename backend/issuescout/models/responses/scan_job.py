@@ -41,13 +41,3 @@ class ScanJobSummaryResponse(BaseModel):
     processed_issues: int
 
     total_issues: int
-
-
-class ScanJobResultResponse(BaseModel):
-    """
-    Result of a completed scan job.
-    """
-
-    repository: str
-
-    total_issues: int
