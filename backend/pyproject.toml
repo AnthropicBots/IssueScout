@@ -61,7 +61,5 @@ packages = ["issuescout"]
 [tool.ruff]
 line-length = 88
 
-[tool.ruff.lint]
-per-file-ignores = {
-    "issuescout/api/v1/routes.py" = ["B008"],
-}
+[tool.ruff.lint.per-file-ignores]
+"issuescout/api/v1/routes.py" = ["B008"]
