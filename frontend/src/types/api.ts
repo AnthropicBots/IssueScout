@@ -1,9 +1,10 @@
 export interface EvidenceItem {
-  analyzer: string;
-  score: number;
-  confidence: number;
-  reason: string;
-  evidence_type: string;
+  type: string;
+  label: string;
+  description: string;
+  weight: number;
+  passed: boolean;
+  details: Record<string, unknown>;
 }
 
 export interface CandidatePullRequestSummary {

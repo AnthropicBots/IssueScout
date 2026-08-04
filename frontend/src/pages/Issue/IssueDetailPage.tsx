@@ -8,8 +8,12 @@ import {
 import {
   Link,
   useLocation,
+  useParams,
 } from "react-router-dom";
 
+import { useQuery } from "@tanstack/react-query";
+
+import { scanRepository } from "../../api/repository";
 import ConfidenceBar from "../../components/issue/ConfidenceBar";
 import IssueHeader from "../../components/issue/IssueHeader";
 import IssueMetadata from "../../components/issue/IssueMetadata";
@@ -18,6 +22,7 @@ import PageContainer from "../../components/layout/PageContainer";
 import Section from "../../components/layout/Section";
 import PredictionSummary from "../../components/prediction/PredictionSummary";
 import Card from "../../components/ui/Card";
+import LoadingSpinner from "../../components/ui/LoadingSpinner";
 
 import {
   issueUrl,
@@ -27,19 +32,59 @@ import {
 export default function IssueDetailPage() {
   const location = useLocation();
 
-  const issue = location.state?.issue;
+  // The URL is the source of truth for which issue this page is showing -
+  // owner/repo/issueNumber all come from the route params, so a refresh,
+  // a shared link, or a new tab all resolve the same issue.
+  const {
+    owner = "",
+    repo = "",
+    issueNumber,
+  } = useParams();
 
-  const owner =
-    location.state?.owner ??
-    issue?.repository_owner ??
-    issue?.owner ??
-    "";
+  // When navigating here from the results list, IssueCard already passes
+  // the full issue via router state - use it for an instant render instead
+  // of waiting on a network round trip.
+  const stateIssue = location.state?.issue;
 
-  const repo =
-    location.state?.repo ??
-    issue?.repository_name ??
-    issue?.repository ??
-    "";
+  const issueNum = issueNumber
+    ? Number(issueNumber)
+    : undefined;
+
+  // Only hit the network when state isn't available (refresh / direct link /
+  // shared URL) - normal click-through navigation never needs this.
+  const scanQuery = useQuery({
+    queryKey: [
+      "scan",
+      owner,
+      repo,
+    ],
+    queryFn: () =>
+      scanRepository(
+        owner,
+        repo,
+      ),
+    enabled:
+      Boolean(owner && repo) &&
+      !stateIssue,
+  });
+
+  const issue =
+    stateIssue ??
+    scanQuery.data?.issues.find(
+      (candidate) => candidate.number === issueNum,
+    );
+
+  if (scanQuery.isLoading) {
+    return (
+      <PageContainer>
+        <LoadingSpinner
+          size="lg"
+          fullScreen
+          text={`Loading issue #${issueNumber} from ${owner}/${repo}...`}
+        />
+      </PageContainer>
+    );
+  }
 
   if (!issue || !owner || !repo) {
     return (
@@ -307,6 +352,9 @@ export default function IssueDetailPage() {
               linkedPR={Boolean(
                 issue.linked_pr_number,
               )}
+              candidates={
+                issue.candidate_pull_requests ?? []
+              }
             />
 
             {/* GitHub Resources */}

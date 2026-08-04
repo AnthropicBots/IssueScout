@@ -4,41 +4,20 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import type { CandidatePullRequestSummary } from "../../types/api";
+
 interface PredictionEvidenceProps {
-  linkedPR: boolean;
-  assigned: boolean;
-  confidence: number;
+  candidates: CandidatePullRequestSummary[];
 }
 
 export default function PredictionEvidence({
-  linkedPR,
-  assigned,
-  confidence,
+  candidates,
 }: PredictionEvidenceProps) {
-  const evidence = [
-    {
-      label: "Linked Pull Request",
-      passed: linkedPR,
-    },
-    {
-      label: "Assigned Contributor",
-      passed: assigned,
-    },
-    {
-      label: "High Confidence (>80%)",
-      passed: confidence >= 80,
-    },
-    {
-      label: "Repository Successfully Analyzed",
-      passed: true,
-    },
-    {
-      label: "Prediction Generated",
-      passed: true,
-    },
-  ];
+  const topCandidate = candidates[0];
 
-  const passed = evidence.filter((e) => e.passed).length;
+  const evidence = topCandidate?.evidence ?? [];
+
+  const passed = evidence.filter((item) => item.passed).length;
 
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-6">
@@ -61,47 +40,67 @@ export default function PredictionEvidence({
           </div>
 
           <p className="mt-2 text-sm text-slate-500">
-            Signals used by IssueScout to generate the prediction.
+            {topCandidate
+              ? `Signals detected between this issue and pull request #${topCandidate.number}.`
+              : "No candidate pull request has been analyzed for this issue."}
           </p>
 
         </div>
 
-        <div className="rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
-          {passed}/{evidence.length}
+        {evidence.length > 0 && (
+          <div className="rounded-full bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+            {passed}/{evidence.length}
+          </div>
+        )}
+
+      </div>
+
+      {evidence.length === 0 ? (
+
+        <div className="rounded-2xl border border-dashed border-slate-300 px-4 py-10 text-center text-sm text-slate-500">
+          No supporting evidence was found for this issue.
         </div>
 
-      </div>
+      ) : (
 
-      <div className="space-y-3">
+        <div className="space-y-3">
 
-        {evidence.map((item) => (
+          {evidence.map((item) => (
 
-          <div
-            key={item.label}
-            className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3"
-          >
+            <div
+              key={item.type}
+              className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 px-4 py-3"
+            >
 
-            <span className="font-medium text-slate-700">
-              {item.label}
-            </span>
+              <div className="min-w-0">
+                <span className="font-medium text-slate-700">
+                  {item.label}
+                </span>
 
-            {item.passed ? (
-              <CheckCircle2
-                size={20}
-                className="text-green-600"
-              />
-            ) : (
-              <Circle
-                size={18}
-                className="text-slate-400"
-              />
-            )}
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  {item.description}
+                </p>
+              </div>
 
-          </div>
+              {item.passed ? (
+                <CheckCircle2
+                  size={20}
+                  className="shrink-0 text-green-600"
+                />
+              ) : (
+                <Circle
+                  size={18}
+                  className="shrink-0 text-slate-400"
+                />
+              )}
 
-        ))}
+            </div>
 
-      </div>
+          ))}
+
+        </div>
+
+      )}
 
       <div className="mt-6 rounded-2xl bg-slate-50 p-4">
 

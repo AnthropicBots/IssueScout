@@ -5,8 +5,8 @@ import {
 } from "lucide-react";
 
 import {
-  confidenceColor,
   formatConfidence,
+  getConfidenceTier,
 } from "../../utils/formatters/formatConfidence";
 
 interface PredictionScoreProps {
@@ -16,53 +16,7 @@ interface PredictionScoreProps {
 export default function PredictionScore({
   confidence,
 }: PredictionScoreProps) {
-  const colorMap = {
-    green: {
-      text: "text-emerald-600",
-      badge:
-        "bg-emerald-100 text-emerald-700",
-      gradient:
-        "from-emerald-500 to-green-600",
-      label: "Excellent",
-    },
-    yellow: {
-      text: "text-amber-600",
-      badge:
-        "bg-amber-100 text-amber-700",
-      gradient:
-        "from-amber-400 to-orange-500",
-      label: "Medium",
-    },
-    red: {
-      text: "text-red-600",
-      badge:
-        "bg-red-100 text-red-700",
-      gradient:
-        "from-red-500 to-rose-600",
-      label: "Low",
-    },
-    blue: {
-      text: "text-blue-600",
-      badge:
-        "bg-blue-100 text-blue-700",
-      gradient:
-        "from-blue-500 to-cyan-500",
-      label: "High",
-    },
-  };
-
-  const key = confidenceColor(confidence);
-
-  const config =
-    colorMap[key] ??
-    {
-      text: "text-blue-600",
-      badge:
-        "bg-blue-100 text-blue-700",
-      gradient:
-        "from-blue-500 to-cyan-500",
-      label: "High",
-    };
+  const tier = getConfidenceTier(confidence);
 
   return (
     <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
@@ -97,16 +51,16 @@ export default function PredictionScore({
         </p>
 
         <h2
-          className={`mt-5 text-7xl font-black tracking-tight ${config.text}`}
+          className={`mt-5 text-7xl font-black tracking-tight ${tier.textClass}`}
         >
           {formatConfidence(confidence)}
         </h2>
 
         <div
-          className={`mt-6 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold ${config.badge}`}
+          className={`mt-6 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold ${tier.badgeClass}`}
         >
           <Award size={16} />
-          {config.label}
+          {tier.label}
         </div>
 
         {/* Progress */}
@@ -120,7 +74,7 @@ export default function PredictionScore({
 
           <div className="overflow-hidden rounded-full bg-slate-200">
             <div
-              className={`h-4 rounded-full bg-gradient-to-r ${config.gradient} transition-all duration-700`}
+              className={`h-4 rounded-full bg-gradient-to-r ${tier.gradientClass} transition-all duration-700`}
               style={{
                 width: `${confidence}%`,
               }}

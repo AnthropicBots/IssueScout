@@ -3,6 +3,8 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import type { CandidatePullRequestSummary } from "../../types/api";
+
 import PredictionEvidence from "./PredictionEvidence";
 import PredictionInsights from "./PredictionInsights";
 import PredictionRecommendation from "./PredictionRecommendation";
@@ -12,12 +14,14 @@ interface PredictionSummaryProps {
   confidence: number;
   assigned: boolean;
   linkedPR: boolean;
+  candidates: CandidatePullRequestSummary[];
 }
 
 export default function PredictionSummary({
   confidence,
   assigned,
   linkedPR,
+  candidates,
 }: PredictionSummaryProps) {
   return (
     <section className="space-y-6">
@@ -92,9 +96,7 @@ export default function PredictionSummary({
         />
 
         <PredictionEvidence
-          confidence={confidence}
-          assigned={assigned}
-          linkedPR={linkedPR}
+          candidates={candidates}
         />
 
       </div>

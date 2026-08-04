@@ -73,6 +73,19 @@ export default function IssueCard({
                   ? "Assigned"
                   : "Unassigned"}
               </Badge>
+
+              <Badge
+                color={
+                  issue.candidate_count > 0
+                    ? "blue"
+                    : "gray"
+                }
+              >
+                {issue.candidate_count} Candidate
+                {issue.candidate_count === 1
+                  ? " PR"
+                  : " PRs"}
+              </Badge>
             </div>
 
             <h3 className="text-2xl font-bold leading-snug tracking-tight text-slate-900 transition-colors group-hover:text-blue-700">
