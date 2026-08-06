@@ -6,7 +6,12 @@ import {
   GitBranch,
 } from "lucide-react";
 
-import { useRepositoryScan } from "../../hooks/useRepositoryScan";
+import { useScanJob } from "../../hooks/useScanJob";
+
+import {
+  POPULAR_REPOSITORIES,
+  STORAGE_KEYS,
+} from "../../config/constants";
 
 import Button from "../ui/Button";
 import Card from "../ui/Card";
@@ -20,33 +25,36 @@ import RepositoryResults from "./RepositoryResults";
 
 export default function RepositorySearchForm() {
   const [owner, setOwner] = useState(() => {
-    return sessionStorage.getItem("issuescout-owner") ?? "";
+    return sessionStorage.getItem(STORAGE_KEYS.OWNER) ?? "";
   });
 
   const [repository, setRepository] = useState(() => {
-    return sessionStorage.getItem("issuescout-repository") ?? "";
+    return sessionStorage.getItem(STORAGE_KEYS.REPOSITORY) ?? "";
   });
 
   const cachedResult = (() => {
     const data = sessionStorage.getItem(
-      "issuescout-last-result",
+      STORAGE_KEYS.LAST_RESULT,
     );
 
     return data ? JSON.parse(data) : null;
   })();
 
-  const scan = useRepositoryScan();
+  // Job-based flow: POST creates a job, then we poll for status/progress
+  // until it completes and fetch the result - this is what gives the
+  // LoadingState below a real percentage instead of a static spinner.
+  const scan = useScanJob();
 
   useEffect(() => {
     sessionStorage.setItem(
-      "issuescout-owner",
+      STORAGE_KEYS.OWNER,
       owner,
     );
   }, [owner]);
 
   useEffect(() => {
     sessionStorage.setItem(
-      "issuescout-repository",
+      STORAGE_KEYS.REPOSITORY,
       repository,
     );
   }, [repository]);
@@ -55,7 +63,7 @@ export default function RepositorySearchForm() {
     if (!scan.data) return;
 
     sessionStorage.setItem(
-      "issuescout-last-result",
+      STORAGE_KEYS.LAST_RESULT,
       JSON.stringify(scan.data),
     );
   }, [scan.data]);
@@ -104,10 +112,7 @@ export default function RepositorySearchForm() {
                 return;
               }
 
-              scan.mutate({
-                owner: owner.trim(),
-                repository: repository.trim(),
-              });
+              scan.start(owner.trim(), repository.trim());
             }}
           >
             <Input
@@ -134,12 +139,12 @@ export default function RepositorySearchForm() {
               type="submit"
               className="flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap"
               disabled={
-                scan.isPending ||
+                scan.isRunning ||
                 !owner.trim() ||
                 !repository.trim()
               }
             >
-              {scan.isPending ? (
+              {scan.isRunning ? (
                 <>
                   <LoadingSpinner />
                   Scanning Repository...
@@ -169,13 +174,7 @@ export default function RepositorySearchForm() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              {[
-                "microsoft/vscode",
-                "angular/angular",
-                "facebook/react",
-                "pallets/flask",
-                "fastapi/fastapi",
-              ].map((repo) => (
+              {POPULAR_REPOSITORIES.map((repo) => (
                 <button
                   key={repo}
                   type="button"
@@ -248,10 +247,13 @@ export default function RepositorySearchForm() {
         </div>
       </Card>
 
-      {scan.isPending && (
+      {scan.isRunning && (
         <LoadingState
           title="Scanning Repository..."
           description="Fetching issues, analyzing pull requests, calculating confidence scores, and preparing contributor insights."
+          progress={scan.progress}
+          processedIssues={scan.processedIssues}
+          totalIssues={scan.totalIssues}
         />
       )}
 

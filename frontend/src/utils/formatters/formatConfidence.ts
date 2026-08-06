@@ -1,3 +1,5 @@
+import { CONFIDENCE_THRESHOLDS } from "../../config/constants";
+
 export type ConfidenceTierKey =
   | "excellent"
   | "high"
@@ -81,15 +83,15 @@ export function formatConfidence(value: number) {
 }
 
 export function getConfidenceTier(value: number): ConfidenceTier {
-  if (value >= 90) {
+  if (value >= CONFIDENCE_THRESHOLDS.EXCELLENT) {
     return CONFIDENCE_TIERS.excellent;
   }
 
-  if (value >= 70) {
+  if (value >= CONFIDENCE_THRESHOLDS.HIGH) {
     return CONFIDENCE_TIERS.high;
   }
 
-  if (value >= 50) {
+  if (value >= CONFIDENCE_THRESHOLDS.MEDIUM) {
     return CONFIDENCE_TIERS.medium;
   }
 

@@ -6,6 +6,11 @@ import {
 
 import Input from "../ui/Input";
 
+import {
+  FILTER_OPTIONS,
+  SORT_OPTIONS,
+} from "../../config/constants";
+
 type Props = {
   searchQuery: string;
   sortBy: string;
@@ -78,25 +83,11 @@ export default function SearchToolbar({
             }
             className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm transition-all duration-200 outline-none hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
           >
-            <option value="confidence-desc">
-              Highest Confidence
-            </option>
-
-            <option value="confidence-asc">
-              Lowest Confidence
-            </option>
-
-            <option value="issue-desc">
-              Newest Issue
-            </option>
-
-            <option value="issue-asc">
-              Oldest Issue
-            </option>
-
-            <option value="title">
-              Alphabetical
-            </option>
+            {SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -118,25 +109,11 @@ export default function SearchToolbar({
             }
             className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm transition-all duration-200 outline-none hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
           >
-            <option value="all">
-              All Issues
-            </option>
-
-            <option value="assigned">
-              Assigned
-            </option>
-
-            <option value="unassigned">
-              Unassigned
-            </option>
-
-            <option value="linked">
-              Linked Pull Request
-            </option>
-
-            <option value="unlinked">
-              No Linked Pull Request
-            </option>
+            {FILTER_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>

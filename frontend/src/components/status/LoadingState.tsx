@@ -9,12 +9,25 @@ import {
 interface LoadingStateProps {
   title?: string;
   description?: string;
+  /**
+   * Real progress percentage (0-100) from a scan job, e.g. from
+   * `useScanJob()`. When provided, a live progress bar is shown instead
+   * of (in addition to) the generic animated step list below.
+   */
+  progress?: number;
+  processedIssues?: number;
+  totalIssues?: number;
 }
 
 export default function LoadingState({
   title = "Scanning Repository...",
   description = "IssueScout is analyzing issues, pull requests, and repository intelligence.",
+  progress,
+  processedIssues,
+  totalIssues,
 }: LoadingStateProps) {
+  const hasProgress = typeof progress === "number";
+
   return (
     <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-lg">
       {/* Header */}
@@ -35,6 +48,29 @@ export default function LoadingState({
           <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
             {description}
           </p>
+
+          {hasProgress && (
+            <div className="mt-6 w-full max-w-md">
+              <div className="mb-2 flex items-center justify-between text-sm font-semibold text-slate-600">
+                <span>{Math.round(progress)}%</span>
+
+                {typeof processedIssues === "number" &&
+                  typeof totalIssues === "number" &&
+                  totalIssues > 0 && (
+                    <span>
+                      {processedIssues} / {totalIssues} issues
+                    </span>
+                  )}
+              </div>
+
+              <div className="h-3 overflow-hidden rounded-full bg-slate-200">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-500"
+                  style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

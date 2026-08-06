@@ -296,6 +296,9 @@ class ScannerEngine:
                             title=issue.title,
                             assigned=issue.assigned,
                             assignee=issue.assignee,
+                            author=issue.author,
+                            created_at=issue.created_at,
+                            updated_at=issue.updated_at,
                             confidence=self.confidence.calculate(
                                 issue,
                                 results,

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 from issuescout.evidence.model import (
@@ -33,6 +35,12 @@ class IssueSummary(BaseModel):
     assignee: str | None
 
     confidence: int
+
+    author: str | None = None
+
+    created_at: datetime | None = None
+
+    updated_at: datetime | None = None
 
     linked_pr_number: int | None = None
 
